@@ -1,8 +1,9 @@
-# Whichforms / AXIS Personal AI
+# AXIS Personal AI
 
 **Owner:** Lily Palmer · Sovereign Ridge Partners LLC
+**Repository:** [Whichforms](https://github.com/CodeRidge211/Whichforms)
 
-A personal AI backend server that serves as Lily's private AI assistant — not a generic chatbot, but a system built specifically for her life, goals, and rhythms.
+AXIS is a personalized AI backend server — not a generic chatbot, but a system built specifically for Lily's life, goals, and rhythms.
 
 ---
 
@@ -17,6 +18,8 @@ A personal AI backend server that serves as Lily's private AI assistant — not 
 ```bash
 cd axis
 npm install
+export ANTHROPIC_API_KEY=sk-ant-your-key-here  # Linux/Mac
+# or set in .env file
 npm run dev
 ```
 
@@ -48,15 +51,20 @@ The server runs on `http://localhost:3000`
 ### Example: Chat Request
 
 ```bash
-curl -X POST https://your-railway-url.up.railway.app/chat   -H 'Content-Type: application/json'   -H 'x-api-key: sk-ant-your-key-here'   -d '{
-    \"message\": \"What should I focus on right now?\",
-    \"userId\": \"lily\",
-    \"context\": {
-      \"prios\": [\"Finish OBD Vault pricing page\", \"Send Ridgeline follow-ups\"],
-      \"habits\": \"workout: done, water: 3/8\"
+curl -X POST https://your-railway-url.up.railway.app/chat \
+  -H 'Content-Type: application/json' \
+  -H 'x-api-key: sk-ant-your-key-here' \
+  -d '{
+    "message": "What should I focus on right now?",
+    "userId": "lily",
+    "context": {
+      "prios": ["Finish OBD Vault pricing page", "Send Ridgeline follow-ups"],
+      "habits": "workout: done, water: 3/8"
     }
   }'
 ```
+
+> **Local testing:** Use `http://localhost:3000` and send the `x-api-key` header with your key.
 
 ---
 
@@ -94,17 +102,18 @@ Lily's life framework baked into every AI interaction:
 ## 📁 Project Structure
 
 ```
-├── axis/
-│   ├── server.js          # Main Express server with all routes
-│   ├── package.json       # Dependencies
-│   ├── .gitignore         # Node.js gitignore
-│   ├── railway.json       # Railway deployment config
-│   ├── axis-frontend-config.js  # Frontend integration guide
-│   ├── README.md          # Detailed AXIS documentation
-│   └── public/
-│       └── index.html     # Static frontend (optional)
-├── index.hm               # Test file
-└── .gitignore             # Root gitignore (Windows/system files)
+axis/
+├── server.js              # Main Express server with all routes
+├── package.json           # Dependencies (express, cors)
+├── .gitignore             # Node.js gitignore
+├── railway.json           # Railway deployment config
+├── axis-frontend-config.js # Frontend integration guide
+├── README.md              # Detailed AXIS documentation
+└── public/
+    └── index.html         # Static frontend (optional)
+
+README.md                  # This file (root level)
+.gitignore                # Root gitignore (Windows/system files)
 ```
 
 ---
