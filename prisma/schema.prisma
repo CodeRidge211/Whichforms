@@ -1,0 +1,139 @@
+generator client {
+  provider = \"prisma-client-js\"
+}
+
+datasource db {
+  provider = \"postgresql\"
+  url      = env(\"DATABASE_URL\")
+}
+
+// Forms table — government forms explained in plain English
+model Form {
+  id              Int       @id @default(autoincrement())
+  slug            String    @unique
+  form_number     String?
+  name            String
+  agency          String
+  agency_slug     String
+  description     String?   @db.Text
+  plain_english   String?   @db.Text
+  who_needs_it    String?   @db.Text
+  deadline        String?
+  processing_time String?
+  official_url    String?   @db.VarChar(500)
+  instructions_url String?  @db.VarChar(500)
+  difficulty_level String?
+  cost            String?
+  situations      String[]
+  states          String[]
+  affiliate_type  String?
+  is_featured     Boolean   @default(false)
+  is_published    Boolean   @default(true)
+  created_at      DateTime  @default(now())
+  updated_at      DateTime  @updatedAt
+
+  // Relations
+  faqs            Faq[]
+  form_situations FormSituation[]
+
+  @@index([agency_slug])
+  @@index([slug])
+}
+
+// Situations table — context-based form lookup
+model Situation {
+  id                  Int       @id @default(autoincrement())
+  slug                String    @unique
+  title               String
+  description         String?   @db.Text
+  plain_english       String?   @db.Text
+  category            String?
+  search_volume_estimate String?
+  created_at          DateTime  @default(now())
+  updated_at          DateTime  @updatedAt
+
+  // Relations
+  faqs                Faq[]
+  form_situations     FormSituation[]
+  situation_identity_docs SituationIdentityDoc[]
+}
+
+model FormSituation {
+  id           Int        @id @default(autoincrement())
+  form_id      Int
+  situation_id Int
+
+  form         Form       @relation(fields: [form_id], references: [id], onDelete: Cascade)
+  situation    Situation  @relation(fields: [situation_id], references: [id], onDelete: Cascade)
+
+  @@unique([form_id, situation_id])
+  @@index([form_id])
+  @@index([situation_id])
+}
+
+// Identity documents table
+model IdentityDoc {
+  id               Int       @id @default(autoincrement())
+  slug             String    @unique
+  name             String
+  category         String?
+  description      String?   @db.Text
+  plain_english    String?   @db.Text
+  who_needs_it     String?   @db.Text
+  required_documents String[]
+  processing_time  String?
+  cost             String?
+  renewal_period   String?
+  official_url     String?   @db.VarChar(500)
+  state_specific   Boolean   @default(false)
+  states           String[]
+  is_featured      Boolean   @default(false)
+  is_published     Boolean   @default(true)
+  created_at       DateTime  @default(now())
+  updated_at       DateTime  @updatedAt
+
+  // Relations
+  faqs                        Faq[]
+  situation_identity_docs     SituationIdentityDoc[]
+
+  @@index([slug])
+  @@index([category])
+}
+
+model SituationIdentityDoc {
+  id              Int        @id @default(autoincrement())
+  situation_id    Int
+  identity_doc_id Int
+
+  situation       Situation  @relation(fields: [situation_id], references: [id], onDelete: Cascade)
+  identity_doc    IdentityDoc @relation(fields: [identity_doc_id], references: [id], onDelete: Cascade)
+
+  @@unique([situation_id, identity_doc_id])
+  @@index([situation_id])
+  @@index([identity_doc_id])
+}
+
+// FAQ table — for schema markup on every page
+model Faq {
+  id        Int      @id @default(autoincrement())
+  page_type String   // 'form' | 'situation' | 'identity'
+  page_slug String   // The slug of the page this FAQ belongs to
+  question  String
+  answer    String   @db.Text
+  sort_order Int     @default(0)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  // Relations (polymorphic via page_type + page_slug)
+  form       Form?     @relation(fields: [form_id], references: [id], onDelete: Cascade)
+  form_id    Int?
+  situation  Situation? @relation(fields: [situation_id], references: [id], onDelete: Cascade)
+  situation_id Int?
+  identity_doc IdentityDoc? @relation(fields: [identity_doc_id], references: [id], onDelete: Cascade)
+  identity_doc_id Int?
+
+  @@index([page_type, page_slug])
+  @@index([form_id])
+  @@index([situation_id])
+  @@index([identity_doc_id])
+}

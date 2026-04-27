@@ -1,0 +1,55 @@
+{
+  \"metadata\": {
+    \"title\": \"WhichForms — Os formulários que você precisa, explicados\",
+    \"description\": \"Encontre qualquer formulário governamental explicado em inglês simples. IRS, DMV, USCIS, SSA — dizemos exatamente o que você precisa e como obtê-lo.\",
+    \"siteName\": \"WhichForms\"
+  },
+  \"nav\": {
+    \"home\": \"Início\",
+    \"forms\": \"Formulários\",
+    \"situations\": \"Situações\",
+    \"identity\": \"Identidade\",
+    \"about\": \"Sobre\"
+  },
+  \"home\": {
+    \"hero\": {
+      \"title\": \"Os formulários que você precisa, explicados.\",
+      \"subtitle\": \"Encontre qualquer formulário governamental em inglês simples. IRS, DMV, USCIS, SSA — dizemos exatamente o que você precisa.\",
+      \"searchPlaceholder\": \"Buscar um formulário... (ex., W-9, green card, EIN)\"
+    },
+    \"categories\": {
+      \"title\": \"Navegar por Agência\",
+      \"irs\": \"IRS\",
+      \"uscis\": \"USCIS\",
+      \"ssa\": \"Previdência Social\",
+      \"dmv\": \"DMV\",
+      \"sba\": \"Pequenos Negócios\"
+    },
+    \"featured\": {
+      \"title\": \"Formulários Populares\"
+    }
+  },
+  \"form\": {
+    \"whatIsIt\": \"O que é?\",
+    \"whoNeedsIt\": \"Quem precisa?\",
+    \"deadline\": \"Prazo\",
+    \"processingTime\": \"Tempo de processamento\",
+    \"cost\": \"Custo\",
+    \"difficulty\": \"Dificuldade\",
+    \"officialSite\": \"Site oficial do governo\",
+    \"downloadForm\": \"Baixar ou preencher\",
+    \"affiliateCTA\": \"Precisa de ajuda?\"
+  },
+  \"footer\": {
+    \"tagline\": \"Tornando a papelada governamental menos confusa, um formulário de cada vez.\",
+    \"privacy\": \"Política de Privacidade\",
+    \"terms\": \"Termos de Serviço\",
+    \"affiliate\": \"Divulgação de Afiliados\"
+  },
+  \"common\": {
+    \"loading\": \"Carregando...\",
+    \"notFound\": \"Não encontrado\",
+    \"back\": \"Voltar\",
+    \"learnMore\": \"Saiba mais\"
+  }
+}

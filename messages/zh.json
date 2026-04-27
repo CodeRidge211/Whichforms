@@ -1,0 +1,55 @@
+{
+  \"metadata\": {
+    \"title\": \"WhichForms — 所需表格，一目了然\",
+    \"description\": \"用简单的英语找到任何政府表格。IRS、DMV、USCIS、SSA — 我们告诉你具体需要什么以及如何获取。\",
+    \"siteName\": \"WhichForms\"
+  },
+  \"nav\": {
+    \"home\": \"首页\",
+    \"forms\": \"表格\",
+    \"situations\": \"情况\",
+    \"identity\": \"身份\",
+    \"about\": \"关于\"
+  },
+  \"home\": {
+    \"hero\": {
+      \"title\": \"所需表格，一目了然\",
+      \"subtitle\": \"用简单的语言找到任何政府表格。IRS、DMV、USCIS、SSA — 我们告诉你具体需要什么以及如何获取。\",
+      \"searchPlaceholder\": \"搜索表格...（例如 W-9、绿卡、EIN）\"
+    },
+    \"categories\": {
+      \"title\": \"按机构浏览\",
+      \"irs\": \"IRS\",
+      \"uscis\": \"USCIS\",
+      \"ssa\": \"社会保障\",
+      \"dmv\": \"DMV\",
+      \"sba\": \"小企业\"
+    },
+    \"featured\": {
+      \"title\": \"热门表格\"
+    }
+  },
+  \"form\": {
+    \"whatIsIt\": \"这是什么？\",
+    \"whoNeedsIt\": \"谁需要？\",
+    \"deadline\": \"截止日期\",
+    \"processingTime\": \"处理时间\",
+    \"cost\": \"费用\",
+    \"difficulty\": \"难度\",
+    \"officialSite\": \"官方网站\",
+    \"downloadForm\": \"下载或填写\",
+    \"affiliateCTA\": \"需要帮助？\"
+  },
+  \"footer\": {
+    \"tagline\": \"让政府文书工作不再令人困惑。\",
+    \"privacy\": \"隐私政策\",
+    \"terms\": \"服务条款\",
+    \"affiliate\": \"联盟披露\"
+  },
+  \"common\": {
+    \"loading\": \"加载中...\",
+    \"notFound\": \"未找到\",
+    \"back\": \"返回\",
+    \"learnMore\": \"了解更多\"
+  }
+}

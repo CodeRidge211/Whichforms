@@ -1,0 +1,65 @@
+{
+  \"metadata\": {
+    \"title\": \"WhichForms — The paperwork you need, explained\",
+    \"description\": \"Find any government form explained in plain English. IRS, DMV, USCIS, SSA — we tell you exactly what you need and how to get it.\",
+    \"siteName\": \"WhichForms\"
+  },
+  \"nav\": {
+    \"home\": \"Home\",
+    \"forms\": \"Forms\",
+    \"situations\": \"Situations\",
+    \"identity\": \"Identity\",
+    \"about\": \"About\"
+  },
+  \"home\": {
+    \"hero\": {
+      \"title\": \"The paperwork you need, explained.\",
+      \"subtitle\": \"Find any government form in plain English. IRS, DMV, USCIS, SSA — we tell you exactly what you need and how to get it.\",
+      \"searchPlaceholder\": \"Search for a form... (e.g., W-9, green card, EIN)\"
+    },
+    \"categories\": {
+      \"title\": \"Browse by Agency\",
+      \"irs\": \"IRS\",
+      \"uscis\": \"USCIS\",
+      \"ssa\": \"Social Security\",
+      \"dmv\": \"DMV\",
+      \"sba\": \"Small Business\"
+    },
+    \"featured\": {
+      \"title\": \"Popular Forms\"
+    }
+  },
+  \"form\": {
+    \"whatIsIt\": \"What is it?\",
+    \"whoNeedsIt\": \"Who needs it?\",
+    \"deadline\": \"Deadline\",
+    \"processingTime\": \"Processing time\",
+    \"cost\": \"Cost\",
+    \"difficulty\": \"Difficulty\",
+    \"officialSite\": \"Official government site\",
+    \"downloadForm\": \"Download or fill out\",
+    \"affiliateCTA\": \"Need help?\"
+  },
+  \"situation\": {
+    \"title\": \"What forms do you need?\",
+    \"forms\": \"Forms for this situation\",
+    \"documents\": \"Documents for this situation\"
+  },
+  \"identity\": {
+    \"requiredDocuments\": \"Required documents\",
+    \"howToGet\": \"How to get it\",
+    \"renewal\": \"Renewal\"
+  },
+  \"footer\": {
+    \"tagline\": \"Making government paperwork less confusing, one form at a time.\",
+    \"privacy\": \"Privacy Policy\",
+    \"terms\": \"Terms of Service\",
+    \"affiliate\": \"Affiliate Disclosure\"
+  },
+  \"common\": {
+    \"loading\": \"Loading...\",
+    \"notFound\": \"Not found\",
+    \"back\": \"Back\",
+    \"learnMore\": \"Learn more\"
+  }
+}

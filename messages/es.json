@@ -1,0 +1,65 @@
+{
+  \"metadata\": {
+    \"title\": \"WhichForms — Los formularios que necesita, explicados\",
+    \"description\": \"Encuentre cualquier formulario gubernamental explicado en inglés simple. IRS, DMV, USCIS, SSA — le decimos exactamente lo que necesita y cómo obtenerlo.\",
+    \"siteName\": \"WhichForms\"
+  },
+  \"nav\": {
+    \"home\": \"Inicio\",
+    \"forms\": \"Formularios\",
+    \"situations\": \"Situaciones\",
+    \"identity\": \"Identidad\",
+    \"about\": \"Acerca de\"
+  },
+  \"home\": {
+    \"hero\": {
+      \"title\": \"Los formularios que necesita, explicados.\",
+      \"subtitle\": \"Encuentre cualquier formulario gubernamental en inglés simple. IRS, DMV, USCIS, SSA — le decimos exactamente lo que necesita y cómo obtenerlo.\",
+      \"searchPlaceholder\": \"Buscar un formulario... (ej., W-9, tarjeta verde, EIN)\"
+    },
+    \"categories\": {
+      \"title\": \"Buscar por Agencia\",
+      \"irs\": \"IRS\",
+      \"uscis\": \"USCIS\",
+      \"ssa\": \"Seguridad Social\",
+      \"dmv\": \"DMV\",
+      \"sba\": \"Pequeños Negocios\"
+    },
+    \"featured\": {
+      \"title\": \"Formularios Populares\"
+    }
+  },
+  \"form\": {
+    \"whatIsIt\": \"¿Qué es?\",
+    \"whoNeedsIt\": \"¿Quién lo necesita?\",
+    \"deadline\": \"Fecha límite\",
+    \"processingTime\": \"Tiempo de procesamiento\",
+    \"cost\": \"Costo\",
+    \"difficulty\": \"Dificultad\",
+    \"officialSite\": \"Sitio oficial del gobierno\",
+    \"downloadForm\": \"Descargar o completar\",
+    \"affiliateCTA\": \"¿Necesita ayuda?\"
+  },
+  \"situation\": {
+    \"title\": \"¿Qué formularios necesita?\",
+    \"forms\": \"Formularios para esta situación\",
+    \"documents\": \"Documentos para esta situación\"
+  },
+  \"identity\": {
+    \"requiredDocuments\": \"Documentos requeridos\",
+    \"howToGet\": \"Cómo obtenerlo\",
+    \"renewal\": \"Renovación\"
+  },
+  \"footer\": {
+    \"tagline\": \"Haciendo que los trámites gubernamentales sean menos confusos, un formulario a la vez.\",
+    \"privacy\": \"Política de Privacidad\",
+    \"terms\": \"Términos de Servicio\",
+    \"affiliate\": \"Divulgación de Afiliados\"
+  },
+  \"common\": {
+    \"loading\": \"Cargando...\",
+    \"notFound\": \"No encontrado\",
+    \"back\": \"Volver\",
+    \"learnMore\": \"Aprender más\"
+  }
+}
