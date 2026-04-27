@@ -1,0 +1,40 @@
+# Windows system files
+AppData/
+$RECYCLE.BIN/
+System Volume Information/
+Desktop.ini
+Thumbs.db
+NTUSER.DAT*
+ntuser.dat*
+
+# IDE
+.vscode/
+.idea/
+.vs/
+*.suo
+*.user
+
+# Temporary files
+*.tmp
+*.log
+.DS_Store
+
+# Downloads and temp
+Downloads/
+Temp/
+
+# User folders to exclude
+Favorites/
+Links/
+Music/
+OneDrive/
+Saved Games/
+Searches/
+Videos/
+
+# Special files
+nul
+
+# Hidden files (but keep .gitignore)
+.*
+!.gitignore
