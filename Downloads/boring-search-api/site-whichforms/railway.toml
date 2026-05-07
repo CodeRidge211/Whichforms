@@ -1,0 +1,14 @@
+[build]
+builder = \"nixpacks\"
+buildCommand = \"npm run build\"
+
+[deploy]
+startCommand = \"npx serve out -l $PORT\"
+restartPolicyType = \"on_failure\"
+restartPolicyMaxRetries = 3
+healthcheckPath = \"/\"
+healthcheckTimeout = 60
+
+[environments.production.variables]
+NODE_ENV = \"production\"
+PORT = \"3000\"
