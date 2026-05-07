@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang=\"en\">
+<head>
+    <meta charset=\"UTF-8\">
+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
+    <meta name=\"description\" content=\"ObdVault Professional OBD2 Diagnostic Database — 177+ car, motorcycle, and commercial vehicle DTC codes. Step-by-step repair guides, common causes, and expert technical insights.\">
+    <meta name=\"impact-site-verification\" content=\"9cf33ffa-c06d-4759-8be4-f9ee7aee2185\">
+    <title>ObdVault | Professional OBD2 Diagnostic Code Directory</title>
+    <link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">
+    <link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>
+    <link href=\"https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Inter:wght@400;500;600;700&display=swap\" rel=\"stylesheet\">
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --surface: rgba(18, 18, 26, 0.7);
+            --primary: #0ea5e9; /* Sky Blue for OBD */
+            --primary-hover: #0284c7;
+            --secondary: #06b6d4;
+            --text: #ffffff;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+            --glass: rgba(255, 255, 255, 0.03);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            background-image: 
+                radial-gradient(circle at 0% 0%, rgba(14, 165, 233, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(6, 182, 212, 0.03) 0%, transparent 50%);
+            color: var(--text);
+            line-height: 1.5;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .glow-orb {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(14, 165, 233, 0.05) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        header {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-decoration: none;
+            color: var(--text);
+            text-transform: uppercase;
+        }
+
+        .logo span { color: var(--primary); }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+            text-shadow: 0 0 10px rgba(14, 165, 233, 0.3);
+        }
+
+        .hero {
+            max-width: 1000px;
+            margin: 6rem auto 4rem;
+            text-align: center;
+            padding: 0 2rem;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(14, 165, 233, 0.1);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            color: var(--primary);
+            padding: 0.4rem 1rem;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 2.5rem;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 0.95;
+            margin-bottom: 1.5rem;
+            color: #fff;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            line-height: 1.6;
+        }
+
+        .search-area {
+            max-width: 680px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-wrap {
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            padding: 0.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .search-wrap:focus-within {
+            border-color: var(--primary);
+            background: rgba(20, 20, 28, 0.9);
+            box-shadow: 0 0 30px rgba(14, 165, 233, 0.1);
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            outline: none;
+            padding: 1rem 1.25rem;
+            font-size: 1rem;
+            color: var(--text);
+            font-family: inherit;
+        }
+
+        .btn-find {
+            background: var(--primary);
+            color: #000;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.2s;
+        }
+
+        .btn-find:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(14, 165, 233, 0.4);
+        }
+
+        .quick-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .quick-links a {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: opacity 0.2s;
+        }
+
+        .quick-links a:hover {
+            opacity: 0.7;
+        }
+
+        .results-section {
+            max-width: 840px;
+            margin: 4rem auto;
+            padding: 0 1.5rem;
+            display: none;
+        }
+
+        .paper-card {
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            padding: 4rem 3rem;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .code-badge {
+            display: inline-block;
+            background: rgba(14, 165, 233, 0.1);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            color: var(--primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .severity-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 1rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .severity-high {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+        }
+
+        .severity-medium {
+            background: rgba(245, 158, 11, 0.15);
+            color: #f59e0b;
+        }
+
+        .severity-low {
+            background: rgba(34, 197, 94, 0.15);
+            color: #22c55e;
+        }
+
+        .brand-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 5rem auto;
+            max-width: 900px;
+            padding: 0 1.5rem;
+        }
+
+        .brand-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .brand-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+        }
+
+        .brand-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .brand-card p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .status-dot {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background: var(--primary);
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        footer {
+            margin-top: 8rem;
+            padding: 4rem 2rem 6rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 800;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            opacity: 0.4;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 1.5rem; }
+            .nav-links { display: none; }
+            h1 { font-size: 2.8rem; }
+            .search-wrap { flex-direction: column; padding: 0.75rem; gap: 0.75rem; }
+            .btn-find { width: 100%; justify-content: center; }
+            .paper-card { padding: 2.5rem 1.5rem; }
+            .brand-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class=\"glow-orb\"></div>
+
+    <header>
+        <a href=\"/\" class=\"logo\">Obd<span>Vault</span></a>
+        <nav class=\"nav-links\">
+            <a href=\"#\" data-i18n=\"nav.codes\">Codes</a>
+            <a href=\"#\" data-i18n=\"nav.brands\">Brands</a>
+            <a href=\"#\" data-i18n=\"nav.symptoms\">Symptom Checker</a>
+        </nav>
+    </header>
+
+    <main class=\"hero\">
+        <div class=\"hero-badge\">Professional OBD2 Diagnostics</div>
+        <h1 data-i18n=\"hero.title\">Check engine light on?<br>Let's diagnose it.</h1>
+        <p data-i18n=\"hero.subtitle\">Access over 177 OBD2 diagnostic trouble codes for cars, trucks, and motorcycles. Get severity ratings, common causes, and repair guidance.</p>
+        
+        <div class=\"search-area\">
+            <div class=\"search-wrap\">
+                <input type=\"text\" id=\"searchInput\" class=\"search-input\" data-i18n=\"hero.placeholder\" placeholder=\"Enter code (e.g. P0300, P0420)\">
+                <button class=\"btn-find\" id=\"searchBtn\">
+                    <span data-i18n=\"hero.searchButton\">Diagnose</span> 
+                    <svg width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='8'/><path d='m21 21-4.3-4.3'/></svg>
+                </button>
+            </div>
+            
+            <div class=\"quick-links\">
+                <span style=\"color: var(--text-muted); font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;\"><span class=\"status-dot\"></span> 2,500+ Codes Indexed</span>
+                <a href=\"#\" data-i18n=\"hero.popular\">Popular Codes →</a>
+                <a href=\"#\" data-i18n=\"hero.symptoms\">Symptom Search →</a>
+            </div>
+        </div>
+    </main>
+
+    <div class=\"brand-grid\">
+        <div class=\"brand-card\" onclick=\"document.getElementById('searchInput').value='P0171';document.getElementById('searchBtn').click()\">
+            <h3>European</h3>
+            <p>BMW · Mercedes · Audi · VW</p>
+        </div>
+        <div class=\"brand-card\" onclick=\"document.getElementById('searchInput').value='P0300';document.getElementById('searchBtn').click()\">
+            <h3>Domestic</h3>
+            <p>Ford · GM · Chevrolet · Dodge</p>
+        </div>
+        <div class=\"brand-card\" onclick=\"document.getElementById('searchInput').value='P0420';document.getElementById('searchBtn').click()\">
+            <h3>Asian</h3>
+            <p>Toyota · Honda · Kia · Hyundai</p>
+        </div>
+    </div>
+
+    <div class=\"results-section\" id=\"results\">
+        <div id=\"contentTarget\"></div>
+    </div>
+
+    <footer>
+        <div class=\"footer-logo\">Vault Network</div>
+        <div class=\"footer-links\">
+            <a href=\"/privacy.html\" data-i18n=\"footer.privacy\">Privacy</a>
+            <a href=\"/terms.html\" data-i18n=\"footer.terms\">Terms</a>
+            <a href=\"/affiliate.html\" data-i18n=\"footer.disclosure\">Affiliate Disclosure</a>
+        </div>
+        <p style=\"color: var(--text-muted); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em;\" data-i18n=\"footer.allRights\">&copy; 2026 Sovereign Ridge Partners LLC.</p>
+    </footer>
+
+    <script src=\"i18n.js\"></script>
+    <script>
+        // ObdVault OBD2 diagnostic code database - 120+ codes
+        const OBD2_CODES = {
+            // === FUEL AND AIR METERING (P0100-P0199) ===
+            'P0100': { code: 'P0100', system: 'Fuel/Air', severity: 'high', title: 'Mass Air Flow Circuit Malfunction', description: 'The MAF sensor is not providing proper signal to the PCM.', causes: ['MAF sensor failure', 'Wiring issue', 'Air leak before MAF', 'ECM problem'], fixes: ['Test MAF sensor output', 'Check wiring harness', 'Inspect for vacuum leaks', 'Replace MAF if necessary'] },
+            'P0101': { code: 'P0101', system: 'Fuel/Air', severity: 'medium', title: 'Mass Air Flow Circuit Range/Performance', description: 'MAF sensor signal is out of expected range.', causes: ['Dirty MAF sensor', 'Air leak', 'Clogged air filter', 'Sensor aging'], fixes: ['Clean MAF sensor with proper cleaner', 'Check air filter', 'Inspect for air leaks', 'Test sensor operation'] },
+            'P0102': { code: 'P0102', system: 'Fuel/Air', severity: 'high', title: 'Mass Air Flow Circuit Low Input', description: 'MAF sensor signal is too low.', causes: ['MAF sensor failure', 'Open circuit', 'Ground issue', 'Power supply problem'], fixes: ['Test MAF sensor reference voltage', 'Check power and ground circuits', 'Inspect wiring', 'Replace sensor'] },
+            'P0103': { code: 'P0103', system: 'Fuel/Air', severity: 'high', title: 'Mass Air Flow Circuit High Input', description: 'MAF sensor signal is too high.', causes: ['MAF sensor shorted', 'Water contamination', 'Harness damage', 'ECM failure'], fixes: ['Check for water in connector', 'Test MAF circuit', 'Inspect wiring', 'May require ECM diagnosis'] },
+            'P0110': { code: 'P0110', system: 'Fuel/Air', severity: 'medium', title: 'Intake Air Temperature Circuit Malfunction', description: 'The IAT sensor circuit has detected a problem.', causes: ['IAT sensor failure', 'Wiring issue', 'Connector damage', 'ECM problem'], fixes: ['Test IAT sensor resistance', 'Check wiring', 'Inspect connector', 'Replace sensor'] },
+            'P0115': { code: 'P0115', system: 'Fuel/Air', severity: 'medium', title: 'Engine Coolant Temperature Circuit Malfunction', description: 'The ECT sensor circuit has detected a problem.', causes: ['ECT sensor failure', 'Wiring problem', 'Connector corrosion', 'Coolant level low'], fixes: ['Test ECT sensor', 'Check coolant level', 'Inspect wiring harness', 'Replace sensor'] },
+            'P0120': { code: 'P0120', system: 'Fuel/Air', severity: 'medium', title: 'Throttle Position Sensor Circuit Malfunction', description: 'The TPS circuit has detected a problem.', causes: ['TPS failure', 'Wiring damage', 'Throttle body carbon', 'ECM issue'], fixes: ['Test TPS voltage at idle and full throttle', 'Inspect wiring', 'Clean throttle body', 'Replace TPS'] },
+            'P0121': { code: 'P0121', system: 'Fuel/Air', severity: 'medium', title: 'Throttle Position Sensor Range/Performance', description: 'TPS signal is not within expected range.', causes: ['TPS worn out', 'Throttle plate carbon', 'Spring fatigue', 'Adjustment issue'], fixes: ['Test TPS range of motion', 'Clean throttle body', 'Check adjustment', 'Replace TPS'] },
+            'P0122': { code: 'P0122', system: 'Fuel/Air', severity: 'high', title: 'Throttle Position Sensor Circuit Low', description: 'TPS signal voltage is too low.', causes: ['TPS short to ground', 'Open circuit', 'Sensor failure'], fixes: ['Test TPS signal wire', 'Check for short circuits', 'Inspect connector', 'Replace TPS'] },
+            'P0123': { code: 'P0123', system: 'Fuel/Air', severity: 'high', title: 'Throttle Position Sensor Circuit High', description: 'TPS signal voltage is too high.', causes: ['TPS short to power', 'Open ground wire', 'Sensor failure'], fixes: ['Test TPS circuit for shorts', 'Check ground circuit', 'Inspect wiring', 'Replace TPS'] },
+            'P0130': { code: 'P0130', system: 'Fuel/Air', severity: 'medium', title: 'O2 Sensor Circuit (Bank 1 Sensor 1)', description: 'The front oxygen sensor circuit has malfunctioned.', causes: ['O2 sensor failure', 'Exhaust leak', 'Wiring issue', 'Heater circuit problem'], fixes: ['Test O2 sensor operation', 'Check heater element', 'Inspect exhaust for leaks', 'Replace sensor'] },
+            'P0131': { code: 'P0131', system: 'Fuel/Air', severity: 'high', title: 'O2 Sensor Circuit Low Voltage (Bank 1 Sensor 1)', description: 'O2 sensor signal stuck at low voltage.', causes: ['O2 sensor contaminated', 'Vacuum leak', 'Low fuel pressure', 'Sensor failure'], fixes: ['Check for vacuum leaks', 'Test fuel pressure', 'Inspect O2 sensor', 'Replace if necessary'] },
+            'P0132': { code: 'P0132', system: 'Fuel/Air', severity: 'high', title: 'O2 Sensor Circuit High Voltage (Bank 1 Sensor 1)', description: 'O2 sensor signal stuck at high voltage.', causes: ['O2 sensor shorted', 'Fuel pressure too high', 'Engine running rich', 'Exhaust leak'], fixes: ['Test fuel pressure', 'Check for rich condition', 'Inspect O2 sensor', 'Check exhaust for leaks'] },
+            'P0133': { code: 'P0133', system: 'Fuel/Air', severity: 'medium', title: 'O2 Sensor Slow Response (Bank 1 Sensor 1)', description: 'O2 sensor is responding too slowly.', causes: ['O2 sensor aged', 'Exhaust leak', 'Fuel system problem', 'Air leaks'], fixes: ['Check exhaust for leaks', 'Test fuel system', 'Inspect O2 sensor heater', 'Replace sensor'] },
+            'P0134': { code: 'P0134', system: 'Fuel/Air', severity: 'medium', title: 'O2 Sensor No Activity (Bank 1 Sensor 1)', description: 'O2 sensor not switching properly.', causes: ['O2 sensor failed', 'Exhaust leak before sensor', 'Wiring problem', 'Ground issue'], fixes: ['Test O2 sensor switching', 'Check exhaust integrity', 'Inspect wiring', 'Replace sensor'] },
+            'P0135': { code: 'P0135', system: 'Fuel/Air', severity: 'medium', title: 'O2 Sensor Heater Circuit (Bank 1 Sensor 1)', description: 'O2 sensor heater circuit malfunction.', causes: ['Heater element failed', 'Fuse blown', 'Wiring issue', 'ECM problem'], fixes: ['Check heater circuit fuse', 'Test heater resistance', 'Inspect wiring harness', 'Replace O2 sensor'] },
+            'P0136': { code: 'P0136', system: 'Fuel/Air', severity: 'medium', title: 'O2 Sensor Circuit (Bank 1 Sensor 2)', description: 'The rear oxygen sensor circuit has malfunctioned.', causes: ['O2 sensor failure', 'Exhaust leak', 'Wiring issue'], fixes: ['Test rear O2 sensor', 'Check exhaust system', 'Inspect wiring', 'Replace sensor'] },
+            'P0137': { code: 'P0137', system: 'Fuel/Air', severity: 'medium', title: 'O2 Sensor Circuit Low Voltage (Bank 1 Sensor 2)', description: 'Rear O2 sensor signal stuck low.', causes: ['O2 sensor contaminated', 'Exhaust leak', 'Sensor failure'], fixes: ['Check exhaust for leaks', 'Test O2 sensor', 'Replace if necessary'] },
+            'P0138': { code: 'P0138', system: 'Fuel/Air', severity: 'medium', title: 'O2 Sensor Circuit High Voltage (Bank 1 Sensor 2)', description: 'Rear O2 sensor signal stuck high.', causes: ['O2 sensor shorted', 'Engine running rich', 'Exhaust leak'], fixes: ['Check fuel system', 'Test O2 sensor', 'Inspect exhaust', 'Replace sensor'] },
+            'P0140': { code: 'P0140', system: 'Fuel/Air', severity: 'medium', title: 'O2 Sensor No Activity (Bank 1 Sensor 2)', description: 'Rear O2 sensor not switching.', causes: ['O2 sensor failed', 'Exhaust system issue', 'Wiring problem'], fixes: ['Test O2 sensor operation', 'Check exhaust', 'Inspect wiring', 'Replace sensor'] },
+            'P0141': { code: 'P0141', system: 'Fuel/Air', severity: 'medium', title: 'O2 Sensor Heater Circuit (Bank 1 Sensor 2)', description: 'Rear O2 sensor heater circuit malfunction.', causes: ['Heater element failed', 'Fuse blown', 'Wiring issue'], fixes: ['Check heater fuse', 'Test heater circuit', 'Inspect wiring', 'Replace sensor'] },
+            'P0171': { code: 'P0171', system: 'Fuel System', severity: 'medium', title: 'System Too Lean (Bank 1)', description: 'The engine is running with too little fuel relative to air.', causes: ['MAF sensor malfunction', 'Fuel pressure too low', 'Vacuum leak', 'Oxygen sensor problem', 'Dirty fuel injectors'], fixes: ['Check MAF sensor', 'Test fuel pressure', 'Inspect for vacuum leaks', 'Clean fuel injectors', 'Check oxygen sensor'] },
+            'P0172': { code: 'P0172', system: 'Fuel System', severity: 'medium', title: 'System Too Rich (Bank 1)', description: 'The engine is running with too much fuel relative to air.', causes: ['Fuel injector leaking', 'Fuel pressure too high', 'Oxygen sensor malfunction', 'MAP sensor problem', 'Dirty air filter'], fixes: ['Inspect fuel injectors for leaks', 'Test fuel pressure regulator', 'Check oxygen sensor', 'Test MAP sensor', 'Replace air filter'] },
+            'P0173': { code: 'P0173', system: 'Fuel System', severity: 'medium', title: 'System Too Lean (Bank 2)', description: 'Fuel system running lean on bank 2.', causes: ['Fuel injector issue', 'Vacuum leak', 'MAF sensor problem'], fixes: ['Check for vacuum leaks', 'Test fuel injectors', 'Inspect MAF sensor'] },
+            'P0174': { code: 'P0174', system: 'Fuel System', severity: 'medium', title: 'System Too Rich (Bank 2)', description: 'Fuel system running rich on bank 2.', causes: ['Fuel injector leak', 'High fuel pressure', 'O2 sensor issue'], fixes: ['Test fuel pressure', 'Check O2 sensors', 'Inspect fuel injectors'] },
+            'P0175': { code: 'P0175', system: 'Fuel System', severity: 'medium', title: 'System Too Rich (Both Banks)', description: 'Engine running rich across all cylinders.', causes: ['Massive fuel leak', 'MAP sensor failure', 'Coolant sensor issue'], fixes: ['Check for fuel leaks', 'Test MAP sensor', 'Inspect coolant temperature sensor'] },
+
+            // === IGNITION/MISFIRE (P0300-P0399) ===
+            'P0300': { code: 'P0300', system: 'Powertrain', severity: 'high', title: 'Random/Multiple Cylinder Misfire Detected', description: 'Engine misfire detected on multiple cylinders. Can damage catalytic converter.', causes: ['Spark plugs worn or damaged', 'Ignition coil failure', 'Fuel injector malfunction', 'Vacuum leak', 'Low fuel pressure', 'PCV system failure'], fixes: ['Check and replace spark plugs', 'Inspect ignition coils', 'Test fuel injectors', 'Check for vacuum leaks', 'Verify fuel pressure', 'Inspect PCV valve'] },
+            'P0301': { code: 'P0301', system: 'Powertrain', severity: 'high', title: 'Cylinder 1 Misfire Detected', description: 'Misfire detected on cylinder 1.', causes: ['Spark plug issues on cylinder 1', 'Ignition coil for cylinder 1', 'Fuel injector clogged', 'Compression issue'], fixes: ['Inspect cylinder 1 spark plug', 'Test ignition coil', 'Clean or replace fuel injector', 'Check compression'] },
+            'P0302': { code: 'P0302', system: 'Powertrain', severity: 'high', title: 'Cylinder 2 Misfire Detected', description: 'Misfire detected on cylinder 2.', causes: ['Spark plug worn', 'Ignition coil failure', 'Fuel injector problem', 'Low compression'], fixes: ['Replace cylinder 2 spark plug', 'Test ignition coil', 'Check fuel injector', 'Test compression'] },
+            'P0303': { code: 'P0303', system: 'Powertrain', severity: 'high', title: 'Cylinder 3 Misfire Detected', description: 'Misfire detected on cylinder 3.', causes: ['Spark plug damage', 'Coil failure', 'Injector issue', 'Compression loss'], fixes: ['Inspect cylinder 3 spark plug', 'Test coil', 'Check injector', 'Verify compression'] },
+            'P0304': { code: 'P0304', system: 'Powertrain', severity: 'high', title: 'Cylinder 4 Misfire Detected', description: 'Misfire detected on cylinder 4.', causes: ['Worn spark plug', 'Ignition coil problem', 'Fuel injector failure', 'Compression issue'], fixes: ['Replace cylinder 4 spark plug', 'Test ignition coil', 'Check fuel injector', 'Test compression'] },
+            'P0305': { code: 'P0305', system: 'Powertrain', severity: 'high', title: 'Cylinder 5 Misfire Detected', description: 'Misfire detected on cylinder 5.', causes: ['Spark plug issue', 'Coil failure', 'Injector problem', 'Compression'], fixes: ['Inspect cylinder 5 spark plug', 'Test coil', 'Check injector', 'Verify compression'] },
+            'P0306': { code: 'P0306', system: 'Powertrain', severity: 'high', title: 'Cylinder 6 Misfire Detected', description: 'Misfire detected on cylinder 6.', causes: ['Spark plug worn', 'Ignition coil failure', 'Fuel injector issue', 'Compression loss'], fixes: ['Replace cylinder 6 spark plug', 'Test coil', 'Check injector', 'Test compression'] },
+            'P0307': { code: 'P0307', system: 'Powertrain', severity: 'high', title: 'Cylinder 7 Misfire Detected', description: 'Misfire detected on cylinder 7.', causes: ['Spark plug damage', 'Coil problem', 'Injector issue', 'Compression'], fixes: ['Inspect cylinder 7 spark plug', 'Test coil', 'Check injector', 'Verify compression'] },
+            'P0308': { code: 'P0308', system: 'Powertrain', severity: 'high', title: 'Cylinder 8 Misfire Detected', description: 'Misfire detected on cylinder 8.', causes: ['Worn spark plug', 'Ignition coil failure', 'Fuel injector problem', 'Compression issue'], fixes: ['Replace cylinder 8 spark plug', 'Test coil', 'Check injector', 'Test compression'] },
+            'P0325': { code: 'P0325', system: 'Powertrain', severity: 'medium', title: 'Knock Sensor 1 Circuit Malfunction', description: 'Knock sensor circuit has failed.', causes: ['Knock sensor failure', 'Wiring damage', 'Connector issue', 'ECM problem'], fixes: ['Test knock sensor', 'Check wiring harness', 'Inspect connector', 'Replace sensor'] },
+            'P0335': { code: 'P0335', system: 'Powertrain', severity: 'high', title: 'Crankshaft Position Sensor Circuit', description: 'CKP sensor circuit malfunction.', causes: ['CKP sensor failed', 'Reluctor wheel damage', 'Wiring issue', 'Tone ring problem'], fixes: ['Test CKP sensor', 'Check reluctor wheel condition', 'Inspect wiring', 'Replace sensor'] },
+            'P0340': { code: 'P0340', system: 'Powertrain', severity: 'high', title: 'Camshaft Position Sensor Circuit', description: 'Camshaft position sensor circuit malfunction.', causes: ['CMP sensor failed', 'Timing chain issue', 'Wiring damage', 'Timing belt problem'], fixes: ['Test CMP sensor', 'Check timing alignment', 'Inspect wiring', 'Verify timing chain/belt'] },
+            'P0341': { code: 'P0341', system: 'Powertrain', severity: 'high', title: 'Camshaft Position Sensor Range/Performance', description: 'CMP sensor signal out of expected range.', causes: ['Timing chain stretched', 'CMP sensor failing', 'Tensioner problem', 'Gearing issue'], fixes: ['Check timing chain condition', 'Test CMP sensor', 'Inspect timing components', 'Replace as needed'] },
+
+            // === EMISSION CONTROLS (P0400-P0499) ===
+            'P0400': { code: 'P0400', system: 'Emissions', severity: 'medium', title: 'EGR Flow Detected', description: 'Exhaust Gas Recirculation flow detected.', causes: ['EGR valve stuck open', 'DPFE sensor failure', 'Vacuum leak'], fixes: ['Test EGR valve operation', 'Check DPFE sensor', 'Inspect vacuum lines'] },
+            'P0401': { code: 'P0401', system: 'Exhaust', severity: 'medium', title: 'EGR Flow Insufficient Detected', description: 'EGR flow is below expected levels.', causes: ['EGR valve clogged', 'Carbon buildup', 'EGR passages blocked', 'DPFE sensor failure'], fixes: ['Clean EGR valve', 'Clean EGR passages', 'Test DPFE sensor', 'Replace EGR if necessary'] },
+            'P0402': { code: 'P0402', system: 'Emissions', severity: 'high', title: 'EGR Excessive Flow Detected', description: 'EGR valve is flowing too much.', causes: ['EGR valve stuck open', 'Vacuum solenoid issue', 'MAP sensor problem'], fixes: ['Test EGR valve', 'Check vacuum solenoid', 'Inspect MAP sensor'] },
+            'P0420': { code: 'P0420', system: 'Emissions', severity: 'medium', title: 'Catalyst System Efficiency Below Threshold (Bank 1)', description: 'The catalytic converter is not operating efficiently.', causes: ['Failing catalytic converter', 'Oxygen sensor malfunction', 'Exhaust leak before converter', 'Engine running rich'], fixes: ['Check oxygen sensor operation', 'Inspect for exhaust leaks', 'Test fuel system for rich condition', 'Replace catalytic converter if needed'] },
+            'P0421': { code: 'P0421', system: 'Emissions', severity: 'medium', title: 'Warm Up Catalyst Efficiency Below Threshold', description: 'Catalyst not reaching operating temperature efficiently.', causes: ['Catalyst failing', 'O2 sensor issue', 'Exhaust leaks'], fixes: ['Check O2 sensors', 'Inspect exhaust system', 'Test catalyst efficiency'] },
+            'P0430': { code: 'P0430', system: 'Emissions', severity: 'medium', title: 'Catalyst System Efficiency Below Threshold (Bank 2)', description: 'The catalytic converter on bank 2 is not operating efficiently.', causes: ['Failing catalytic converter', 'Oxygen sensor malfunction', 'Exhaust leak'], fixes: ['Check oxygen sensors', 'Inspect for exhaust leaks', 'Replace catalytic converter'] },
+            'P0440': { code: 'P0440', system: 'Evaporative', severity: 'low', title: 'EVAP System Malfunction', description: 'General EVAP system malfunction.', causes: ['Multiple EVAP issues', 'Purge valve problem', 'Vent valve issue'], fixes: ['Check gas cap', 'Test purge valve', 'Inspect vent system', 'Check for leaks'] },
+            'P0441': { code: 'P0441', system: 'Evaporative', severity: 'medium', title: 'EVAP Purge Flow Incorrect', description: 'EVAP purge flow is not working properly.', causes: ['Purge valve stuck closed', 'Vacuum leak', 'Wiring issue'], fixes: ['Test purge valve operation', 'Check vacuum lines', 'Inspect wiring harness'] },
+            'P0442': { code: 'P0442', system: 'Evaporative', severity: 'low', title: 'EVAP System Leak Detected (Small Leak)', description: 'A small leak has been detected in the EVAP system.', causes: ['Loose gas cap', 'Cracked EVAP hose', 'Purge valve malfunction', 'Small leak in fuel tank'], fixes: ['Tighten or replace gas cap', 'Inspect EVAP hoses', 'Test purge valve', 'Check fuel tank for cracks'] },
+            'P0443': { code: 'P0443', system: 'Evaporative', severity: 'medium', title: 'EVAP Purge Valve Circuit', description: 'EVAP purge solenoid circuit malfunction.', causes: ['Purge solenoid failed', 'Fuse blown', 'Wiring issue', 'ECM problem'], fixes: ['Test purge solenoid', 'Check fuse', 'Inspect wiring', 'Replace solenoid'] },
+            'P0446': { code: 'P0446', system: 'Evaporative', severity: 'low', title: 'EVAP Vent System Performance', description: 'The EVAP vent control circuit is not functioning properly.', causes: ['Vent valve stuck closed', 'Wiring issue', 'Charcoal canister problem'], fixes: ['Test vent valve', 'Check wiring', 'Inspect charcoal canister'] },
+            'P0455': { code: 'P0455', system: 'Evaporative', severity: 'low', title: 'EVAP System Leak Detected (Gross Leak)', description: 'A large leak has been detected in the EVAP system.', causes: ['Missing or loose gas cap', 'Large crack in EVAP hose', 'Purge valve stuck open', 'Fuel tank vent issue'], fixes: ['Check gas cap installation', 'Inspect all EVAP hoses', 'Test purge valve operation', 'Check vent system'] },
+
+            // === SPEED/IDLE CONTROL (P0500-P0599) ===
+            'P0500': { code: 'P0500', system: 'Vehicle Speed', severity: 'medium', title: 'Vehicle Speed Sensor Malfunction', description: 'The VSS is not providing accurate data to the PCM.', causes: ['VSS failure', 'Damaged wiring', 'ABS module issue', 'Transmission problem'], fixes: ['Test vehicle speed sensor', 'Check wiring harness', 'Inspect ABS system', 'Check transmission output'] },
+            'P0505': { code: 'P0505', system: 'Idle Control', severity: 'medium', title: 'Idle Control System Malfunction', description: 'Idle air control system is not functioning properly.', causes: ['IAC valve dirty', 'IAC motor failure', 'Vacuum leak', 'MAF sensor problem'], fixes: ['Clean IAC valve', 'Test IAC motor', 'Check for vacuum leaks', 'Replace IAC if necessary'] },
+            'P0506': { code: 'P0506', system: 'Idle Control', severity: 'medium', title: 'Idle Speed Low', description: 'Engine idle speed is below expected rpm.', causes: ['IAC valve clogged', 'Vacuum leak', 'Throttle body carbon', 'PCV issue'], fixes: ['Clean IAC valve', 'Check for vacuum leaks', 'Clean throttle body', 'Test PCV valve'] },
+            'P0507': { code: 'P0507', system: 'Idle Control', severity: 'medium', title: 'Idle Speed High', description: 'Engine idle speed is above expected rpm.', causes: ['IAC valve stuck open', 'Vacuum leak', 'Throttle plate stuck', 'PCV valve failure'], fixes: ['Test IAC valve', 'Check for vacuum leaks', 'Clean throttle body', 'Replace PCV valve'] },
+
+            // === TRANSMISSION (P0700-P0899) ===
+            'P0700': { code: 'P0700', system: 'Transmission', severity: 'high', title: 'Transmission Control System Malfunction', description: 'The transmission control system has detected a problem.', causes: ['Solenoid malfunction', 'Sensor failure', 'Low fluid level', 'Internal transmission problem'], fixes: ['Check transmission fluid', 'Retrieve additional codes', 'Test solenoids', 'May require professional diagnosis'] },
+            'P0705': { code: 'P0705', system: 'Transmission', severity: 'medium', title: 'Transmission Range Sensor Circuit', description: 'The PRNDL switch is not working properly.', causes: ['Range sensor failed', 'Wiring issue', 'Connector damage', 'Adjustment issue'], fixes: ['Test range sensor', 'Check wiring', 'Inspect connector', 'Adjust if needed'] },
+            'P0715': { code: 'P0715', system: 'Transmission', severity: 'medium', title: 'Input/Turbine Speed Sensor Circuit', description: 'Turbine speed sensor circuit malfunction.', causes: ['Speed sensor failed', 'Wiring issue', 'Tone ring damage'], fixes: ['Test input speed sensor', 'Check wiring', 'Inspect tone ring'] },
+            'P0720': { code: 'P0720', system: 'Transmission', severity: 'medium', title: 'Output Speed Sensor Circuit', description: 'Output speed sensor circuit malfunction.', causes: ['Output speed sensor failed', 'Wiring issue', 'Tone ring problem'], fixes: ['Test output speed sensor', 'Check wiring', 'Inspect tone ring'] },
+            'P0730': { code: 'P0730', system: 'Transmission', severity: 'high', title: 'Incorrect Gear Ratio', description: 'The transmission is in the wrong gear ratio.', causes: ['Low fluid', 'Worn clutches', 'Solenoid issue', 'Valve body problem'], fixes: ['Check transmission fluid', 'Test solenoids', 'Inspect valve body', 'May require transmission rebuild'] },
+            'P0741': { code: 'P0741', system: 'Transmission', severity: 'high', title: 'Torque Converter Clutch Solenoid Performance', description: 'TCC solenoid not engaging properly.', causes: ['TCC solenoid failed', 'Low fluid', 'Valve body issue', 'Torque converter problem'], fixes: ['Test TCC solenoid', 'Check fluid level', 'Inspect valve body', 'May need torque converter replacement'] },
+            'P0750': { code: 'P0750', system: 'Transmission', severity: 'high', title: 'Shift Solenoid A Malfunction', description: 'Shift solenoid A is not working.', causes: ['Solenoid failed', 'Wiring issue', 'Low fluid', 'Valve body problem'], fixes: ['Test shift solenoid', 'Check wiring', 'Check fluid level', 'Inspect valve body'] },
+
+            // === COMPUTER/OUTPUTS (P0600-P0699) ===
+            'P0562': { code: 'P0562', system: 'Electrical', severity: 'high', title: 'System Voltage Low', description: 'The vehicle electrical system voltage is below normal.', causes: ['Alternator failure', 'Battery drain', 'Voltage regulator problem', 'Excessive electrical load'], fixes: ['Test alternator output', 'Check battery condition', 'Inspect voltage regulator', 'Check for battery drain'] },
+            'P0563': { code: 'P0563', system: 'Electrical', severity: 'high', title: 'System Voltage High', description: 'The vehicle electrical system voltage is above normal.', causes: ['Alternator overcharging', 'Voltage regulator failure', 'Battery isolation problem'], fixes: ['Test alternator output', 'Check voltage regulator', 'Inspect battery connections'] },
+            'P0600': { code: 'P0600', system: 'Computer', severity: 'high', title: 'Serial Communication Link Malfunction', description: 'Internal control module communication problem.', causes: ['ECM internal failure', 'Memory corruption', 'Power supply issue'], fixes: ['Reset ECM', 'Update firmware', 'May require ECM replacement'] },
+            'P0601': { code: 'P0601', system: 'Computer', severity: 'high', title: 'Internal Control Module Memory Check Sum Error', description: 'ECM memory has a checksum error.', causes: ['ECM internal failure', 'Power disruption during write', 'Corrupted software'], fixes: ['Try resetting ECM', 'Update software', 'Replace ECM'] },
+            'P0606': { code: 'P0606', system: 'Computer', severity: 'high', title: 'ECM/PCM Processor Malfunction', description: 'The ECM processor has failed.', causes: ['ECM internal failure', 'Overheating', 'Power surge'], fixes: ['Check ECM power supply', 'Reset ECM', 'May require replacement'] },
+
+            // === ADDITIONAL POWERTRAIN CODES ===
+            'P0200': { code: 'P0200', system: 'Fuel System', severity: 'medium', title: 'Injector Circuit Malfunction', description: 'Fuel injector circuit has a general problem.', causes: ['Wiring issue', 'Injector harness problem', 'ECM issue'], fixes: ['Check injector wiring', 'Test all injectors', 'Inspect harness', 'Check ECM'] },
+            'P0201': { code: 'P0201', system: 'Fuel System', severity: 'medium', title: 'Injector Circuit Cylinder 1', description: 'Cylinder 1 injector circuit malfunction.', causes: ['Injector failed', 'Wiring issue', 'Connector problem'], fixes: ['Test cylinder 1 injector', 'Check wiring', 'Inspect connector'] },
+            'P0202': { code: 'P0202', system: 'Fuel System', severity: 'medium', title: 'Injector Circuit Cylinder 2', description: 'Cylinder 2 injector circuit malfunction.', causes: ['Injector failed', 'Wiring issue', 'Connector problem'], fixes: ['Test cylinder 2 injector', 'Check wiring', 'Inspect connector'] },
+            'P0203': { code: 'P0203', system: 'Fuel System', severity: 'medium', title: 'Injector Circuit Cylinder 3', description: 'Cylinder 3 injector circuit malfunction.', causes: ['Injector failed', 'Wiring issue', 'Connector problem'], fixes: ['Test cylinder 3 injector', 'Check wiring', 'Inspect connector'] },
+            'P0204': { code: 'P0204', system: 'Fuel System', severity: 'medium', title: 'Injector Circuit Cylinder 4', description: 'Cylinder 4 injector circuit malfunction.', causes: ['Injector failed', 'Wiring issue', 'Connector problem'], fixes: ['Test cylinder 4 injector', 'Check wiring', 'Inspect connector'] },
+            'P0205': { code: 'P0205', system: 'Fuel System', severity: 'medium', title: 'Injector Circuit Cylinder 5', description: 'Cylinder 5 injector circuit malfunction.', causes: ['Injector failed', 'Wiring issue', 'Connector problem'], fixes: ['Test cylinder 5 injector', 'Check wiring', 'Inspect connector'] },
+            'P0206': { code: 'P0206', system: 'Fuel System', severity: 'medium', title: 'Injector Circuit Cylinder 6', description: 'Cylinder 6 injector circuit malfunction.', causes: ['Injector failed', 'Wiring issue', 'Connector problem'], fixes: ['Test cylinder 6 injector', 'Check wiring', 'Inspect connector'] },
+            'P0207': { code: 'P0207', system: 'Fuel System', severity: 'medium', title: 'Injector Circuit Cylinder 7', description: 'Cylinder 7 injector circuit malfunction.', causes: ['Injector failed', 'Wiring issue', 'Connector problem'], fixes: ['Test cylinder 7 injector', 'Check wiring', 'Inspect connector'] },
+            'P0208': { code: 'P0208', system: 'Fuel System', severity: 'medium', title: 'Injector Circuit Cylinder 8', description: 'Cylinder 8 injector circuit malfunction.', causes: ['Injector failed', 'Wiring issue', 'Connector problem'], fixes: ['Test cylinder 8 injector', 'Check wiring', 'Inspect connector'] },
+            'P0219': { code: 'P0219', system: 'Powertrain', severity: 'medium', title: 'Engine Overspeed Condition', description: 'Engine speed exceeds safe limit.', causes: ['Downhill runaway', 'Improper gear selection', 'Governor failure'], fixes: ['Let off accelerator', 'Downshift', 'Apply brakes', 'Check governor'] },
+            'P0220': { code: 'P0220', system: 'Throttle', severity: 'medium', title: 'Throttle Position Sensor B Circuit', description: 'Secondary TPS circuit malfunction.', causes: ['TPS failure', 'Wiring issue', 'ECM problem'], fixes: ['Test TPS B circuit', 'Check wiring', 'Replace TPS'] },
+            'P0221': { code: 'P0221', system: 'Throttle', severity: 'medium', title: 'Throttle Position Sensor B Range/Performance', description: 'TPS B signal out of range.', causes: ['TPS worn', 'Throttle body carbon', 'Adjustment issue'], fixes: ['Test TPS range', 'Clean throttle body', 'Check adjustment'] },
+            'P0222': { code: 'P0222', system: 'Throttle', severity: 'high', title: 'Throttle Position Sensor B Circuit Low', description: 'TPS B signal voltage too low.', causes: ['TPS short to ground', 'Open circuit', 'Sensor failure'], fixes: ['Test TPS B circuit', 'Check for shorts', 'Replace TPS'] },
+            'P0223': { code: 'P0223', system: 'Throttle', severity: 'high', title: 'Throttle Position Sensor B Circuit High', description: 'TPS B signal voltage too high.', causes: ['TPS short to power', 'Open ground', 'Sensor failure'], fixes: ['Test TPS B circuit', 'Check ground wire', 'Replace TPS'] },
+            'P0230': { code: 'P0230', system: 'Fuel System', severity: 'medium', title: 'Fuel Pump Primary Circuit', description: 'Fuel pump circuit malfunction.', causes: ['Fuel pump relay failed', 'Fuse blown', 'Wiring issue', 'Pump failure'], fixes: ['Test fuel pump relay', 'Check fuse', 'Test pump operation', 'Inspect wiring'] },
+            'P0231': { code: 'P0231', system: 'Fuel System', severity: 'medium', title: 'Fuel Pump Secondary Circuit Low', description: 'Fuel pump feedback circuit low.', causes: ['Pump motor issue', 'Wiring problem', 'Ground issue'], fixes: ['Test fuel pump', 'Check wiring', 'Inspect ground connection'] },
+            'P0232': { code: 'P0232', system: 'Fuel System', severity: 'medium', title: 'Fuel Pump Secondary Circuit High', description: 'Fuel pump feedback circuit high.', causes: ['Pump motor shorted', 'Wiring short', 'Control module issue'], fixes: ['Test fuel pump', 'Check wiring for shorts', 'Test control module'] },
+            'P0236': { code: 'P0236', system: 'Turbo', severity: 'medium', title: 'Turbocharger Boost Sensor Performance', description: 'Boost pressure sensor range issue.', causes: ['Boost sensor failing', 'Vacuum leak', 'Turbo wastegate issue', 'Intercooler problem'], fixes: ['Test boost sensor', 'Check for boost leaks', 'Inspect wastegate', 'Check intercooler'] },
+            'P0237': { code: 'P0237', system: 'Turbo', severity: 'medium', title: 'Turbocharger Boost Sensor Circuit Low', description: 'Boost sensor signal too low.', causes: ['Boost sensor failed', 'Vacuum line disconnected', 'Wiring issue'], fixes: ['Test boost sensor', 'Check vacuum lines', 'Inspect wiring'] },
+            'P0238': { code: 'P0238', system: 'Turbo', severity: 'medium', title: 'Turbocharger Boost Sensor Circuit High', description: 'Boost sensor signal too high.', causes: ['Boost sensor shorted', 'Vacuum leak', 'Wiring problem'], fixes: ['Test boost sensor', 'Check vacuum system', 'Inspect wiring'] },
+            'P0261': { code: 'P0261', system: 'Fuel System', severity: 'medium', title: 'Cylinder 1 Injector Circuit Low', description: 'Injector 1 circuit voltage low.', causes: ['Injector wire short to ground', 'Injector failed', 'ECM output issue'], fixes: ['Test injector 1', 'Check wiring for shorts', 'Test ECM output'] },
+            'P0262': { code: 'P0262', system: 'Fuel System', severity: 'medium', title: 'Cylinder 1 Injector Circuit High', description: 'Injector 1 circuit voltage high.', causes: ['Injector wire short to power', 'Injector failed', 'ECM issue'], fixes: ['Test injector 1', 'Check wiring for shorts', 'Test ECM'] },
+            'P0264': { code: 'P0264', system: 'Fuel System', severity: 'medium', title: 'Cylinder 2 Injector Circuit Low', description: 'Injector 2 circuit voltage low.', causes: ['Injector wire short to ground', 'Injector failed', 'ECM output issue'], fixes: ['Test injector 2', 'Check wiring for shorts', 'Test ECM output'] },
+            'P0265': { code: 'P0265', system: 'Fuel System', severity: 'medium', title: 'Cylinder 2 Injector Circuit High', description: 'Injector 2 circuit voltage high.', causes: ['Injector wire short to power', 'Injector failed', 'ECM issue'], fixes: ['Test injector 2', 'Check wiring for shorts', 'Test ECM'] },
+            'P0267': { code: 'P0267', system: 'Fuel System', severity: 'medium', title: 'Cylinder 3 Injector Circuit Low', description: 'Injector 3 circuit voltage low.', causes: ['Injector wire short to ground', 'Injector failed', 'ECM output issue'], fixes: ['Test injector 3', 'Check wiring for shorts', 'Test ECM output'] },
+            'P0268': { code: 'P0268', system: 'Fuel System', severity: 'medium', title: 'Cylinder 3 Injector Circuit High', description: 'Injector 3 circuit voltage high.', causes: ['Injector wire short to power', 'Injector failed', 'ECM issue'], fixes: ['Test injector 3', 'Check wiring for shorts', 'Test ECM'] },
+            'P0270': { code: 'P0270', system: 'Fuel System', severity: 'medium', title: 'Cylinder 4 Injector Circuit Low', description: 'Injector 4 circuit voltage low.', causes: ['Injector wire short to ground', 'Injector failed', 'ECM output issue'], fixes: ['Test injector 4', 'Check wiring for shorts', 'Test ECM output'] },
+            'P0271': { code: 'P0271', system: 'Fuel System', severity: 'medium', title: 'Cylinder 4 Injector Circuit High', description: 'Injector 4 circuit voltage high.', causes: ['Injector wire short to power', 'Injector failed', 'ECM issue'], fixes: ['Test injector 4', 'Check wiring for shorts', 'Test ECM'] },
+            'P0273': { code: 'P0273', system: 'Fuel System', severity: 'medium', title: 'Cylinder 5 Injector Circuit Low', description: 'Injector 5 circuit voltage low.', causes: ['Injector wire short to ground', 'Injector failed', 'ECM output issue'], fixes: ['Test injector 5', 'Check wiring for shorts', 'Test ECM output'] },
+            'P0274': { code: 'P0274', system: 'Fuel System', severity: 'medium', title: 'Cylinder 5 Injector Circuit High', description: 'Injector 5 circuit voltage high.', causes: ['Injector wire short to power', 'Injector failed', 'ECM issue'], fixes: ['Test injector 5', 'Check wiring for shorts', 'Test ECM'] },
+            'P0276': { code: 'P0276', system: 'Fuel System', severity: 'medium', title: 'Cylinder 6 Injector Circuit Low', description: 'Injector 6 circuit voltage low.', causes: ['Injector wire short to ground', 'Injector failed', 'ECM output issue'], fixes: ['Test injector 6', 'Check wiring for shorts', 'Test ECM output'] },
+            'P0277': { code: 'P0277', system: 'Fuel System', severity: 'medium', title: 'Cylinder 6 Injector Circuit High', description: 'Injector 6 circuit voltage high.', causes: ['Injector wire short to power', 'Injector failed', 'ECM issue'], fixes: ['Test injector 6', 'Check wiring for shorts', 'Test ECM'] },
+            'P0279': { code: 'P0279', system: 'Fuel System', severity: 'medium', title: 'Cylinder 7 Injector Circuit Low', description: 'Injector 7 circuit voltage low.', causes: ['Injector wire short to ground', 'Injector failed', 'ECM output issue'], fixes: ['Test injector 7', 'Check wiring for shorts', 'Test ECM output'] },
+            'P0280': { code: 'P0280', system: 'Fuel System', severity: 'medium', title: 'Cylinder 7 Injector Circuit High', description: 'Injector 7 circuit voltage high.', causes: ['Injector wire short to power', 'Injector failed', 'ECM issue'], fixes: ['Test injector 7', 'Check wiring for shorts', 'Test ECM'] },
+            'P0282': { code: 'P0282', system: 'Fuel System', severity: 'medium', title: 'Cylinder 8 Injector Circuit Low', description: 'Injector 8 circuit voltage low.', causes: ['Injector wire short to ground', 'Injector failed', 'ECM output issue'], fixes: ['Test injector 8', 'Check wiring for shorts', 'Test ECM output'] },
+            'P0283': { code: 'P0283', system: 'Fuel System', severity: 'medium', title: 'Cylinder 8 Injector Circuit High', description: 'Injector 8 circuit voltage high.', causes: ['Injector wire short to power', 'Injector failed', 'ECM issue'], fixes: ['Test injector 8', 'Check wiring for shorts', 'Test ECM'] },
+
+            // === CHASSIS CODES (C0000-C0999) ===
+            'C0035': { code: 'C0035', system: 'ABS', severity: 'medium', title: 'Left Front Wheel Speed Sensor Circuit', description: 'The left front wheel speed sensor circuit has malfunctioned.', causes: ['Wheel speed sensor damaged', 'Wiring issue', 'ABS ring damaged', 'Hub bearing problem'], fixes: ['Inspect wheel speed sensor', 'Check wiring harness', 'Check ABS tone ring', 'Replace hub bearing if needed'] },
+            'C0040': { code: 'C0040', system: 'ABS', severity: 'medium', title: 'Right Front Wheel Speed Sensor Circuit', description: 'The right front wheel speed sensor circuit has malfunctioned.', causes: ['Wheel speed sensor damaged', 'Wiring issue', 'ABS ring damaged', 'Hub bearing problem'], fixes: ['Inspect wheel speed sensor', 'Check wiring harness', 'Check ABS tone ring', 'Replace hub bearing if needed'] },
+            'C0045': { code: 'C0045', system: 'ABS', severity: 'medium', title: 'Left Rear Wheel Speed Sensor Circuit', description: 'The left rear wheel speed sensor circuit has malfunctioned.', causes: ['Wheel speed sensor damaged', 'Wiring issue', 'ABS ring damaged', 'Hub bearing problem'], fixes: ['Inspect wheel speed sensor', 'Check wiring harness', 'Check ABS tone ring', 'Replace hub bearing if needed'] },
+            'C0050': { code: 'C0050', system: 'ABS', severity: 'medium', title: 'Right Rear Wheel Speed Sensor Circuit', description: 'The right rear wheel speed sensor circuit has malfunctioned.', causes: ['Wheel speed sensor damaged', 'Wiring issue', 'ABS ring damaged', 'Hub bearing problem'], fixes: ['Inspect wheel speed sensor', 'Check wiring harness', 'Check ABS tone ring', 'Replace hub bearing if needed'] },
+            'C0060': { code: 'C0060', system: 'ABS', severity: 'high', title: 'Left Front ABS Solenoid Circuit', description: 'Left front ABS solenoid circuit malfunction.', causes: ['Solenoid failed', 'Wiring issue', 'ABS module problem'], fixes: ['Test ABS solenoid', 'Check wiring', 'Inspect ABS module'] },
+            'C0065': { code: 'C0065', system: 'ABS', severity: 'high', title: 'Right Front ABS Solenoid Circuit', description: 'Right front ABS solenoid circuit malfunction.', causes: ['Solenoid failed', 'Wiring issue', 'ABS module problem'], fixes: ['Test ABS solenoid', 'Check wiring', 'Inspect ABS module'] },
+            'C0070': { code: 'C0070', system: 'ABS', severity: 'high', title: 'Left Rear ABS Solenoid Circuit', description: 'Left rear ABS solenoid circuit malfunction.', causes: ['Solenoid failed', 'Wiring issue', 'ABS module problem'], fixes: ['Test ABS solenoid', 'Check wiring', 'Inspect ABS module'] },
+            'C0075': { code: 'C0075', system: 'ABS', severity: 'high', title: 'Right Rear ABS Solenoid Circuit', description: 'Right rear ABS solenoid circuit malfunction.', causes: ['Solenoid failed', 'Wiring issue', 'ABS module problem'], fixes: ['Test ABS solenoid', 'Check wiring', 'Inspect ABS module'] },
+            'C0080': { code: 'C0080', system: 'ABS', severity: 'medium', title: 'ABS Pump Motor Circuit', description: 'ABS pump motor circuit malfunction.', causes: ['Pump motor failed', 'Fuse blown', 'Wiring issue', 'ABS module problem'], fixes: ['Test pump motor', 'Check fuse', 'Inspect wiring', 'Test ABS module'] },
+
+            // === BODY CODES (B0000-B0999) ===
+            'B0100': { code: 'B0100', system: 'Body', severity: 'low', title: 'Driver Frontal Stage 1 Deployment Control', description: 'Airbag system has detected an issue with driver airbag deployment circuit.', causes: ['Clock spring failure', 'Airbag module issue', 'Wiring problem', 'Seatbelt tensioner issue'], fixes: ['Check clock spring', 'Inspect airbag wiring', 'Scan airbag system', 'Professional service required'] },
+            'B0101': { code: 'B0101', system: 'Body', severity: 'low', title: 'Driver Frontal Stage 2 Deployment Control', description: 'Airbag stage 2 deployment circuit issue.', causes: ['Clock spring failure', 'Airbag module issue', 'Wiring problem'], fixes: ['Check clock spring', 'Inspect wiring', 'Professional service required'] },
+            'B0102': { code: 'B0102', system: 'Body', severity: 'low', title: 'Passenger Frontal Stage 1 Deployment Control', description: 'Passenger airbag stage 1 circuit issue.', causes: ['Airbag module issue', 'Wiring problem', 'Seat sensor failure'], fixes: ['Scan airbag system', 'Check passenger airbag', 'Professional service required'] },
+            'B0103': { code: 'B0103', system: 'Body', severity: 'low', title: 'Passenger Frontal Stage 2 Deployment Control', description: 'Passenger airbag stage 2 circuit issue.', causes: ['Airbag module issue', 'Wiring problem'], fixes: ['Scan airbag system', 'Professional service required'] },
+            'B0104': { code: 'B0104', system: 'Body', severity: 'medium', title: 'Driver Side Airbag Circuit', description: 'Driver side airbag circuit malfunction.', causes: ['Side airbag module issue', 'Wiring damage', 'Seat wiring problem'], fixes: ['Check side airbag wiring', 'Inspect module', 'Professional service required'] },
+            'B0105': { code: 'B0105', system: 'Body', severity: 'medium', title: 'Passenger Side Airbag Circuit', description: 'Passenger side airbag circuit malfunction.', causes: ['Side airbag module issue', 'Wiring damage', 'Seat wiring problem'], fixes: ['Check side airbag wiring', 'Inspect module', 'Professional service required'] },
+            'B0106': { code: 'B0106', system: 'Body', severity: 'medium', title: 'Seat Belt Pretensioner Circuit Driver', description: 'Driver seat belt pretensioner circuit issue.', causes: ['Pretensioner failed', 'Wiring issue', 'Seat belt module problem'], fixes: ['Check pretensioner wiring', 'Test pretensioner', 'Professional service required'] },
+            'B0107': { code: 'B0107', system: 'Body', severity: 'medium', title: 'Seat Belt Pretensioner Circuit Passenger', description: 'Passenger seat belt pretensioner circuit issue.', causes: ['Pretensioner failed', 'Wiring issue', 'Seat belt module problem'], fixes: ['Check pretensioner wiring', 'Test pretensioner', 'Professional service required'] },
+            'B0108': { code: 'B0108', system: 'Body', severity: 'medium', title: 'Airbag Warning Light Circuit', description: 'Airbag warning light circuit malfunction.', causes: ['Bulb burned out', 'Wiring issue', 'Module problem', 'Fuse blown'], fixes: ['Check airbag warning bulb', 'Test wiring', 'Check fuse', 'Scan airbag system'] },
+            'B0109': { code: 'B0109', system: 'Body', severity: 'low', title: 'Passenger Occupant Classification System', description: 'Passenger seat occupancy sensor issue.', causes: ['Seat sensor mat failed', 'Wiring issue', 'Module problem'], fixes: ['Check seat mat wiring', 'Test occupancy sensor', 'May require seat replacement'] },
+            'B0110': { code: 'B0110', system: 'Body', severity: 'low', title: 'Passenger Airbag Disable Indicator', description: 'Passenger airbag disable indicator malfunction.', causes: ['Indicator bulb failed', 'Wiring issue', 'Module problem'], fixes: ['Check indicator bulb', 'Test wiring', 'Check module'] },
+
+            // === NETWORK CODES (U0000-U0999) ===
+            'U0100': { code: 'U0100', system: 'Network', severity: 'medium', title: 'Lost Communication With ECM/PCM', description: 'The PCM has lost communication with another control module.', causes: ['CAN bus issue', 'Module failure', 'Wiring problem', 'Power supply issue'], fixes: ['Check CAN bus wiring', 'Test module power supply', 'Scan all modules', 'May require specialist diagnosis'] },
+            'U0101': { code: 'U0101', system: 'Network', severity: 'medium', title: 'Lost Communication With TCM', description: 'Lost communication with transmission control module.', causes: ['TCM failure', 'CAN bus issue', 'Wiring problem', 'Power supply issue'], fixes: ['Check TCM power', 'Test CAN bus', 'Scan transmission module', 'May need TCM replacement'] },
+            'U0121': { code: 'U0121', system: 'Network', severity: 'medium', title: 'Lost Communication With ABS Module', description: 'Lost communication with ABS control module.', causes: ['ABS module failure', 'CAN bus issue', 'Wiring problem', 'Power supply issue'], fixes: ['Check ABS module power', 'Test CAN bus', 'Scan ABS system', 'May require ABS module replacement'] },
+            'U0140': { code: 'U0140', system: 'Network', severity: 'low', title: 'Lost Communication With BCM', description: 'Lost communication with body control module.', causes: ['BCM failure', 'CAN bus issue', 'Wiring problem', 'Power supply issue'], fixes: ['Check BCM power', 'Test CAN bus', 'Scan BCM', 'May require BCM replacement'] },
+            'U0155': { code: 'U0155', system: 'Network', severity: 'low', title: 'Lost Communication With Instrument Cluster', description: 'Lost communication with instrument cluster.', causes: ['Cluster failure', 'CAN bus issue', 'Wiring problem'], fixes: ['Check cluster power', 'Test CAN bus', 'May require cluster replacement'] },
+            'U0160': { code: 'U0160', system: 'Network', severity: 'low', title: 'Lost Communication With Audio Unit', description: 'Lost communication with audio system.', causes: ['Audio unit failure', 'CAN bus issue', 'Wiring problem'], fixes: ['Check audio unit power', 'Test CAN bus', 'May require audio unit replacement'] },
+            'U0168': { code: 'U0168', system: 'Network', severity: 'low', title: 'Lost Communication With Climate Control', description: 'Lost communication with HVAC control module.', causes: ['HVAC module failure', 'CAN bus issue', 'Wiring problem'], fixes: ['Check HVAC module power', 'Test CAN bus', 'May require HVAC module replacement'] },
+            'U0184': { code: 'U0184', system: 'Network', severity: 'low', title: 'Lost Communication With Radio', description: 'Lost communication with radio.', causes: ['Radio failure', 'CAN bus issue', 'Wiring problem'], fixes: ['Check radio power', 'Test CAN bus', 'May require radio replacement'] },
+            'U0200': { code: 'U0200', system: 'Network', severity: 'low', title: 'Lost Communication With Gateway Module', description: 'Lost communication with gateway module.', causes: ['Gateway module failure', 'CAN bus issue', 'Wiring problem'], fixes: ['Check gateway power', 'Test CAN bus', 'May require gateway replacement'] },
+            'U0300': { code: 'U0300', system: 'Network', severity: 'low', title: 'Internal Control Module Software Incompatibility', description: 'Control module software version mismatch.', causes: ['Module programming issue', 'Software update needed', 'Module replacement without programming'], fixes: ['Update module software', 'Program new module', 'Check module compatibility'] },
+            'U0301': { code: 'U0301', system: 'Network', severity: 'low', title: 'Software Incompatibility With ECM/PCM', description: 'ECM software incompatible.', causes: ['Programming issue', 'Module swap without reprogramming'], fixes: ['Reprogram ECM', 'Update software'] },
+            'U0401': { code: 'U0401', system: 'Network', severity: 'medium', title: 'Invalid Data Received From ECM/PCM', description: 'ECM sending invalid data to other modules.', causes: ['ECM failure', 'Software corruption', 'Communication error'], fixes: ['Reset ECM', 'Update software', 'May require ECM replacement'] },
+            'U0402': { code: 'U0402', system: 'Network', severity: 'medium', title: 'Invalid Data Received From TCM', description: 'TCM sending invalid data to other modules.', causes: ['TCM failure', 'Software corruption', 'Communication error'], fixes: ['Reset TCM', 'Update software', 'May require TCM replacement'] },
+            'U0415': { code: 'U0415', system: 'Network', severity: 'medium', title: 'Invalid Data Received From ABS Module', description: 'ABS module sending invalid data.', causes: ['ABS module failure', 'Software corruption', 'Communication error'], fixes: ['Reset ABS module', 'Update software', 'May require ABS module replacement'] },
+
+            // === ADDITIONAL COMMON CODES ===
+            'P0128': { code: 'P0128', system: 'Cooling', severity: 'medium', title: 'Coolant Thermostat Temperature Below Regulating', description: 'The engine is not reaching proper operating temperature.', causes: ['Faulty thermostat', 'Coolant level low', 'ECT sensor malfunction', 'Heater core issue'], fixes: ['Replace thermostat', 'Check coolant level', 'Test ECT sensor', 'Inspect heater control valve'] },
+            'P1299': { code: 'P1299', system: 'Fuel System', severity: 'high', title: 'Cylinder 1 Injector Control Circuit', description: 'Cylinder 1 injector control circuit issue.', causes: ['Injector driver failed', 'Wiring issue', 'ECM problem'], fixes: ['Test injector driver', 'Check wiring', 'May require ECM repair'] },
+            'P1300': { code: 'P1300', system: 'Ignition', severity: 'medium', title: 'No Spark Output To Cylinder 1', description: 'No spark signal to cylinder 1.', causes: ['Ignition module failure', 'Crankshaft sensor issue', 'Wiring problem'], fixes: ['Test ignition module', 'Check crankshaft sensor', 'Inspect wiring'] },
+            'P1320': { code: 'P1320', system: 'Ignition', severity: 'medium', title: 'No Spark Output To Cylinder 2', description: 'No spark signal to cylinder 2.', causes: ['Ignition module failure', 'Crankshaft sensor issue', 'Wiring problem'], fixes: ['Test ignition module', 'Check crankshaft sensor', 'Inspect wiring'] },
+            'P1340': { code: 'P1340', system: 'Ignition', severity: 'medium', title: 'Camshaft Position Sensor Circuit Bank 1', description: 'CMP sensor circuit issue for bank 1.', causes: ['CMP sensor failed', 'Timing issue', 'Wiring problem'], fixes: ['Test CMP sensor', 'Check timing', 'Inspect wiring'] },
+            'P1350': { code: 'P1350', system: 'Ignition', severity: 'medium', title: 'Ignition Control System Malfunction', description: 'General ignition control system failure.', causes: ['Ignition module failure', 'Multiple sensor issues', 'Wiring problem'], fixes: ['Test ignition module', 'Check sensors', 'Inspect wiring'] },
+            'P1400': { code: 'P1400', system: 'Emissions', severity: 'low', title: 'Exhaust Gas Recirculation Valve Circuit Bank 1', description: 'EGR valve circuit issue.', causes: ['EGR valve failed', 'Wiring issue', 'Vacuum problem'], fixes: ['Test EGR valve', 'Check wiring', 'Inspect vacuum lines'] },
+            'P1401': { code: 'P1401', system: 'Emissions', severity: 'medium', title: 'EGR Valve Position Sensor', description: 'EGR position sensor circuit issue.', causes: ['Position sensor failed', 'EGR valve sticking', 'Wiring problem'], fixes: ['Test position sensor', 'Clean EGR valve', 'Check wiring'] },
+            'P1500': { code: 'P1500', system: 'Idle Control', severity: 'medium', title: 'Idle Control Signal Circuit', description: 'Idle control signal circuit malfunction.', causes: ['IAC valve issue', 'ECM problem', 'Wiring issue'], fixes: ['Test IAC valve', 'Check wiring', 'Test ECM'] },
+            'P1505': { code: 'P1505', system: 'Idle Control', severity: 'medium', title: 'Idle Air Control Valve Circuit Low', description: 'IAC valve circuit voltage low.', causes: ['IAC motor failed', 'Short to ground', 'Wiring issue'], fixes: ['Test IAC valve', 'Check for shorts', 'Inspect wiring'] },
+            'P1506': { code: 'P1506', system: 'Idle Control', severity: 'medium', title: 'Idle Air Control Valve Circuit High', description: 'IAC valve circuit voltage high.', causes: ['IAC motor failed', 'Short to power', 'Wiring issue'], fixes: ['Test IAC valve', 'Check for shorts', 'Inspect wiring'] },
+            'P1600': { code: 'P1600', system: 'Computer', severity: 'medium', title: 'Serial Communication Link Malfunction', description: 'ECM serial communication problem.', causes: ['ECM internal issue', 'Wiring problem', 'Module communication error'], fixes: ['Check ECM communication', 'Test wiring', 'May require ECM replacement'] },
+            'P1605': { code: 'P1605', system: 'Computer', severity: 'high', title: 'ECM Internal Memory Error', description: 'ECM internal memory failure.', causes: ['ECM internal failure', 'Corrupted memory', 'Power interruption'], fixes: ['Reset ECM', 'Update software', 'May require ECM replacement'] },
+            'P1610': { code: 'P1610', system: 'Computer', severity: 'medium', title: 'Signal Lost Between ECM and TCM', description: 'Communication between ECM and TCM lost.', causes: ['CAN bus issue', 'Module failure', 'Wiring problem'], fixes: ['Check CAN bus', 'Test module communication', 'Inspect wiring'] },
+            'P1620': { code: 'P1620', system: 'Computer', severity: 'low', title: 'Security System Malfunction', description: 'Vehicle security system issue.', causes: ['Immobilizer failure', 'Key problem', 'Security module issue'], fixes: ['Check key transponder', 'Test security system', 'May require key reprogramming'] },
+            'P1625': { code: 'P1625', system: 'Computer', severity: 'low', title: 'Vehicle ID Block Corrupted', description: 'Vehicle identification data corrupted.', causes: ['Module programming issue', 'Battery disconnect', 'Module failure'], fixes: ['Reprogram module', 'May require key relearn'] },
+            'P1650': { code: 'P1650', system: 'Computer', severity: 'medium', title: 'Power Steering Pressure Switch Circuit', description: 'PS pressure switch circuit malfunction.', causes: ['Switch failed', 'Wiring issue', 'Power steering problem'], fixes: ['Test pressure switch', 'Check wiring', 'Inspect power steering system'] },
+            'P1700': { code: 'P1700', system: 'Transmission', severity: 'medium', title: 'Transmission Range Sensor Circuit', description: 'PRNDL switch circuit malfunction.', causes: ['Range sensor failed', 'Wiring issue', 'Adjustment problem'], fixes: ['Test range sensor', 'Check wiring', 'Adjust if needed'] },
+            'P1705': { code: 'P1705', system: 'Transmission', severity: 'medium', title: 'Manual Shift Position Sensor', description: 'Manual shift position sensor issue.', causes: ['Sensor failed', 'Wiring issue', 'Adjustment problem'], fixes: ['Test shift position sensor', 'Check wiring', 'Adjust position'] },
+            'P1710': { code: 'P1710', system: 'Transmission', severity: 'medium', title: 'Transmission Fluid Temperature Sensor', description: 'TFT sensor circuit malfunction.', causes: ['TFT sensor failed', 'Wiring issue', 'Fluid condition'], fixes: ['Test TFT sensor', 'Check wiring', 'Check transmission fluid'] },
+            'P1720': { code: 'P1720', system: 'Transmission', severity: 'medium', title: 'Vehicle Speed Sensor Circuit', description: 'VSS circuit malfunction.', causes: ['VSS failed', 'Wiring issue', 'Tone ring problem'], fixes: ['Test VSS', 'Check wiring', 'Inspect tone ring'] },
+            'P1730': { code: 'P1730', system: 'Transmission', severity: 'high', title: 'Gear Engagement Problem', description: 'Transmission gear engagement issue.', causes: ['Low fluid', 'Worn clutches', 'Valve body problem'], fixes: ['Check transmission fluid', 'Test valve body', 'May require transmission service'] },
+            'P1731': { code: 'P1731', system: 'Transmission', severity: 'high', title: '1st Gear Incorrect Ratio', description: 'Transmission in wrong gear ratio for 1st.', causes: ['Low fluid', 'Worn clutches', 'Solenoid issue'], fixes: ['Check fluid', 'Test solenoids', 'May need transmission repair'] },
+            'P1732': { code: 'P1732', system: 'Transmission', severity: 'high', title: '2nd Gear Incorrect Ratio', description: 'Transmission in wrong gear ratio for 2nd.', causes: ['Low fluid', 'Worn clutches', 'Solenoid issue'], fixes: ['Check fluid', 'Test solenoids', 'May need transmission repair'] },
+            'P1733': { code: 'P1733', system: 'Transmission', severity: 'high', title: '3rd Gear Incorrect Ratio', description: 'Transmission in wrong gear ratio for 3rd.', causes: ['Low fluid', 'Worn clutches', 'Solenoid issue'], fixes: ['Check fluid', 'Test solenoids', 'May need transmission repair'] },
+            'P1740': { code: 'P1740', system: 'Transmission', severity: 'high', title: 'Torque Converter Clutch Solenoid', description: 'TCC solenoid circuit malfunction.', causes: ['TCC solenoid failed', 'Wiring issue', 'Valve body problem'], fixes: ['Test TCC solenoid', 'Check wiring', 'Inspect valve body'] },
+            'P1745': { code: 'P1745', system: 'Transmission', severity: 'high', title: 'Transmission Line Pressure Solenoid', description: 'Line pressure solenoid circuit malfunction.', causes: ['Solenoid failed', 'Wiring issue', 'Valve body problem'], fixes: ['Test line pressure solenoid', 'Check wiring', 'Inspect valve body'] },
+            'P1750': { code: 'P1750', system: 'Transmission', severity: 'high', title: 'Shift Solenoid B Circuit', description: 'Shift solenoid B circuit malfunction.', causes: ['Solenoid failed', 'Wiring issue', 'Valve body problem'], fixes: ['Test solenoid B', 'Check wiring', 'Inspect valve body'] },
+            'P1755': { code: 'P1755', system: 'Transmission', severity: 'high', title: 'Shift Solenoid C Circuit', description: 'Shift solenoid C circuit malfunction.', causes: ['Solenoid failed', 'Wiring issue', 'Valve body problem'], fixes: ['Test solenoid C', 'Check wiring', 'Inspect valve body'] },
+
+            // === 2017-2023 COMMON CODES ===
+            'P219A': { code: 'P219A', system: 'Fuel System', severity: 'medium', title: 'Bank 1 Air-Fuel Ratio Imbalance', description: 'Air-fuel ratio imbalance detected on bank 1.', causes: ['Fuel injector issue', 'Vacuum leak', 'MAF sensor problem', 'O2 sensor issue'], fixes: ['Check fuel injectors', 'Test for vacuum leaks', 'Inspect MAF sensor', 'Check O2 sensors'] },
+            'P219B': { code: 'P219B', system: 'Fuel System', severity: 'medium', title: 'Bank 2 Air-Fuel Ratio Imbalance', description: 'Air-fuel ratio imbalance detected on bank 2.', causes: ['Fuel injector issue', 'Vacuum leak', 'MAF sensor problem', 'O2 sensor issue'], fixes: ['Check fuel injectors', 'Test for vacuum leaks', 'Inspect MAF sensor', 'Check O2 sensors'] },
+            'P218F': { code: 'P218F', system: 'Fuel System', severity: 'medium', title: 'Engine Oil Temperature Too Low', description: 'Engine oil temperature below normal operating range.', causes: ['Oil temperature sensor failure', 'Short drive cycles', 'Thermostat issue'], fixes: ['Test oil temperature sensor', 'Replace thermostat if needed', 'Drive longer distances'] },
+            'P218E': { code: 'P218E', system: 'Fuel System', severity: 'high', title: 'Engine Oil Pressure Too Low', description: 'Engine oil pressure below safe operating range.', causes: ['Low oil level', 'Oil pump failure', 'Oil pressure sensor issue', 'Internal engine wear'], fixes: ['Check oil level immediately', 'Test oil pressure', 'Inspect oil pump', 'Check oil pressure sensor'] },
+            'P228D': { code: 'P228D', system: 'Fuel System', severity: 'high', title: 'Fuel Pressure Regulator 1 Performance High', description: 'Fuel pressure regulator performance issue.', causes: ['Regulator stuck', 'High fuel pressure', 'Fuel line restriction'], fixes: ['Test fuel pressure', 'Check regulator', 'Inspect fuel lines'] },
+            'P229F': { code: 'P229F', system: 'Fuel System', severity: 'medium', title: 'NOx Sensor Performance Bank 1', description: 'NOx sensor performance issue.', causes: ['NOx sensor failed', 'Exhaust system issue', 'Emissions problem'], fixes: ['Test NOx sensor', 'Check exhaust system', 'May require SCR system inspection'] },
+            'P22A2': { code: 'P22A2', system: 'Fuel System', severity: 'medium', title: 'O2 Sensor Pumping Current Limitation Bank 1 Sensor 1', description: 'O2 sensor current limitation issue.', causes: ['O2 sensor failing', 'Exhaust leak', 'Fuel system issue'], fixes: ['Test O2 sensor', 'Check exhaust for leaks', 'Test fuel system'] },
+            'P2300': { code: 'P2300', system: 'Ignition', severity: 'medium', title: 'Ignition Coil A Primary Control Circuit Low', description: 'Ignition coil A primary circuit voltage low.', causes: ['Coil driver failed', 'Short to ground', 'Wiring issue'], fixes: ['Test ignition coil', 'Check for shorts', 'Inspect wiring'] },
+            'P2301': { code: 'P2301', system: 'Ignition', severity: 'medium', title: 'Ignition Coil A Primary Control Circuit High', description: 'Ignition coil A primary circuit voltage high.', causes: ['Coil driver failed', 'Short to power', 'Wiring issue'], fixes: ['Test ignition coil', 'Check for shorts', 'Inspect wiring'] },
+            'P2303': { code: 'P2303', system: 'Ignition', severity: 'medium', title: 'Ignition Coil B Primary Control Circuit Low', description: 'Ignition coil B primary circuit voltage low.', causes: ['Coil driver failed', 'Short to ground', 'Wiring issue'], fixes: ['Test ignition coil', 'Check for shorts', 'Inspect wiring'] },
+            'P2304': { code: 'P2304', system: 'Ignition', severity: 'medium', title: 'Ignition Coil B Primary Control Circuit High', description: 'Ignition coil B primary circuit voltage high.', causes: ['Coil driver failed', 'Short to power', 'Wiring issue'], fixes: ['Test ignition coil', 'Check for shorts', 'Inspect wiring'] } }
+
+        function findCode(query) {
+            const normalized = query.trim().toUpperCase();
+            // Exact match
+            if (OBD2_CODES[normalized]) {
+                return OBD2_CODES[normalized];
+            }
+            // Partial match
+            const partial = Object.keys(OBD2_CODES).find(key => 
+                normalized.includes(key) || key.includes(normalized)
+            );
+            return partial ? OBD2_CODES[partial] : null;
+        }
+
+        function getSeverityClass(severity) {
+            const classes = { high: 'severity-high', medium: 'severity-medium', low: 'severity-low' };
+            return classes[severity] || 'severity-medium';
+        }
+
+        function getSeverityLabel(severity) {
+            const labels = { high: 'High Priority', medium: 'Medium Priority', low: 'Low Priority' };
+            return labels[severity] || 'Medium Priority';
+        }
+
+        const input = document.getElementById('searchInput');
+        const btn = document.getElementById('searchBtn');
+        const results = document.getElementById('results');
+        const target = document.getElementById('contentTarget');
+
+        const executeSearch = () => {
+            const query = input.value.trim();
+            if (!query) return;
+            
+            target.innerHTML = `<div style=\"text-align:center; padding: 5rem; opacity: 0.4; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase;\">🔍 Analyzing diagnostic data...</div>`;
+            results.style.display = 'block';
+
+            const data = findCode(query);
+            
+            if (data) {
+                target.innerHTML = `
+                    <div class=\"paper-card\">
+                        <div style=\"display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;\">
+                            <div>
+                                <span class=\"code-badge\">${data.system}</span>
+                                <h2 style=\"font-family: 'Outfit'; font-size: 4rem; font-weight: 800; margin-top: 0.5rem; letter-spacing: -0.04em;\">${data.code}</h2>
+                            </div>
+                            <div class=\"severity-indicator ${getSeverityClass(data.severity)}\">
+                                <span>⚠</span> ${getSeverityLabel(data.severity)}
+                            </div>
+                        </div>
+                        
+                        <h3 style=\"font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem; color: #e2e8f0;\">${data.title}</h3>
+                        <p style=\"font-size: 1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 3rem;\">${data.description}</p>
+
+                        <div style=\"margin-bottom: 3rem;\">
+                            <h4 style=\"font-size: 0.65rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1.25rem; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem; letter-spacing: 0.1em;\">Common Causes</h4>
+                            <div style=\"display: flex; flex-wrap: wrap; gap: 0.75rem;\">
+                                ${(data.causes || []).map(c => `<span style=\"background: rgba(14, 165, 233, 0.1); border: 1px solid rgba(14, 165, 233, 0.2); color: var(--primary); padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.85rem;\">${c}</span>`).join('')}
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 style=\"font-size: 0.65rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem; letter-spacing: 0.1em;\">Recommended Actions</h4>
+                            <div style=\"display: flex; flex-direction: column; gap: 1rem;\">
+                                ${(data.fixes || []).map((f, i) => `
+                                    <div style=\"background: rgba(255,255,255,0.02); padding: 1.5rem; border-radius: 12px; display: flex; gap: 1.25rem; border: 1px solid var(--border); align-items: flex-start;\">
+                                        <div style=\"background: var(--primary); color: #000; width: 26px; height: 26px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 900; flex-shrink: 0;\">${i + 1}</div>
+                                        <div style=\"font-weight: 500; color: #f1f5f9; font-size: 0.95rem; line-height: 1.6;\">${f}</div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                target.innerHTML = `<div class=\"paper-card\" style=\"text-align:center;\">
+                    <h2 style=\"font-family: Outfit; font-size: 1.5rem; margin-bottom: 1rem; color: var(--primary);\">Code Not Found</h2>
+                    <p style=\"color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem;\">This OBD2 code is not in our database yet.</p>
+                    <p style=\"color: var(--text-muted); font-size: 0.85rem;\">Popular codes to try: P0300, P0420, P0171, P0700</p>
+                </div>`;
+            }
+            target.scrollIntoView({ behavior: 'smooth' });
+        };
+
+        // Initialize search functionality with null checks - wrap in DOMContentLoaded for robustness
+        function initSearch() {
+            const inputEl = document.getElementById('searchInput');
+            const btnEl = document.getElementById('searchBtn');
+            if (btnEl) btnEl.addEventListener('click', executeSearch);
+            if (inputEl) inputEl.addEventListener('keypress', (e) => { if (e.key === 'Enter') executeSearch(); });
+        }
+        
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initSearch);
+        } else {
+            initSearch();
+        }
+        
+        // Expose search function for brand card onclick handlers
+        window.performSearch = executeSearch;
+    </script>
+</body>
+</html>

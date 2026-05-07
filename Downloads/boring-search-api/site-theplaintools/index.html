@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="impact-site-verification" content="926817ca-b815-44d9-af5d-d56865b9c5c8" />
+    <meta name="description" content="ThePlainTools offers free, browser-based utilities including PDF compression, image conversion, text formatting, and privacy tools. No uploads, no servers — everything runs in your browser.">
+    <link rel="canonical" href="https://theplaintools.com/">
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://theplaintools.com/">
+    <meta property="og:title" content="ThePlainTools | Clean, Fast, Browser-Based Utilities">
+    <meta property="og:description" content="Free browser-based tools: PDF compression, image conversion, text formatting, and privacy utilities. No uploads required.">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="ThePlainTools | Browser-Based Utilities">
+    <meta name="twitter:description" content="Free, fast, browser-based tools for PDF, image, text, and privacy. No uploads, no servers.">
+    <title>ThePlainTools | Clean, Fast, Browser-Based Utilities</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #030712;
+            --surface: #0f172a;
+            --surface-accent: #1e293b;
+            --primary: #38bdf8;
+            --primary-glow: rgba(56, 189, 248, 0.4);
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: #1e293b;
+            --card-bg: rgba(15, 23, 42, 0.6);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 50% -20%, rgba(56, 189, 248, 0.1) 0%, transparent 50%);
+        }
+
+        header {
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-left: 2rem;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        .hero {
+            max-width: 800px;
+            margin: 8rem auto 6rem;
+            text-align: center;
+            padding: 0 1.5rem;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.05em;
+            line-height: 1;
+            background: linear-gradient(to bottom, #fff 40%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            max-width: 1100px;
+            margin: 0 auto 6rem;
+            padding: 0 1.5rem;
+        }
+
+        .tool-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 2.5rem;
+            border-radius: 24px;
+            text-align: left;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px -20px var(--primary-glow);
+            background: rgba(30, 41, 59, 0.8);
+        }
+
+        .icon-box {
+            width: 44px;
+            height: 44px;
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: var(--primary);
+        }
+
+        .tool-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .tool-card p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .badge {
+            font-size: 0.65rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.25rem 0.6rem;
+            border-radius: 99px;
+            background: rgba(255,255,255,0.05);
+            width: fit-content;
+        }
+
+        /* Affiliate Section */
+        .promo-banner {
+            max-width: 1100px;
+            margin: 4rem auto;
+            padding: 3rem;
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+            border: 1px solid var(--border);
+            border-radius: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            text-align: left;
+        }
+
+        .promo-content h4 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .btn-aff {
+            background: var(--primary);
+            color: #000;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: transform 0.2s;
+        }
+
+        .btn-aff:hover {
+            transform: scale(1.05);
+        }
+
+        footer {
+            margin-top: 8rem;
+            padding: 6rem 1.5rem;
+            background: #000;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-bottom: 4rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-group {
+            text-align: left;
+        }
+
+        .footer-group h5 {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-group ul {
+            list-style: none;
+        }
+
+        .footer-group ul li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-group ul li a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.9rem;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+
+        .footer-group ul li a:hover {
+            opacity: 1;
+        }
+
+        .partner-row {
+            padding-top: 3rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 4rem;
+        }
+
+        .partner-row a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .impact-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: rgba(56, 189, 248, 0.05);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            color: var(--primary);
+            border-radius: 99px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 768px) {
+            .promo-banner { flex-direction: column; text-align: center; padding: 2rem; }
+            h1 { font-size: 3rem; }
+            nav { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Tool Modal -->
+<div id="tool-modal" class="tool-modal" style="display:none;">
+  <div class="tool-content">
+    <button class="tool-close" onclick="closeTool()">&times;</button>
+    <div id="tool-body"></div>
+  </div>
+</div>
+
+<style>
+.tool-modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+.tool-content {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  width: 100%;
+  max-width: 700px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  padding: 2.5rem;
+}
+.tool-close {
+  position: absolute;
+  top: 1rem; right: 1rem;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 2rem;
+  cursor: pointer;
+  line-height: 1;
+}
+.tool-close:hover { color: var(--text); }
+.tool-section { margin-bottom: 1.5rem; }
+.tool-section label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+.tool-textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 1rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text);
+  font-family: 'Outfit', monospace;
+  font-size: 0.9rem;
+  resize: vertical;
+}
+.tool-textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+.tool-btn {
+  background: var(--primary);
+  color: #000;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: transform 0.2s;
+}
+.tool-btn:hover { transform: scale(1.03); }
+.tool-btn-secondary {
+  background: var(--surface-accent);
+  color: var(--text);
+  margin-left: 0.5rem;
+}
+.tool-result {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-top: 1rem;
+  font-family: monospace;
+  font-size: 0.85rem;
+  word-break: break-all;
+  max-height: 200px;
+  overflow-y: auto;
+}
+.tool-file-input { display: none; }
+.tool-drop-zone {
+  border: 2px dashed var(--border);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.tool-drop-zone:hover, .tool-drop-zone.dragover {
+  border-color: var(--primary);
+  background: rgba(56,189,248,0.05);
+}
+.tool-drop-zone .icon-box {
+  margin: 0 auto 1rem;
+}
+.img-preview {
+  max-width: 100%;
+  max-height: 200px;
+  margin-top: 1rem;
+  border-radius: 8px;
+}
+.hash-btn-group {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+.hash-btn {
+  padding: 0.5rem 1rem;
+  background: var(--surface-accent);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+.hash-btn.active, .hash-btn:hover {
+  background: var(--primary);
+  color: #000;
+  border-color: var(--primary);
+}
+</style>
+
+<script>
+const activeHash = { alg: 'SHA-256' };
+
+function openTool(type) {
+  const modal = document.getElementById('tool-modal');
+  const body = document.getElementById('tool-body');
+  modal.style.display = 'flex';
+  
+  const tools = {
+    pdf: `
+      <h2 style="color:var(--primary);margin-bottom:1.5rem;font-size:1.5rem;">📄 PDF Logic</h2>
+      <div class="tool-section">
+        <label>Upload PDF</label>
+        <div class="tool-drop-zone" onclick="document.getElementById('pdf-input').click()" ondragover="event.preventDefault();this.classList.add('dragover')" ondragleave="this.classList.remove('dragover')" ondrop="handlePDFDrop(event)">
+          <div class="icon-box" style="margin:0 auto 1rem;">📄</div>
+          <p>Drop PDF here or click to browse</p>
+          <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem;">Max 10MB</p>
+        </div>
+        <input type="file" id="pdf-input" class="tool-file-input" accept=".pdf" onchange="handlePDFSelect(this)">
+        <div id="pdf-info" style="margin-top:1rem;color:var(--text-muted);font-size:0.9rem;"></div>
+      </div>
+      <div class="tool-section">
+        <button class="tool-btn" onclick="processPDF()">Compress PDF</button>
+      </div>
+      <div class="tool-result" id="pdf-result" style="display:none;"></div>
+    `,
+    base64: `
+      <h2 style="color:var(--primary);margin-bottom:1.5rem;font-size:1.5rem;">🔗 Base64 Logic</h2>
+      <div class="tool-section">
+        <label>Input Text</label>
+        <textarea id="b64-input" class="tool-textarea" placeholder="Enter text to encode or decode..."></textarea>
+      </div>
+      <div class="tool-section">
+        <button class="tool-btn" onclick="base64Encode()">Encode</button>
+        <button class="tool-btn tool-btn-secondary" onclick="base64Decode()">Decode</button>
+        <button class="tool-btn tool-btn-secondary" onclick="document.getElementById('b64-input').value=''">Clear</button>
+      </div>
+      <div class="tool-section">
+        <label>Output</label>
+        <div class="tool-result" id="b64-output"></div>
+      </div>
+    `,
+    image: `
+      <h2 style="color:var(--primary);margin-bottom:1.5rem;font-size:1.5rem;">🖼️ Image Flow</h2>
+      <div class="tool-section">
+        <label>Upload Image</label>
+        <div class="tool-drop-zone" onclick="document.getElementById('img-input').click()">
+          <div class="icon-box" style="margin:0 auto 1rem;">🖼️</div>
+          <p>Drop image here or click to browse</p>
+          <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem;">JPG, PNG, WebP supported</p>
+        </div>
+        <input type="file" id="img-input" class="tool-file-input" accept="image/*" onchange="handleImageSelect(this)">
+        <img id="img-preview" class="img-preview" style="display:none;">
+      </div>
+      <div class="tool-section">
+        <label>Output Format</label>
+        <div style="display:flex;gap:0.5rem;">
+          <button class="tool-btn" onclick="convertImage('webp')">Convert to WebP</button>
+          <button class="tool-btn tool-btn-secondary" onclick="convertImage('png')">Convert to PNG</button>
+          <button class="tool-btn tool-btn-secondary" onclick="stripExif()">Strip EXIF</button>
+        </div>
+      </div>
+      <div class="tool-result" id="img-result" style="display:none;"></div>
+    `,
+    minify: `
+      <h2 style="color:var(--primary);margin-bottom:1.5rem;font-size:1.5rem;">⚡ Code Stripper</h2>
+      <div class="tool-section">
+        <label>Select Language</label>
+        <div class="hash-btn-group">
+          <button class="hash-btn active" onclick="setMinifyLang('js')" id="lang-js">JavaScript</button>
+          <button class="hash-btn" onclick="setMinifyLang('css')" id="lang-css">CSS</button>
+          <button class="hash-btn" onclick="setMinifyLang('html')" id="lang-html">HTML</button>
+        </div>
+      </div>
+      <div class="tool-section">
+        <label>Input Code</label>
+        <textarea id="minify-input" class="tool-textarea" placeholder="Paste your code here..."></textarea>
+      </div>
+      <div class="tool-section">
+        <button class="tool-btn" onclick="minifyCode()">Minify</button>
+        <button class="tool-btn tool-btn-secondary" onclick="document.getElementById('minify-input').value=''">Clear</button>
+      </div>
+      <div class="tool-section">
+        <label>Output</label>
+        <div class="tool-result" id="minify-output" style="white-space:pre-wrap;"></div>
+      </div>
+    `,
+    epoch: `
+      <h2 style="color:var(--primary);margin-bottom:1.5rem;font-size:1.5rem;">📅 Epoch Time</h2>
+      <div class="tool-section">
+        <label>Unix Timestamp</label>
+        <input type="number" id="epoch-input" class="tool-textarea" style="min-height:auto;padding:1rem;font-size:1.5rem;text-align:center;" placeholder="1704067200" oninput="epochToDate()">
+      </div>
+      <div class="tool-section">
+        <button class="tool-btn" onclick="epochNow()">Current Time</button>
+        <button class="tool-btn tool-btn-secondary" onclick="dateToEpoch()">Date → Epoch</button>
+      </div>
+      <div class="tool-section">
+        <label>Results</label>
+        <div class="tool-result" id="epoch-result">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+            <div><strong style="color:var(--primary);">UTC:</strong><br><span id="epoch-utc"></span></div>
+            <div><strong style="color:var(--primary);">Local:</strong><br><span id="epoch-local"></span></div>
+            <div><strong style="color:var(--primary);">Relative:</strong><br><span id="epoch-relative"></span></div>
+            <div><strong style="color:var(--primary);">ISO:</strong><br><span id="epoch-iso"></span></div>
+          </div>
+        </div>
+      </div>
+    `,
+    hash: `
+      <h2 style="color:var(--primary);margin-bottom:1.5rem;font-size:1.5rem;">🔐 Hash Generator</h2>
+      <div class="tool-section">
+        <label>Algorithm</label>
+        <div class="hash-btn-group">
+          <button class="hash-btn active" onclick="setHashAlg('SHA-256')" id="alg-sha256">SHA-256</button>
+          <button class="hash-btn" onclick="setHashAlg('SHA-1')" id="alg-sha1">SHA-1</button>
+          <button class="hash-btn" onclick="setHashAlg('MD5')" id="alg-md5">MD5</button>
+          <button class="hash-btn" onclick="setHashAlg('SHA-384')" id="alg-sha384">SHA-384</button>
+          <button class="hash-btn" onclick="setHashAlg('SHA-512')" id="alg-sha512">SHA-512</button>
+        </div>
+      </div>
+      <div class="tool-section">
+        <label>Input Text</label>
+        <textarea id="hash-input" class="tool-textarea" placeholder="Enter text to hash..." oninput="generateHash()"></textarea>
+      </div>
+      <div class="tool-section">
+        <label>Output (<span id="hash-alg-label">SHA-256</span>)</label>
+        <div class="tool-result" id="hash-output">Enter text above to generate hash</div>
+      </div>
+    `
+  };
+  
+  body.innerHTML = tools[type] || '<p>Tool not found</p>';
+}
+
+function closeTool() {
+  document.getElementById('tool-modal').style.display = 'none';
+}
+
+// Base64 functions
+function base64Encode() {
+  const input = document.getElementById('b64-input').value;
+  document.getElementById('b64-output').textContent = btoa(unescape(encodeURIComponent(input)));
+}
+function base64Decode() {
+  try {
+    const input = document.getElementById('b64-input').value;
+    document.getElementById('b64-output').textContent = decodeURIComponent(escape(atob(input)));
+  } catch(e) {
+    document.getElementById('b64-output').textContent = 'Error: Invalid Base64 string';
+  }
+}
+
+// Minify functions
+let minifyLang = 'js';
+function setMinifyLang(lang) {
+  minifyLang = lang;
+  document.querySelectorAll('.hash-btn[id^="lang-"]').forEach(b => b.classList.remove('active'));
+  document.getElementById('lang-' + lang).classList.add('active');
+}
+function minifyCode() {
+  const input = document.getElementById('minify-input').value;
+  let result = input;
+  if (minifyLang === 'js' || minifyLang === 'css') {
+    result = input.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*/g, '').replace(/\s+/g, ' ').trim();
+  } else if (minifyLang === 'html') {
+    result = input.replace(/<!--[\s\S]*?-->/g, '').replace(/\s+/g, ' ').trim();
+  }
+  document.getElementById('minify-output').textContent = result;
+}
+
+// Epoch functions
+function epochToDate() {
+  const ts = parseInt(document.getElementById('epoch-input').value);
+  if (!ts) return;
+  const d = new Date(ts * (ts > 1e11 ? 1 : 1000));
+  document.getElementById('epoch-utc').textContent = d.toUTCString();
+  document.getElementById('epoch-local').textContent = d.toLocaleString();
+  document.getElementById('epoch-relative').textContent = getRelativeTime(d);
+  document.getElementById('epoch-iso').textContent = d.toISOString();
+}
+function epochNow() {
+  const now = Math.floor(Date.now() / 1000);
+  document.getElementById('epoch-input').value = now;
+  epochToDate();
+}
+function dateToEpoch() {
+  const input = prompt('Enter date (YYYY-MM-DD or YYYY-MM-DD HH:mm):');
+  if (input) {
+    const d = new Date(input);
+    if (!isNaN(d)) {
+      document.getElementById('epoch-input').value = Math.floor(d.getTime() / 1000);
+      epochToDate();
+    }
+  }
+}
+function getRelativeTime(date) {
+  const secs = Math.floor((Date.now() - date.getTime()) / 1000);
+  if (secs < 0) return 'in the future';
+  if (secs < 60) return secs + ' seconds ago';
+  if (secs < 3600) return Math.floor(secs/60) + ' minutes ago';
+  if (secs < 86400) return Math.floor(secs/3600) + ' hours ago';
+  return Math.floor(secs/86400) + ' days ago';
+}
+
+// Hash functions
+function setHashAlg(alg) {
+  activeHash.alg = alg;
+  document.querySelectorAll('.hash-btn[id^="alg-"]').forEach(b => b.classList.remove('active'));
+  document.getElementById('alg-' + alg.toLowerCase().replace('-','')).classList.add('active');
+  document.getElementById('hash-alg-label').textContent = alg;
+  generateHash();
+}
+async function generateHash() {
+  const input = document.getElementById('hash-input').value;
+  if (!input) {
+    document.getElementById('hash-output').textContent = 'Enter text above to generate hash';
+    return;
+  }
+  const encoder = new TextEncoder();
+  const data = encoder.encode(input);
+  let hashBuffer;
+  switch(activeHash.alg) {
+    case 'SHA-256': hashBuffer = await crypto.subtle.digest('SHA-256', data); break;
+    case 'SHA-1': hashBuffer = await crypto.subtle.digest('SHA-1', data); break;
+    case 'SHA-384': hashBuffer = await crypto.subtle.digest('SHA-384', data); break;
+    case 'SHA-512': hashBuffer = await crypto.subtle.digest('SHA-512', data); break;
+    default: hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  }
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const hashHex = hashArray.map(b => b.toString(16).padStart(2,'0')).join('');
+  document.getElementById('hash-output').textContent = hashHex;
+}
+
+// Image functions
+let currentImageFile = null;
+let currentImageDataUrl = null;
+
+function handleImageSelect(input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 10*1024*1024) { alert('File too large (max 10MB)'); return; }
+  currentImageFile = file;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    currentImageDataUrl = e.target.result;
+    document.getElementById('img-preview').src = currentImageDataUrl;
+    document.getElementById('img-preview').style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+// Get API base URL (configurable via window.API_BASE or use relative path)
+function getApiBase() {
+  return window.API_BASE || '';
+}
+
+async function convertImage(format) {
+  if (!currentImageFile) { alert('Please upload an image first'); return; }
+  
+  const resultDiv = document.getElementById('img-result');
+  resultDiv.style.display = 'block';
+  resultDiv.innerHTML = '<div style="color:var(--primary);text-align:center;padding:2rem;">⏳ Processing image...</div>';
+  
+  try {
+    const formData = new FormData();
+    formData.append('file', currentImageFile);
+    formData.append('format', format);
+    formData.append('quality', 85);
+    
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 60000);
+    
+    const response = await fetch(getApiBase() + '/api/tools/convert-image', {
+      method: 'POST',
+      body: formData,
+      signal: controller.signal
+    });
+    clearTimeout(timeout);
+    
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'Conversion failed');
+    }
+    
+    const originalSize = parseInt(response.headers.get('X-Original-Size') || '0');
+    const newSize = parseInt(response.headers.get('X-Converted-Size') || '0');
+    const savings = response.headers.get('X-Savings-Percent') || '0';
+    
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'converted.' + format;
+    a.click();
+    URL.revokeObjectURL(url);
+    
+    resultDiv.innerHTML = `
+      <div style="color:#22c55e;text-align:center;">✅ Download started!</div>
+      <div style="margin-top:1rem;font-size:0.85rem;color:var(--text-muted);text-align:center;">
+        <p>Original: ${(originalSize/1024).toFixed(1)} KB → Converted: ${(newSize/1024).toFixed(1)} KB</p>
+        <p style="color:var(--primary);font-weight:700;">Saved ${savings}%</p>
+      </div>
+    `;
+  } catch (error) {
+    resultDiv.innerHTML = `<div style="color:#ef4444;">❌ Error: ${error.message}</div>`;
+  }
+}
+
+async function stripExif() {
+  if (!currentImageFile) { alert('Please upload an image first'); return; }
+  
+  const resultDiv = document.getElementById('img-result');
+  resultDiv.style.display = 'block';
+  resultDiv.innerHTML = '<div style="color:var(--primary);text-align:center;padding:2rem;">⏳ Stripping metadata...</div>';
+  
+  try {
+    const formData = new FormData();
+    formData.append('file', currentImageFile);
+    formData.append('format', 'jpeg');
+    formData.append('quality', 90);
+    
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 60000);
+    
+    const response = await fetch(getApiBase() + '/api/tools/strip-exif', {
+      method: 'POST',
+      body: formData,
+      signal: controller.signal
+    });
+    clearTimeout(timeout);
+    
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'EXIF strip failed');
+    }
+    
+    const originalSize = parseInt(response.headers.get('X-Original-Size') || '0');
+    const newSize = parseInt(response.headers.get('X-New-Size') || '0');
+    const savings = response.headers.get('X-Savings-Percent') || '0';
+    
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'cleaned.jpg';
+    a.click();
+    URL.revokeObjectURL(url);
+    
+    resultDiv.innerHTML = `
+      <div style="color:#22c55e;text-align:center;">✅ EXIF data stripped! Download started.</div>
+      <div style="margin-top:1rem;font-size:0.85rem;color:var(--text-muted);text-align:center;">
+        <p>Original: ${(originalSize/1024).toFixed(1)} KB → Cleaned: ${(newSize/1024).toFixed(1)} KB</p>
+        <p style="color:var(--primary);font-weight:700;">Saved ${savings}%</p>
+      </div>
+    `;
+  } catch (error) {
+    resultDiv.innerHTML = `<div style="color:#ef4444;">❌ Error: ${error.message}</div>`;
+  }
+}
+
+// PDF functions
+let currentPDFFile = null;
+function handlePDFSelect(input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 10*1024*1024) { alert('File too large (max 10MB)'); return; }
+  currentPDFFile = file;
+  document.getElementById('pdf-info').textContent = file.name + ' (' + (file.size/1024).toFixed(1) + ' KB)';
+}
+function handlePDFDrop(e) {
+  e.preventDefault();
+  e.target.classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (file && file.type === 'application/pdf') {
+    const dt = new DataTransfer();
+    dt.items.add(file);
+    document.getElementById('pdf-input').files = dt.files;
+    handlePDFSelect(document.getElementById('pdf-input'));
+  }
+}
+
+async function processPDF() {
+  if (!currentPDFFile) { alert('Please upload a PDF first'); return; }
+  
+  const resultDiv = document.getElementById('pdf-result');
+  resultDiv.style.display = 'block';
+  resultDiv.innerHTML = '<div style="color:var(--primary);text-align:center;padding:2rem;">⏳ Compressing PDF...</div>';
+  
+  try {
+    const formData = new FormData();
+    formData.append('file', currentPDFFile);
+    
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 60000);
+    
+    const response = await fetch(getApiBase() + '/api/tools/compress-pdf', {
+      method: 'POST',
+      body: formData,
+      signal: controller.signal
+    });
+    clearTimeout(timeout);
+    
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'Compression failed');
+    }
+    
+    const originalSize = parseInt(response.headers.get('X-Original-Size') || '0');
+    const compressedSize = parseInt(response.headers.get('X-Compressed-Size') || '0');
+    const savings = response.headers.get('X-Savings-Percent') || '0';
+    
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'compressed_' + currentPDFFile.name;
+    a.click();
+    URL.revokeObjectURL(url);
+    
+    resultDiv.innerHTML = `
+      <div style="color:#22c55e;text-align:center;">✅ Download started!</div>
+      <div style="margin-top:1rem;font-size:0.85rem;color:var(--text-muted);text-align:center;">
+        <p>Original: ${(originalSize/1024).toFixed(1)} KB → Compressed: ${(compressedSize/1024).toFixed(1)} KB</p>
+        <p style="color:var(--primary);font-weight:700;">Saved ${savings}%</p>
+      </div>
+    `;
+  } catch (error) {
+    resultDiv.innerHTML = `<div style="color:#ef4444;">❌ Error: ${error.message}</div>`;
+  }
+}
+
+// Close on Escape
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeTool();
+});
+</script>
+    <header>
+        <a href="/" class="logo">Plain<span>Tools</span></a>
+        <nav>
+            <a href="#" data-i18n="nav.pdfTools">Utilities</a>
+            <a href="#" data-i18n="nav.templates">Security</a>
+            <a href="#" data-i18n="nav.privacy">Privacy</a>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <div class="badge" data-i18n="hero.badge" style="margin-bottom: 1rem; background: rgba(56, 189, 248, 0.1); color: var(--primary);">Secure & Cloud-Free</div>
+        <h1 data-i18n="hero.title">Pure Utility. <br>No Bloat.</h1>
+        <p data-i18n="hero.subtitle">100% free web utilities that run entirely in your browser. No signups, no data storage, just plain tools.</p>
+    </div>
+
+    <div class="grid">
+        <div class="tool-card" onclick="openTool('pdf'); return false;">
+            <div class="icon-box">📄</div>
+            <h3>PDF Logic</h3>
+            <p>High-speed PDF compression and metadata stripping. Native browser execution for total privacy.</p>
+            <div class="badge">Offline Active</div>
+        </div>
+
+        <div class="tool-card" onclick="openTool('base64'); return false;">
+            <div class="icon-box">🔗</div>
+            <h3>Base64 Logic</h3>
+            <p>Encode and decode strings or files to Base64 with ultra-low latency. Perfect for data URI generation.</p>
+            <div class="badge">Browser Native</div>
+        </div>
+
+        <div class="tool-card" onclick="openTool('image'); return false;">
+            <div class="icon-box">🖼️</div>
+            <h3>Image Flow</h3>
+            <p>Instant Next-Gen image optimization (WebP/AVIF). Strip EXIF data and optimize for production web.</p>
+            <div class="badge">EXIF Stripper</div>
+        </div>
+
+        <div class="tool-card" onclick="openTool('minify'); return false;">
+            <div class="icon-box">⚡</div>
+            <h3>Code Stripper</h3>
+            <p>Minify JS/CSS/HTML instantly. Remove comments and optimize whitespace for faster deployments.</p>
+            <div class="badge">Developer Tool</div>
+        </div>
+        
+        <div class="tool-card" onclick="openTool('epoch'); return false;">
+            <div class="icon-box">📅</div>
+            <h3>Epoch Time</h3>
+            <p>Precise Unix timestamp conversion and human-readable time formatting for high-precision apps.</p>
+            <div class="badge">UTC Standard</div>
+        </div>
+
+        <div class="tool-card" onclick="openTool('hash'); return false;">
+            <div class="icon-box">🔐</div>
+            <h3>Hash Generator</h3>
+            <p>Generate SHA-256, SHA-1, MD5, and other cryptographic hashes from any text. Client-side only.</p>
+            <div class="badge">Crypto Secure</div>
+        </div>
+    </div>
+
+    <div class="promo-banner">
+        <div class="promo-content">
+            <div class="badge" style="margin-bottom: 0.5rem; background: rgba(139, 92, 246, 0.1); color: #a78bfa;">Privacy Partner</div>
+            <h4>Secure Your Connection</h4>
+            <p style="color: var(--text-muted); font-size: 0.95rem;">When handling sensitive data, use an encrypted tunnel to hide your traffic from ISPs and trackers. We recommend NordVPN for the highest grade security.</p>
+        </div>
+        <a href="https://www.nordvpn.com/?utm_source=theplaintools" target="_blank" rel="nofollow sponsored" class="btn-aff">Protect My Data →</a>
+    </div>
+
+    <footer>
+        <div class="footer-links">
+            <div class="footer-group">
+                <h5>Categories</h5>
+                <ul>
+                    <li><a href="#">PDF Utilities</a></li>
+                    <li><a href="#">Image Tools</a></li>
+                    <li><a href="#">Privacy Proxies</a></li>
+                    <li><a href="#">Dev Helpers</a></li>
+                </ul>
+            </div>
+            <div class="footer-group">
+                <h5>Platform</h5>
+                <ul>
+                    <li><a href="#">Open Source</a></li>
+                    <li><a href="#">Desktop PWA</a></li>
+                    <li><a href="#">Changelog</a></li>
+                </ul>
+            </div>
+            <div class="footer-group">
+                <h5 data-i18n="footer.terms">Legal & Safety</h5>
+                <ul>
+                    <li><a href="/privacy.html" data-i18n="footer.privacy">Privacy Policy</a></li>
+                    <li><a href="/terms.html" data-i18n="footer.terms">Terms of Service</a></li>
+                    <li><a href="/affiliate.html" data-i18n="footer.disclosure">Affiliate Disclosure</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="partner-row">
+            <a href="https://obdvault.com" target="_blank">OBD Vault</a>
+            <a href="https://faultdeck.com" target="_blank">FaultDeck</a>
+            <a href="https://boring-search.com" target="_blank">Boring Search</a>
+        </div>
+
+        <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 1.5rem;">&copy; 2026 Sovereign Ridge Partners LLC · Built for the Open Web.</p>
+        <div class="impact-badge">Impact Verified Network</div>
+    </footer>
+    <script src="i18n.js"></script>
+</body>
+</html>

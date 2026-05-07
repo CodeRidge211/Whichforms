@@ -1,0 +1,23 @@
+{
+  "name": "ispermitrequired",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build && next-sitemap",
+    "start": "next start",
+    "db:migrate": "node scripts/migrate.js",
+    "db:seed": "node scripts/seed.js"
+  },
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.2.4",
+    "autoprefixer": "^10.5.0",
+    "next": "^14.2.35",
+    "next-sitemap": "^4.2.3",
+    "pg": "^8.12.0",
+    "postcss": "^8.5.14",
+    "react": "^18",
+    "react-dom": "^18",
+    "tailwindcss": "^4.2.4"
+  }
+}

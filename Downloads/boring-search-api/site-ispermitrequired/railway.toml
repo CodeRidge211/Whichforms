@@ -1,0 +1,14 @@
+[build]
+builder = "nixpacks"
+buildCommand = "npm run build"
+
+[deploy]
+startCommand = "npm run db:migrate && npm run db:seed && npm run start"
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 3
+healthcheckPath = "/"
+healthcheckTimeout = 120
+
+[environments.production.variables]
+NODE_ENV = "production"
+PORT = "3000"

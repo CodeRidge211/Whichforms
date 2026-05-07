@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FaultDeck is a professional appliance, HVAC, and electronics diagnostics platform. Instantly search 14,000+ error codes and get step-by-step DIY repair guides.">
+    <link rel="canonical" href="https://faultdeck.com/">
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://faultdeck.com/">
+    <meta property="og:title" content="FaultDeck | Professional Appliance & HVAC Diagnostics">
+    <meta property="og:description" content="Instantly diagnose appliance, HVAC, and electronics error codes with professional repair guides. 14,000+ codes indexed.">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="FaultDeck | Appliance & HVAC Diagnostics">
+    <meta name="twitter:description" content="Search 14,000+ error codes and get DIY repair instructions in seconds.">
+    <title>FaultDeck | Professional Appliance & HVAC Diagnostics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --surface: rgba(18, 18, 26, 0.7);
+            --primary: #f5c400; /* Scientific Gold */
+            --primary-hover: #e6b800;
+            --secondary: #6366f1;
+            --text: #ffffff;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+            --glass: rgba(255, 255, 255, 0.03);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            background-image: 
+                radial-gradient(circle at 0% 0%, rgba(245, 196, 0, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(99, 102, 241, 0.03) 0%, transparent 50%);
+            color: var(--text);
+            line-height: 1.5;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .glow-orb {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(245, 196, 0, 0.05) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        header {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-decoration: none;
+            color: var(--text);
+            text-transform: uppercase;
+        }
+
+        .logo span { color: var(--primary); }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+            text-shadow: 0 0 10px rgba(245, 196, 0, 0.3);
+        }
+
+        .hero {
+            max-width: 1000px;
+            margin: 8rem auto 4rem;
+            text-align: center;
+            padding: 0 2rem;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(245, 196, 0, 0.1);
+            border: 1px solid rgba(245, 196, 0, 0.2);
+            color: var(--primary);
+            padding: 0.4rem 1rem;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 2.5rem;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 0.95;
+            margin-bottom: 1.5rem;
+            color: #fff;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 4rem;
+            line-height: 1.6;
+        }
+
+        .search-area {
+            max-width: 680px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-wrap {
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            padding: 0.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .search-wrap:focus-within {
+            border-color: var(--primary);
+            background: rgba(20, 20, 28, 0.9);
+            box-shadow: 0 0 30px rgba(245, 196, 0, 0.1);
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            outline: none;
+            padding: 1rem 1.25rem;
+            font-size: 1rem;
+            color: var(--text);
+            font-family: inherit;
+        }
+
+        .btn-find {
+            background: var(--primary);
+            color: #000;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.2s;
+        }
+
+        .btn-find:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(245, 196, 0, 0.4);
+        }
+
+        .results-section {
+            max-width: 840px;
+            margin: 6rem auto;
+            padding: 0 1.5rem;
+            display: none;
+        }
+
+        .paper-card {
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            padding: 4rem 3rem;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .status-dot {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background: var(--primary);
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        footer {
+            margin-top: 12rem;
+            padding: 4rem 2rem 6rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 800;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            opacity: 0.4;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 1.5rem; }
+            .nav-links { display: none; }
+            h1 { font-size: 2.8rem; }
+            .search-wrap { flex-direction: column; padding: 0.75rem; gap: 0.75rem; }
+            .btn-find { width: 100%; justify-content: center; }
+            .paper-card { padding: 2.5rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="glow-orb"></div>
+
+    <header>
+        <a href="/" class="logo">Fault<span>Deck</span></a>
+        <nav class="nav-links">
+            <a href="#" data-i18n="nav.brands">Brands</a>
+            <a href="#" data-i18n="nav.categories">Categories</a>
+            <a href="#" data-i18n="nav.symptomChecker">Symptom Checker</a>
+        </nav>
+    </header>
+
+    <main class="hero">
+        <div class="hero-badge">Professional Diagnostics Platform</div>
+        <h1 data-i18n="hero.title">Something's broken. <br>Let's fix it.</h1>
+        <p data-i18n="hero.subtitle">Expert diagnostic steps for 10,000+ error codes. Search your code to get professional repair instructions in seconds.</p>
+        
+        <div class="search-area">
+            <div class="search-wrap">
+                <input type="text" id="searchInput" class="search-input" data-i18n="hero.placeholder" placeholder="Enter error code (e.g. F01, 31, P0300)">
+                <button class="btn-find" id="searchBtn">
+                    <span data-i18n="hero.searchButton">Find Fix</span> 
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                </button>
+            </div>
+            
+            <div style="margin-top: 2.5rem; display: flex; align-items: center; justify-content: center; gap: 2.5rem; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em;">
+                <span style="color: var(--text-muted);"><span class="status-dot"></span> 2,500+ Codes Indexed</span>
+                <a href="#" style="color: var(--primary); text-decoration: none;">Start symptoms →</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Brand Section -->
+    <section style="max-width: 1100px; margin: 4rem auto; padding: 0 2rem;">
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <h2 style="font-family: 'Outfit', sans-serif; font-size: 2rem; font-weight: 800; margin-bottom: 0.75rem; letter-spacing: -0.03em;">Search by Brand</h2>
+            <p style="color: var(--text-muted);">Browse error codes specific to major appliance manufacturers</p>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;" id="brandGrid">
+            <div class="brand-card" onclick="searchBrand('european')" style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; text-align: center; cursor: pointer; transition: all 0.3s;">
+                <div style="font-size: 2rem; margin-bottom: 1rem;">🇪🇺</div>
+                <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem;">European</h3>
+                <p style="color: var(--text-muted); font-size: 0.85rem;">Bosch, Siemens, Miele, LG, Samsung</p>
+            </div>
+            <div class="brand-card" onclick="searchBrand('domestic')" style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; text-align: center; cursor: pointer; transition: all 0.3s;">
+                <div style="font-size: 2rem; margin-bottom: 1rem;">🇺🇸</div>
+                <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem;">Domestic</h3>
+                <p style="color: var(--text-muted); font-size: 0.85rem;">Whirlpool, GE, Maytag, Kenmore</p>
+            </div>
+            <div class="brand-card" onclick="searchBrand('asian')" style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; text-align: center; cursor: pointer; transition: all 0.3s;">
+                <div style="font-size: 2rem; margin-bottom: 1rem;">🇯🇵</div>
+                <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem;">Asian</h3>
+                <p style="color: var(--text-muted); font-size: 0.85rem;">Panasonic, Sharp, Daikin, Mitsubishi</p>
+            </div>
+        </div>
+        <div id="brandResults" style="margin-top: 2rem;"></div>
+    </section>
+
+    <div class="results-section" id="results">
+        <div id="contentTarget"></div>
+    </div>
+
+    <footer>
+        <div class="footer-logo">Vault Network</div>
+        <div class="footer-links">
+            <a href="/privacy.html" data-i18n="footer.privacy">Privacy</a>
+            <a href="/terms.html" data-i18n="footer.terms">Terms</a>
+            <a href="/affiliate.html" data-i18n="footer.disclosure">Affiliate Disclosure</a>
+        </div>
+        <p style="color: var(--text-muted); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em;" data-i18n="footer.allRights">&copy; 2026 Sovereign Ridge Partners LLC.</p>
+    </footer>
+
+    <script src="i18n.js"></script>
+    <script>
+        // FaultDeck local error code database (appliance/HVAC/Electronics)
+        const ERROR_CODES_DB = {
+            // Common appliance codes
+            'F01': { code: 'F01', make_specific: 'General', detail: 'Motor pump assembly jammed. Check for obstructions in the drain pump and remove any debris.', fixes: ['Turn off appliance and unplug', 'Access drain pump filter', 'Remove debris and foreign objects', 'Clear pump impeller', 'Reassemble and test'] },
+            'F02': { code: 'F02', make_specific: 'General', detail: 'Drain problem. Water not draining properly from the drum.', fixes: ['Check drain hose for kinks', 'Clean drain filter', 'Inspect drain pump for blockage', 'Ensure standpipe height is correct', 'Verify drain line is clear'] },
+            'F03': { code: 'F03', make_specific: 'General', detail: 'Drying heating issue. Heater not reaching proper temperature.', fixes: ['Check heating element continuity', 'Test thermistor resistance', 'Verify airflow is not blocked', 'Clean lint filter thoroughly', 'Inspect temperature sensor'] },
+            'F05': { code: 'F05', make_specific: 'General', detail: 'Water filling issue. Not enough water entering the appliance.', fixes: ['Check water supply valves are fully open', 'Clean inlet screens', 'Verify water pressure', 'Inspect water valve coils', 'Check for kinks in fill hose'] },
+            'F06': { code: 'F06', make_specific: 'General', detail: 'Motor tachometer error. Motor speed sensor malfunction.', fixes: ['Check motor connection', 'Inspect tachometer sensor', 'Verify motor windings', 'Check wiring harness', 'Test motor control board'] },
+            'F07': { code: 'F07', make_specific: 'General', detail: 'Motor control board error. Electronic control issue.', fixes: ['Reset appliance by unplugging for 60 seconds', 'Check motor control board connections', 'Inspect for burnt components', 'Replace motor control board if needed', 'Verify all wire connectors are secure'] },
+            'F08': { code: 'F08', make_specific: 'General', detail: 'Motor overheated. Motor temperature exceeded safe limits.', fixes: ['Allow motor to cool', 'Check for overloading', 'Inspect motor bearings', 'Verify ventilation is not blocked', 'Check for mechanical binding'] },
+            'F09': { code: 'F09', make_specific: 'General', detail: 'Voltage issue. Electrical supply problem detected.', fixes: ['Verify proper voltage supply (220V)', 'Check for loose connections', 'Inspect power cord', 'Test outlet with multimeter', 'Consult electrician if needed'] },
+            'F10': { code: 'F10', make_specific: 'General', detail: 'Steam engine failure. Steam generator malfunction.', fixes: ['Check steam generator heating element', 'Inspect water reservoir', 'Verify steam sensor', 'Check for leaks in steam system', 'Clean steam generator'] },
+            'F11': { code: 'F11', make_specific: 'General', detail: 'Communication error. Serial bus communication problem.', fixes: ['Reset control board', 'Check all wire connections', 'Inspect for loose pins', 'Verify ribbon cables are seated', 'Replace main control board'] },
+            'F12': { code: 'F12', make_specific: 'General', detail: 'EEPROM error. Memory chip corruption detected.', fixes: ['Power cycle the appliance', 'If persistent, replace main control board', 'Do not attempt DIY EEPROM replacement', 'Contact professional service', 'Note error code for technician'] },
+            'F13': { code: 'F13', make_specific: 'General', detail: 'Drum recognition error. Unable to detect drum movement.', fixes: ['Check drum belt condition', 'Inspect motor coupling', 'Verify drum spins freely', 'Check tachometer sensor alignment', 'Test motor functionality'] },
+            'F14': { code: 'F14', make_specific: 'General', detail: 'NTC (temperature sensor) short circuit.', fixes: ['Disconnect power', 'Locate NTC sensor', 'Test sensor resistance with multimeter', 'Replace if reading is 0 ohms (short)', 'Verify new sensor is properly seated'] },
+            'F15': { code: 'F15', make_specific: 'General', detail: 'Motor phase error. Motor not receiving correct power phases.', fixes: ['Check motor windings', 'Inspect inverter board', 'Verify power supply phases', 'Check capacitor condition', 'Replace motor if windings are failed'] },
+            // HVAC codes
+            '31': { code: '31', make_specific: 'HVAC', detail: 'Blower motor issue. Airflow not meeting expected levels.', fixes: ['Check blower motor capacitor', 'Inspect motor bearings', 'Verify motor is receiving power', 'Clean blower wheel', 'Check ductwork for restrictions'] },
+            '32': { code: '32', make_specific: 'HVAC', detail: 'Draft inducer motor problem. Pressure switch not closing.', fixes: ['Check inducer motor operation', 'Inspect pressure switch tubing', 'Clear condensate lines', 'Verify vent pipe is clear', 'Check pressure switch contacts'] },
+            '33': { code: '33', make_specific: 'HVAC', detail: 'Limit circuit open. Safety limit exceeded.', fixes: ['Check air filter condition', 'Verify blower is operating', 'Inspect heat exchanger', 'Check for restricted airflow', 'Reset limit switch if manual reset'] },
+            '34': { code: '34', make_specific: 'HVAC', detail: 'Flame proving failure. No flame detected during heating.', fixes: ['Check flame sensor rod', 'Clean flame sensor with fine grit paper', 'Verify gas supply', 'Inspect igniter', 'Check manifold pressure'] },
+            '35': { code: '35', make_specific: 'HVAC', detail: 'Ignition failure. Unable to light burners.', fixes: ['Check hot surface igniter', 'Test igniter resistance', 'Verify gas valve operation', 'Inspect flame sensor', 'Check for proper ground'] },
+            // Electronics/General
+            'E01': { code: 'E01', make_specific: 'Electronics', detail: 'System board error. Main control unit malfunction.', fixes: ['Power cycle the device', 'Check for loose connections', 'Update firmware if available', 'Inspect for visible damage', 'Replace control board'] },
+            'E02': { code: 'E02', make_specific: 'Electronics', detail: 'Display error. Screen or interface malfunction.', fixes: ['Check ribbon cable connections', 'Verify display power supply', 'Inspect for burnt components', 'Test with known good display', 'Replace display module'] },
+            'E03': { code: 'E03', make_specific: 'Electronics', detail: 'Sensor malfunction. One or more sensors not responding.', fixes: ['Identify affected sensor', 'Check sensor connections', 'Test sensor output', 'Replace faulty sensor', 'Recalibrate after replacement'] },
+            'E04': { code: 'E04', make_specific: 'Electronics', detail: 'Power supply error. Voltage regulation failure.', fixes: ['Check input voltage', 'Inspect power supply capacitors', 'Test output voltages', 'Look for swollen/bulged caps', 'Replace power supply unit'] },
+            // Generic patterns
+            'P0': { code: 'P0', make_specific: 'General', detail: 'Primary system error. Core functionality has encountered a fault.', fixes: ['Reference model-specific documentation', 'Contact manufacturer support', 'Check error code index for sub-code details', 'Document error sequence for technician'] },
+            '01': { code: '01', make_specific: 'General', detail: 'Device not responding. Communication timeout detected.', fixes: ['Power cycle the device', 'Check network connectivity', 'Verify all cables are connected', 'Reset to factory defaults', 'Update firmware'] }
+        };
+
+        function findErrorCode(query) {
+            const normalized = query.trim().toUpperCase();
+            // Exact match first
+            if (ERROR_CODES_DB[normalized]) {
+                return ERROR_CODES_DB[normalized];
+            }
+            // Partial match
+            const partialMatch = Object.keys(ERROR_CODES_DB).find(key => 
+                normalized.includes(key) || key.includes(normalized)
+            );
+            return partialMatch ? ERROR_CODES_DB[partialMatch] : null;
+        }
+
+        const input = document.getElementById('searchInput');
+        const btn = document.getElementById('searchBtn');
+        const results = document.getElementById('results');
+        const target = document.getElementById('contentTarget');
+
+        const executeSearch = () => {
+            const query = input.value.trim();
+            if (!query) return;
+            
+            target.innerHTML = `<div style="text-align:center; padding: 5rem; opacity: 0.4; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase;">📡 Analyzing error code...</div>`;
+            results.style.display = 'block';
+
+            const data = findErrorCode(query);
+            if (data) {
+                target.innerHTML = `
+                    <div class="paper-card">
+                        <div style="text-transform: uppercase; font-size: 0.65rem; font-weight: 800; color: var(--primary); letter-spacing: 0.2em; margin-bottom: 0.75rem;">${data.make_specific || 'General'} Diagnostics Report</div>
+                        <h2 style="font-family: 'Outfit'; font-size: 4rem; font-weight: 800; margin-bottom: 2.5rem; letter-spacing: -0.04em;">${data.code}</h2>
+                        
+                        <div style="margin-bottom: 4rem;">
+                            <h3 style="font-size: 0.65rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1.25rem; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem; letter-spacing: 0.1em;">Code Description</h3>
+                            <p style="font-size: 1.1rem; line-height: 1.8; color: #e2e8f0;">${data.detail || data.title}</p>
+                        </div>
+
+                        <div>
+                            <h3 style="font-size: 0.65rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem; letter-spacing: 0.1em;">Professional Repair Procedure</h3>
+                            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                                ${(data.fixes || []).map((f, i) => `
+                                    <div style="background: rgba(255,255,255,0.02); padding: 1.5rem; border-radius: 12px; display: flex; gap: 1.25rem; border: 1px solid var(--border);">
+                                        <div style="background: var(--primary); color: #000; width: 26px; height: 26px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 900; flex-shrink: 0;">${i + 1}</div>
+                                        <div style="font-weight: 500; color: #f1f5f9; font-size: 0.95rem; line-height: 1.6;">${f}</div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                target.innerHTML = `<div class="paper-card" style="text-align:center;">
+                    <h2 style="font-family: Outfit; font-size: 1.5rem; margin-bottom: 1rem; color: var(--primary);">Code Not Found</h2>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">This error code is not in our database. Try a different format or contact support.</p>
+                </div>`;
+            }
+            target.scrollIntoView({ behavior: 'smooth' });
+        };
+
+        btn.addEventListener('click', executeSearch);
+        input.addEventListener('keypress', (e) => { if (e.key === 'Enter') executeSearch(); });
+
+        // Brand category codes
+        const BRAND_CODES = {
+            european: [
+                { code: 'F01', name: 'Motor pump assembly jammed' },
+                { code: 'F03', name: 'Drying heating issue' },
+                { code: 'F06', name: 'Motor tachometer error' },
+                { code: 'F10', name: 'Steam engine failure' },
+                { code: 'F14', name: 'NTC sensor short circuit' },
+                { code: 'E02', name: 'Display error' }
+            ],
+            domestic: [
+                { code: 'F02', name: 'Drain problem' },
+                { code: 'F05', name: 'Water filling issue' },
+                { code: 'F07', name: 'Motor control board error' },
+                { code: 'F11', name: 'Communication error' },
+                { code: 'F13', name: 'Drum recognition error' },
+                { code: 'E01', name: 'System board error' }
+            ],
+            asian: [
+                { code: 'F08', name: 'Motor overheated' },
+                { code: 'F09', name: 'Voltage issue' },
+                { code: 'F12', name: 'EEPROM error' },
+                { code: 'F15', name: 'Motor phase error' },
+                { code: 'E03', name: 'Sensor malfunction' },
+                { code: 'E04', name: 'Power supply error' }
+            ]
+        };
+
+        function searchBrand(brand) {
+            const codes = BRAND_CODES[brand] || [];
+            const resultsDiv = document.getElementById('brandResults');
+            
+            if (codes.length === 0) {
+                resultsDiv.innerHTML = '<p style="color: var(--text-muted); text-align: center;">No codes found for this brand.</p>';
+                return;
+            }
+
+            resultsDiv.innerHTML = `
+                <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2rem;">
+                    <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--primary); text-transform: capitalize;">${brand} Brand Codes</h3>
+                    <div style="display: grid; gap: 0.75rem;">
+                        ${codes.map(c => `
+                            <div onclick="document.getElementById('searchInput').value='${c.code}';executeSearch();" 
+                                 style="display: flex; align-items: center; gap: 1rem; padding: 1rem 1.25rem; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 10px; cursor: pointer; transition: all 0.2s;"
+                                 onmouseover="this.style.borderColor='var(--primary)';this.style.background='rgba(245,196,0,0.05)'"
+                                 onmouseout="this.style.borderColor='var(--border)';this.style.background='rgba(255,255,255,0.02)'">
+                                <span style="font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 800; color: var(--primary); min-width: 60px;">${c.code}</span>
+                                <span style="color: var(--text-muted); font-size: 0.9rem;">${c.name}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 1.5rem; text-align: center;">Click any code to view full diagnostic details</p>
+                </div>
+            `;
+            
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Brand card hover effects
+        document.querySelectorAll('.brand-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.borderColor = 'var(--primary)';
+                card.style.transform = 'translateY(-4px)';
+                card.style.boxShadow = '0 10px 30px rgba(245, 196, 0, 0.1)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.borderColor = 'var(--border)';
+                card.style.transform = 'translateY(0)';
+                card.style.boxShadow = 'none';
+            });
+        });
+    </script>
+</body>
+</html>

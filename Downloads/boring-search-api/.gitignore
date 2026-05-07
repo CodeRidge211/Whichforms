@@ -1,0 +1,30 @@
+# First: exclusions (these take effect before *)
+node_modules/
+.next/
+out/
+build/
+dist/
+npm-debug.log*
+yarn-error.log*
+.env
+.env.local
+.DS_Store
+*.pem
+.vercel
+coverage/
+.nyc_output/
+*.tsbuildinfo
+next-env.d.ts
+
+# Then: catch-all to track everything else
+*
+
+# But explicitly track our site directories and project files
+!site-boringsearch/
+!site-faultdeck/
+!site-ispermitrequired/
+!site-obdvault/
+!site-theplaintools/
+!test_access.txt
+!separation_plan.md
+!.gitignore

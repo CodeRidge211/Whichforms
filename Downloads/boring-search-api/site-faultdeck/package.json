@@ -1,0 +1,13 @@
+{
+  "name": "faultdeck-frontend",
+  "version": "1.1.0",
+  "description": "FaultDeck Frontend (Static)",
+  "scripts": {
+    "start": "npx serve -s .",
+    "build": "echo 'Static build complete'",
+    "lint": "echo 'No linting required'"
+  },
+  "dependencies": {
+    "serve": "^14.2.1"
+  }
+}

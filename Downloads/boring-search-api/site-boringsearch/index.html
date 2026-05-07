@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="impact-site-verification" content="52e2d055-900d-4fb2-b422-0a06c3e3af05" />
+    <meta name="description" content="Boring Search is the ultimate public records and privacy directory. Find background checks, people search tools, data removal services, and cybersecurity resources in one place.">
+    <link rel="canonical" href="https://boring-search.com/">
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://boring-search.com/">
+    <meta property="og:title" content="Boring Search | Ultimate Public Records & Privacy Directory">
+    <meta property="og:description" content="Find background checks, people search tools, data removal services, and cybersecurity resources in one place.">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Boring Search | Public Records & Privacy Directory">
+    <meta name="twitter:description" content="Find background checks, people search, data removal, and cybersecurity tools in one place.">
+    <title>Boring Search | Ultimate Public Records & Privacy Directory</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #6366f1;
+            --bg: #ffffff;
+            --slate-50: #f8fafc;
+            --slate-100: #f1f5f9;
+            --slate-200: #e2e8f0;
+            --slate-400: #94a3b8;
+            --slate-600: #475569;
+            --slate-700: #334155;
+            --slate-900: #0f172a;
+            --radius-xl: 1.5rem;
+            --radius-lg: 0.75rem;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--slate-900);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        header {
+            background: #ffffff;
+            border-bottom: 1px solid var(--slate-200);
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .logo-mark {
+            background: var(--primary);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.25rem;
+        }
+
+        .logo-text {
+            font-weight: 800;
+            font-size: 1.25rem;
+            letter-spacing: -0.02em;
+            color: var(--slate-900);
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--slate-600);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-left: 2rem;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        .hero {
+            padding: 6rem 1.5rem 4rem;
+            text-align: center;
+            background: radial-gradient(circle at top right, rgba(79, 70, 229, 0.03), transparent),
+                        radial-gradient(circle at bottom left, rgba(79, 70, 229, 0.02), transparent);
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--slate-900);
+        }
+
+        h1 span {
+            color: var(--primary);
+        }
+
+        .hero-sub {
+            font-size: 1.25rem;
+            color: var(--slate-600);
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+
+        .search-area {
+            max-width: 720px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1.75rem 2.5rem;
+            font-size: 1.25rem;
+            border: 2px solid var(--slate-200);
+            border-radius: 99px;
+            outline: none;
+            transition: all 0.2s;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+        }
+
+        .search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1), 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 99px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .search-btn:hover {
+            background: var(--primary-light);
+        }
+
+        .main-content {
+            max-width: 1100px;
+            margin: 4rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-header {
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--slate-200);
+        }
+
+        .section-header h2 {
+            font-weight: 800;
+            font-size: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        /* Affiliate Ad Grid */
+        .ad-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 6rem;
+        }
+
+        .ad-card {
+            background: var(--slate-50);
+            border: 1px solid var(--slate-200);
+            border-radius: var(--radius-xl);
+            padding: 2.5rem;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ad-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .ad-card:hover {
+            transform: translateY(-8px);
+            background: #ffffff;
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px -10px rgba(79, 70, 229, 0.1);
+        }
+
+        .ad-card:hover::before {
+            opacity: 1;
+        }
+
+        .ad-type {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .ad-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .ad-desc {
+            color: var(--slate-600);
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+        }
+
+        .ad-cta {
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Category Icons */
+        .cat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-bottom: 6rem;
+        }
+
+        .cat-pill {
+            background: #ffffff;
+            border: 1px solid var(--slate-200);
+            padding: 1rem;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            text-decoration: none;
+            color: var(--slate-900);
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .cat-pill:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--slate-50);
+        }
+
+        .cat-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        footer {
+            background: var(--slate-900);
+            color: white;
+            padding: 6rem 2rem 4rem;
+            text-align: center;
+        }
+
+        .footer-nav {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-bottom: 4rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-nav-group h4 {
+            color: white;
+            margin-bottom: 1.5rem;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.5;
+        }
+
+        .footer-nav-group ul {
+            list-style: none;
+            text-align: left;
+        }
+
+        .footer-nav-group ul li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-nav-group ul li a {
+            color: var(--slate-400);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.1s;
+        }
+
+        .footer-nav-group ul li a:hover {
+            color: white;
+        }
+
+        .legal-notice {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 0.75rem;
+            color: var(--slate-400);
+            padding-top: 3rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .impact-badge {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 0.5rem 1.5rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 99px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.75rem; }
+            .search-input { padding: 1.5rem 1.5rem 4.5rem; border-radius: 24px; text-align: center; }
+            .search-btn { position: relative; width: 100%; top: auto; right: auto; transform: none; margin-top: -3.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo-group">
+            <div class="logo-mark">B</div>
+            <span class="logo-text">Boring Search</span>
+        </a>
+        <nav>
+            <a href="#" data-i18n="nav.business">Public Records</a>
+            <a href="#" data-i18n="nav.property">Privacy Tools</a>
+            <a href="#" data-i18n="nav.court">Search Database</a>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <h1 data-i18n="hero.title">Public Knowledge. <br><span>Zero Friction.</span></h1>
+        <p class="hero-sub" data-i18n="hero.subtitle">The direct portal to official records, legal data, and personal privacy tools. No noise, just the data.</p>
+        
+        <div class="search-area">
+            <input type="text" class="search-input" data-i18n="hero.placeholder" placeholder="Search a name, address, or social handle...">
+            <button class="search-btn" data-i18n="hero.cta">Quick Search</button>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="section-header">
+            <h2>Explore Official Databases</h2>
+        </div>
+        <div class="cat-grid">
+            <a href="#" class="cat-pill"><span class="cat-icon">🏦</span>Secretary of State</a>
+            <a href="#" class="cat-pill"><span class="cat-icon">🏠</span>Property Records</a>
+            <a href="#" class="cat-pill"><span class="cat-icon">🚓</span>Inmate Search</a>
+            <a href="#" class="cat-pill"><span class="cat-icon">⚖️</span>Court Filings</a>
+            <a href="#" class="cat-pill"><span class="cat-icon">📜</span>Vital Records</a>
+            <a href="#" class="cat-pill"><span class="cat-icon">💰</span>Unclaimed Assets</a>
+        </div>
+
+        <div class="section-header">
+            <h2>Premium Research Tools</h2>
+        </div>
+        <div class="ad-grid">
+            <a href="https://www.beenverified.com/?utm_source=boringsearch" target="_blank" rel="nofollow sponsored" class="ad-card">
+                <div>
+                    <div class="ad-type">Public Records</div>
+                    <div class="ad-title">BeenVerified Person Search</div>
+                    <p class="ad-desc">The industry standard for background checks and deep-web record searches. Unlock criminal history, contact info, and asset reports in seconds.</p>
+                </div>
+                <div class="ad-cta">Run a Deep Search →</div>
+            </a>
+
+            <a href="https://www.truthfinder.com/?utm_source=boringsearch" target="_blank" rel="nofollow sponsored" class="ad-card">
+                <div>
+                    <div class="ad-type">Investigation</div>
+                    <div class="ad-title">TruthFinder People Search</div>
+                    <p class="ad-desc">Highly accurate residential history and social networking deep-dives. Perfect for verifying identities and locating hard-to-find contacts.</p>
+                </div>
+                <div class="ad-cta">Start Investigation →</div>
+            </a>
+
+            <a href="https://joindeleteme.com/?utm_source=boringsearch" target="_blank" rel="nofollow sponsored" class="ad-card">
+                <div>
+                    <div class="ad-type">Personal Privacy</div>
+                    <div class="ad-title">DeleteMe Data Removal</div>
+                    <p class="ad-desc">Wipe your personal info from 500+ data broker sites automatically. Stop the spam calls and protect your home address from public view.</p>
+                </div>
+                <div class="ad-cta">Clean Your Digital Footprint →</div>
+            </a>
+
+            <a href="https://www.nordvpn.com/?utm_source=boringsearch" target="_blank" rel="nofollow sponsored" class="ad-card">
+                <div>
+                    <div class="ad-type">Cyber Security</div>
+                    <div class="ad-title">NordVPN Threat Protection</div>
+                    <p class="ad-desc">Encryption for every click. Secure your connection while searching public databases and hide your IP from trackers and data harvesters.</p>
+                </div>
+                <div class="ad-cta">Secure Your Connection →</div>
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-nav">
+            <div class="footer-nav-group">
+                <h4>Sovereign Network</h4>
+                <ul>
+                    <li><a href="https://obdvault.com" target="_blank">OBD Vault</a></li>
+                    <li><a href="https://faultdeck.com" target="_blank">FaultDeck</a></li>
+                    <li><a href="https://theplaintools.com" target="_blank">ThePlainTools</a></li>
+                </ul>
+            </div>
+            <div class="footer-nav-group">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="mailto:support@boringsearch.com">Contact</a></li>
+                    <li><a href="tel:+13072057685">+1 307-205-7685</a></li>
+                </ul>
+            </div>
+            <div class="footer-nav-group">
+                <h4 data-i18n="footer.terms">Compliance</h4>
+                <ul>
+                    <li><a href="/privacy.html" data-i18n="footer.privacy">Privacy Policy</a></li>
+                    <li><a href="/terms.html" data-i18n="footer.terms">Terms of Service</a></li>
+                    <li><a href="/affiliate.html" data-i18n="footer.disclosure">Affiliate Disclosure</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="legal-notice">
+            <p style="margin-bottom: 1.5rem;">Boring Search is a technology platform that aggregates publicly available data from official sources. We are not a Consumer Reporting Agency (CRA) and do not provide consumer reports for credit, employment, insurance, or tenant screening. Use of our search tools is subject to our Terms of Use and the Fair Credit Reporting Act (FCRA).</p>
+            <p style="opacity: 0.6;">&copy; 2026 Sovereign Ridge Partners LLC. Registered in Wyoming.</p>
+            <div class="impact-badge">Impact Verified Network Member</div>
+        </div>
+    </footer>
+    <script src="i18n.js"></script>
+    <script>
+        // Boring Search functionality
+        const searchInput = document.querySelector('.search-input');
+        const searchBtn = document.querySelector('.search-btn');
+        const resultsArea = document.createElement('div');
+        resultsArea.className = 'search-results-area';
+        resultsArea.style.cssText = 'max-width:720px;margin:2rem auto;display:none;';
+        
+        // Insert results area after search
+        const searchArea = document.querySelector('.search-area');
+        searchArea.parentNode.insertBefore(resultsArea, searchArea.nextSibling);
+
+        // Category data for search
+        const categoryData = [
+            { name: 'Secretary of State', icon: '🏦', description: 'Business entity searches, corporate filings' },
+            { name: 'Property Records', icon: '🏠', description: 'Deeds, titles, property ownership' },
+            { name: 'Inmate Search', icon: '🚓', description: 'Prison records, jail bookings' },
+            { name: 'Court Filings', icon: '⚖️', description: 'Civil and criminal court records' },
+            { name: 'Vital Records', icon: '📜', description: 'Birth, death, marriage certificates' },
+            { name: 'Unclaimed Assets', icon: '💰', description: 'Unclaimed money, forgotten accounts' },
+            { name: 'Background Checks', icon: '🔍', description: 'Criminal history, employment screening' },
+            { name: 'Vehicle Records', icon: '🚗', description: 'DMV records, vehicle registration' },
+            { name: 'Utility Records', icon: '💡', description: 'Utility service history, accounts' },
+            { name: 'Voter Registration', icon: '🗳️', description: 'Voter records, election data' },
+            { name: 'Professional Licenses', icon: '📋', description: 'Medical, legal, contractor licenses' },
+            { name: 'Tax Records', icon: '📊', description: 'Property tax, IRS liens' }
+        ];
+
+        function performSearch() {
+            const query = searchInput.value.trim().toLowerCase();
+            if (!query) return;
+            
+            resultsArea.style.display = 'block';
+            resultsArea.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--slate-400);font-size:0.9rem;">🔍 Searching public records databases...</div>';
+            
+            // Filter categories
+            const results = categoryData.filter(c => 
+                c.name.toLowerCase().includes(query) || 
+                c.description.toLowerCase().includes(query)
+            );
+            
+            setTimeout(() => {
+                if (results.length > 0) {
+                    resultsArea.innerHTML = `
+                        <div style="background:var(--slate-50);border:1px solid var(--slate-200);border-radius:var(--radius-xl);padding:2rem;">
+                            <h3 style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:var(--slate-400);margin-bottom:1.5rem;">Search Results for "${searchInput.value}"</h3>
+                            <div style="display:flex;flex-direction:column;gap:1rem;">
+                                ${results.map(r => `
+                                    <div style="background:white;padding:1.5rem;border-radius:12px;border:1px solid var(--slate-200);cursor:pointer;transition:all 0.2s;" 
+                                         onmouseover="this.style.borderColor='var(--primary)';this.style.transform='translateX(4px)'" 
+                                         onmouseout="this.style.borderColor='var(--slate-200)';this.style.transform='translateX(0)'">
+                                        <div style="display:flex;align-items:center;gap:1rem;">
+                                            <span style="font-size:1.5rem;">${r.icon}</span>
+                                            <div>
+                                                <h4 style="font-weight:700;margin-bottom:0.25rem;">${r.name}</h4>
+                                                <p style="font-size:0.85rem;color:var(--slate-600);">${r.description}</p>
+                                            </div>
+                                        </div>
+                                        <div style="margin-top:1rem;"><a href="#" style="color:var(--primary);font-weight:600;font-size:0.85rem;text-decoration:none;">Access Database →</a></div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    resultsArea.innerHTML = `
+                        <div style="background:var(--slate-50);border:1px solid var(--slate-200);border-radius:var(--radius-xl);padding:3rem;text-align:center;">
+                            <h3 style="font-size:1.25rem;margin-bottom:1rem;">No results found</h3>
+                            <p style="color:var(--slate-600);margin-bottom:1.5rem;">Try searching for a name, location, or record type</p>
+                            <div style="font-size:0.8rem;color:var(--slate-400);">
+                                <p style="margin-bottom:0.75rem;"><strong>Popular searches:</strong></p>
+                                <div style="display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;">
+                                    <button onclick="searchInput.value='business name';performSearch()" style="background:white;border:1px solid var(--slate-200);padding:0.5rem 1rem;border-radius:8px;cursor:pointer;">Business Name</button>
+                                    <button onclick="searchInput.value='property';performSearch()" style="background:white;border:1px solid var(--slate-200);padding:0.5rem 1rem;border-radius:8px;cursor:pointer;">Property Records</button>
+                                    <button onclick="searchInput.value='court';performSearch()" style="background:white;border:1px solid var(--slate-200);padding:0.5rem 1rem;border-radius:8px;cursor:pointer;">Court Filings</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+                resultsArea.scrollIntoView({ behavior: 'smooth' });
+            }, 800);
+        }
+
+        // Event listeners
+        searchBtn.addEventListener('click', performSearch);
+        searchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') performSearch(); });
+        
+        // Live search on typing (debounced)
+        let searchTimeout;
+        searchInput.addEventListener('input', () => {
+            clearTimeout(searchTimeout);
+            if (searchInput.value.length >= 3) {
+                searchTimeout = setTimeout(performSearch, 500);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://boring-search.com/sitemap.xml
+
+# Block common crawler traps
+Disallow: /api/
+Disallow: /*.json$

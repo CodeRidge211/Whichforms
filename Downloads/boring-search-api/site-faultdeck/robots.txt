@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://faultdeck.com/sitemap.xml
+
+# Block common crawler traps
+Disallow: /api/
+Disallow: /*.json$
