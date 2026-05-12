@@ -1,0 +1,43 @@
+{
+  "name": "axis-personal-ai-os",
+  "version": "1.0.0",
+  "description": "Personal AI operating system with intelligent ping system and persona routing",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "postinstall": "prisma generate",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate deploy",
+    "db:seed": "node prisma/seed.js",
+    "build": "npm run postinstall"
+  },
+  "keywords": [
+    "ai",
+    "personal-assistant",
+    "pwa",
+    "claude",
+    "anthropic"
+  ],
+  "author": "Sovereign Ridge Partners LLC",
+  "license": "MIT",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.35.0",
+    "@prisma/client": "^5.22.0",
+    "@sentry/node": "^10.53.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "node-cron": "^3.0.3",
+    "twilio": "^5.3.7",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7",
+    "prisma": "^5.22.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -1,0 +1,130 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(uuid())
+  name          String?
+  phone         String?
+  email         String?
+  tier          String    @default("free")
+  gender        String    @default("female")
+  lastSkippedAt DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  preferences   UserPreference?
+  sessions      Session[]
+  pings         Ping[]
+  habits        Habit[]
+  interactions  Interaction[]
+  sovereignState SovereignState?
+  healthCheckups HealthCheckup[]
+}
+
+model UserPreference {
+  id              String   @id @default(uuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id])
+  language        String   @default("en")
+  pingStartTime   String   @default("07:30")
+  pingEndTime     String   @default("21:00")
+  learningModes   String   @default("")
+  smsEnabled      Boolean  @default(false)
+  pingFrequency   String   @default("adaptive")
+  healthCheckupFrequency String @default("weekly")
+  // Persona settings
+  warmth          Int      @default(7)
+  directness      Int      @default(5)
+  supportLevel    Int      @default(7)
+  focusAreas      String   @default("accountability,health")
+  responseStyle   String   @default("balanced")
+}
+
+model SovereignState {
+  id              String   @id @default(uuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id])
+  state           String   @default("BUILD")
+  cyclePhase      String?
+  streak          Int      @default(0)
+  accountability  String   @default("{}")
+  lastUpdated     DateTime @default(now())
+  createdAt       DateTime @default(now())
+}
+
+model HealthCheckup {
+  id              String   @id @default(uuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id])
+  triggeredBy     String   @default("scheduled")
+  sleepQuality    String?
+  moodLevel       Int?
+  energyLevel     Int?
+  symptoms        String?
+  cycleDay        Int?
+  notes           String?
+  completedAt     DateTime?
+  createdAt       DateTime @default(now())
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  persona   String
+  language  String   @default("en")
+  messages  String   @default("[]")
+  createdAt DateTime @default(now())
+  startedAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  endedAt   DateTime?
+}
+
+model Ping {
+  id           String    @id @default(uuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  persona      String
+  content      String
+  scheduledAt  DateTime
+  sentAt       DateTime?
+  read         Boolean   @default(false)
+  readAt       DateTime?
+  respondedAt  DateTime?
+  deliveredAt  DateTime?
+  createdAt    DateTime  @default(now())
+}
+
+model Habit {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  name        String
+  frequency   String
+  timeSlots   String   @default("[]")
+  pingCount   Int      @default(0)
+  successRate Float    @default(0.0)
+  week1Data   String?
+  week2Data   String?
+  week3Data   String?
+  week4Data   String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Interaction {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  type        String
+  content     String
+  persona     String?
+  language    String?
+  metadata    String?
+  createdAt   DateTime @default(now())
+}

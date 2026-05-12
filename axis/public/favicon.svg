@@ -1,0 +1,15 @@
+<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\">
+  <defs>
+    <linearGradient id=\"bg\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\">
+      <stop offset=\"0%\" style=\"stop-color:#1a2332\"/>
+      <stop offset=\"100%\" style=\"stop-color:#0f1620\"/>
+    </linearGradient>
+    <linearGradient id=\"gold\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\">
+      <stop offset=\"0%\" style=\"stop-color:#b8860b\"/>
+      <stop offset=\"100%\" style=\"stop-color:#9a7209\"/>
+    </linearGradient>
+  </defs>
+  <rect width=\"32\" height=\"32\" rx=\"6\" fill=\"url(#bg)\"/>
+  <text x=\"16\" y=\"22\" font-family=\"Georgia, serif\" font-size=\"18\" font-style=\"italic\" font-weight=\"500\" fill=\"url(#gold)\" text-anchor=\"middle\">A</text>
+  <rect x=\"6\" y=\"26\" width=\"20\" height=\"1\" fill=\"url(#gold)\" opacity=\"0.6\"/>
+</svg>

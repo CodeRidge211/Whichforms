@@ -1,0 +1,11 @@
+class PersonaRouter {
+  constructor(a){this.a=a;this.p=this.i();this.iP=this.iP()}
+  i(){return{JARVIS:{n:"JARVIS",d:"Business",b:"Focus",k:["biz"],t:["biz"],st:"Dec",p:"JARVIS"},SAGE:{n:"SAGE",d:"Emotion",b:"Avoid",k:["feel"],t:["emotion"],st:"Warm",p:"SAGE"},CLEO:{n:"CLEO",d:"Tech",b:"Assume",k:["code"],t:["tech"],st:"Anal",p:"CLEO"},ATLAS:{n:"ATLAS",d:"Plan",b:"Over",k:["plan"],t:["plan"],st:"Struct",p:"ATLAS"},VEGA:{n:"VEGA",d:"Cook",b:"Miss",k:["recipe"],t:["food"],st:"Prac",p:"VEGA"},IRON:{n:"IRON",d:"Fit",b:"Miss",k:["gym"],t:["fit"],st:"Energ",p:"IRON"},WREN:{n:"WREN",d:"Nature",b:"Ideal",k:["hike"],t:["nature"],st:"Obs",p:"WREN"},DUSK:{n:"DUSK",d:"Philo",b:"Spiral",k:["why"],t:["philo"],st:"Thought",p:"DUSK"},NOVA:{n:"NOVA",d:"Learn",b:"Over",k:["learn"],t:["learn"],st:"Cur",p:"NOVA"},BOLT:{n:"BOLT",d:"Urgent",b:"Rush",k:["now"],t:["urgent"],st:"Quick",p:"BOLT"},FINANCE:{n:"FINANCE",d:"Money",b:"Risk",k:["invest"],t:["finance"],st:"Anal",p:"FINANCE"},THERAPIST:{n:"THERAPIST",d:"Mental",b:"Diagnose",k:["therapy"],t:["mental"],st:"Comp",p:"NOT PROFESSIONAL"},CREATIVE:{n:"CREATIVE",d:"Art",b:"Novel",k:["creative"],t:["art"],st:"Enth",p:"CREATIVE"}};}
+  iP(){return{business:/business/i,emotional:/feel/i,technical:/bug/i,planning:/plan/i,culinary:/recipe/i,fitness:/workout/i,nature:/nature/i,philosophical:/meaning/i,learning:/learn/i,urgent:/urgent/i,finance:/invest/i,mentalHealth:/mental/i,creative:/creative/i}}
+  route(m,c={}){const i=this.classifyIntent(m);return this.getPersonaContext(this.intentToPersonaMap[i]||"SAGE",c)}
+  classifyIntent(m){for(const[i,p]of Object.entries(this.intentPatterns))if(p.test(m))return i;const h=new Date().getHours();return h>=22||h<6?"philosophical":"business"}
+  get intentToPersonaMap(){return{business:"JARVIS",emotional:"SAGE",technical:"CLEO",planning:"ATLAS",culinary:"VEGA",fitness:"IRON",nature:"WREN",philosophical:"DUSK",learning:"NOVA",urgent:"BOLT",finance:"FINANCE",mentalHealth:"THERAPIST",creative:"CREATIVE"}}
+  getPersonaContext(n,u,p={}){const x=this.personas[n];return x?{...x,anthropic:this.a,user:u,preferences:p}:this.personas.SAGE}
+  getAllPersonas(){return Object.entries(this.personas).map(([n,d])=>({name:d.n||n,description:d.d,blindSpot:d.b,style:d.st}))}
+}
+module.exports={PersonaRouter};

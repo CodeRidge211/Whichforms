@@ -1,0 +1,23 @@
+{
+  \"name\": \"AXIS - Your Thoughtful AI Companion\",
+  \"short_name\": \"AXIS\",
+  \"description\": \"A refined AI companion for reflection, clarity, and meaningful conversations.\",
+  \"start_url\": \"/\",
+  \"display\": \"standalone\",
+  \"background_color\": \"#1a2332\",
+  \"theme_color\": \"#1a2332\",
+  \"orientation\": \"portrait-primary\",
+  \"categories\": [\"lifestyle\", \"productivity\", \"health\"],
+  \"lang\": \"en-US\",
+  \"dir\": \"ltr\",
+  \"icons\": [
+    {
+      \"src\": \"/favicon.svg\",
+      \"sizes\": \"any\",
+      \"type\": \"image/svg+xml\",
+      \"purpose\": \"any maskable\"
+    }
+  ],
+  \"related_applications\": [],
+  \"prefer_related_applications\": false
+}

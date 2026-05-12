@@ -1,0 +1,1639 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <meta name='theme-color' content='#1a2332'>
+  <meta name='description' content='AXIS - Your thoughtful AI companion'>
+  <title>AXIS — Your thoughtful AI companion</title>
+  <!-- Google Analytics - loaded dynamically from server -->
+  <script>
+    // Fetch GA config from server and load analytics
+    fetch('/api/config')
+      .then(res => res.json())
+      .then(config => {
+        if (config.gaMeasurementId) {
+          var script = document.createElement('script');
+          script.async = true;
+          script.src = 'https://www.googletagmanager.com/gtag/js?id=' + config.gaMeasurementId;
+          document.head.appendChild(script);
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', config.gaMeasurementId);
+        }
+      })
+      .catch(err => console.log('GA config not available:', err));
+  </script>
+  <link rel='icon' type='image/svg+xml' href='/favicon.svg'>
+  <link rel='manifest' href='/manifest.json'>
+  <link rel='preconnect' href='https://fonts.googleapis.com'>
+  <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+  <link href='https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&display=swap' rel='stylesheet'>
+  <style>
+    :root {
+      --navy: #1a2332;
+      --navy-light: #2a3342;
+      --navy-lighter: #3a4352;
+      --cream: #f5f1eb;
+      --gold: #c9a227;
+      --gold-dim: #a68820;
+      --text-primary: #f5f1eb;
+      --text-secondary: #b8b0a5;
+      --border-color: #3a4352;
+      --success: #4a9;
+      --error: #e55;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Source Serif 4', Georgia, serif;
+      background: var(--navy);
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    .mobile-menu-btn {
+      display: none;
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 1001;
+      background: var(--navy-lighter);
+      border: 1px solid var(--border-color);
+      color: var(--cream);
+      font-size: 24px;
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
+    }
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 320px;
+      height: 100vh;
+      background: var(--navy-light);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      z-index: 1000;
+      transition: transform 0.3s ease;
+    }
+    .sidebar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .sidebar-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      color: var(--gold);
+    }
+    .sidebar-header-actions {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+    .sidebar-action-btn {
+      background: none;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 4px;
+      color: var(--text-muted);
+    }
+    .sidebar-action-btn:hover {
+      background: var(--hover-bg);
+      color: var(--text);
+    }
+    .sidebar-close {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 24px;
+      cursor: pointer;
+      padding: 4px 8px;
+    }
+    .sidebar-search {
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .search-input {
+      width: 100%;
+      padding: 10px 14px;
+      background: var(--navy);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      color: var(--cream);
+      font-family: inherit;
+      font-size: 14px;
+    }
+    .search-input:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+    .folder-filters {
+      display: flex;
+      gap: 6px;
+      padding: 12px 20px;
+      overflow-x: auto;
+      border-bottom: 1px solid var(--border-color);
+      flex-wrap: wrap;
+    }
+    .folder-filter {
+      padding: 6px 12px;
+      background: var(--navy);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      color: var(--text-secondary);
+      font-size: 12px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .folder-filter:hover { border-color: var(--gold); color: var(--cream); }
+    .folder-filter.active { background: var(--gold); border-color: var(--gold); color: var(--navy); font-weight: 500; }
+    .tag-filters {
+      display: flex;
+      gap: 6px;
+      padding: 12px 20px;
+      overflow-x: auto;
+      border-bottom: 1px solid var(--border-color);
+      flex-wrap: wrap;
+    }
+    .tag-filter {
+      padding: 5px 10px;
+      background: var(--navy);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      color: var(--text-secondary);
+      font-size: 11px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .tag-filter:hover { border-color: var(--gold); color: var(--cream); }
+    .tag-filter.active { background: var(--gold-dim); border-color: var(--gold); color: var(--cream); }
+    .tag-filter.custom { background: var(--navy-lighter); }
+    .add-tag-btn {
+      padding: 5px 10px;
+      background: transparent;
+      border: 1px dashed var(--border-color);
+      border-radius: 12px;
+      color: var(--text-secondary);
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .add-tag-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .delete-tag {
+      margin-left: 4px;
+      color: var(--error);
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .delete-tag:hover { color: #fff; }
+    .add-tag-dialog {
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--border-color);
+      display: none;
+    }
+    .add-tag-input {
+      width: 100%;
+      padding: 8px 12px;
+      background: var(--navy);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      color: var(--cream);
+      font-family: inherit;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+    .add-tag-actions { display: flex; gap: 8px; }
+    .add-tag-cancel, .add-tag-confirm {
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+      border: none;
+    }
+    .add-tag-cancel { background: var(--navy); color: var(--text-secondary); }
+    .add-tag-confirm { background: var(--gold); color: var(--navy); }
+    .notes-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 20px;
+    }
+    .note-section-label {
+      font-size: 11px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+      padding-left: 4px;
+    }
+    .note-item {
+      background: var(--navy);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .note-item:hover { border-color: var(--gold-dim); }
+    .note-item.pinned { border-left: 3px solid var(--gold); }
+    .note-item.editing { background: var(--navy-lighter); }
+    .note-item-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .pin-icon { font-size: 14px; color: var(--gold); }
+    .note-item-title {
+      flex: 1;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--cream);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .note-item-actions { display: flex; gap: 4px; opacity: 0; transition: opacity 0.2s; }
+    .note-item:hover .note-item-actions { opacity: 1; }
+    .note-action-btn {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 14px;
+      cursor: pointer;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .note-action-btn:hover { background: var(--navy-lighter); color: var(--cream); }
+    .note-action-btn.pin:hover { color: var(--gold); }
+    .note-action-btn.delete:hover { color: var(--error); }
+    .note-item-preview {
+      font-size: 13px;
+      color: var(--text-secondary);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      margin-bottom: 8px;
+    }
+    .note-item-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+    .note-tag {
+      padding: 2px 8px;
+      background: var(--navy-lighter);
+      border-radius: 10px;
+      font-size: 10px;
+      color: var(--text-secondary);
+    }
+    .note-item-time { font-size: 11px; color: var(--text-secondary); }
+    .note-edit-area {
+      display: none;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-color);
+    }
+    .note-item.editing .note-edit-area { display: block; }
+    .note-edit-input {
+      width: 100%;
+      padding: 10px;
+      background: var(--navy);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      color: var(--cream);
+      font-family: inherit;
+      font-size: 13px;
+      resize: vertical;
+      min-height: 80px;
+      margin-bottom: 12px;
+    }
+    .note-folder-selector {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .folder-label { font-size: 14px; }
+    .note-folder-select {
+      padding: 6px 10px;
+      background: var(--navy);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      color: var(--cream);
+      font-family: inherit;
+      font-size: 13px;
+    }
+    .note-tag-selector { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+    .note-tag-option {
+      padding: 4px 10px;
+      background: var(--navy);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      font-size: 11px;
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+    .note-tag-option:hover { border-color: var(--gold); }
+    .note-tag-option.selected { background: var(--gold-dim); border-color: var(--gold); color: var(--cream); }
+    .note-edit-actions { display: flex; gap: 8px; justify-content: flex-end; }
+    .note-edit-btn {
+      padding: 6px 14px;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+      border: none;
+    }
+    .note-edit-btn.cancel { background: var(--navy-lighter); color: var(--text-secondary); }
+    .note-edit-btn.save { background: var(--gold); color: var(--navy); }
+    .note-input-area {
+      padding: 16px 20px;
+      border-top: 1px solid var(--border-color);
+      background: var(--navy-light);
+    }
+    .note-input {
+      width: 100%;
+      padding: 12px;
+      background: var(--navy);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--cream);
+      font-family: inherit;
+      font-size: 13px;
+      resize: none;
+      margin-bottom: 10px;
+    }
+    .note-input:focus { outline: none; border-color: var(--gold); }
+    .add-note-btn {
+      width: 100%;
+      padding: 10px;
+      background: var(--gold);
+      border: none;
+      border-radius: 6px;
+      color: var(--navy);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .add-note-btn:hover { background: var(--gold-dim); }
+    .export-btn {
+      padding: 16px 20px;
+      border-top: 1px solid var(--border-color);
+      background: var(--navy-light);
+    }
+    /* Settings Dialog */
+    .settings-dialog {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1001;
+      align-items: center;
+      justify-content: center;
+    }
+    .settings-dialog.active {
+      display: flex;
+    }
+    .settings-content {
+      background: var(--card-bg);
+      border-radius: 12px;
+      width: 90%;
+      max-width: 420px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    }
+    .settings-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .settings-header h2 {
+      margin: 0;
+      font-size: 18px;
+    }
+    .settings-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+    .settings-body {
+      padding: 20px;
+    }
+    .settings-section {
+      margin-bottom: 16px;
+    }
+    .settings-section label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+      color: var(--text);
+    }
+    .settings-section input[type='text'],
+    .settings-section select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+    }
+    .settings-section input[type='range'] {
+      width: calc(100% - 50px);
+    }
+    .range-value {
+      display: inline-block;
+      width: 30px;
+      text-align: center;
+      font-weight: 600;
+      color: var(--accent);
+    }
+    .focus-checkboxes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .focus-checkboxes label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: normal;
+      cursor: pointer;
+    }
+    .settings-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    .btn-primary:hover {
+      opacity: 0.9;
+    }
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .btn-secondary:hover {
+      background: var(--hover-bg);
+    }
+    .export-note-btn {
+      width: 100%;
+      padding: 10px;
+      background: var(--navy);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      color: var(--text-secondary);
+      font-family: inherit;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .export-note-btn:hover { border-color: var(--gold); color: var(--cream); }
+    .sidebar-empty {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-secondary);
+    }
+    .sidebar-empty-icon { font-size: 48px; margin-bottom: 16px; opacity: 0.5; }
+    .sidebar-empty-text { font-size: 14px; line-height: 1.6; }
+    .main-content { margin-left: 320px; min-height: 100vh; display: flex; flex-direction: column; }
+    .container { flex: 1; max-width: 800px; margin: 0 auto; padding: 60px 40px; width: 100%; }
+    header { text-align: center; margin-bottom: 48px; }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 48px;
+      font-weight: 500;
+      color: var(--cream);
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+    .tagline {
+      font-size: 18px;
+      color: var(--text-secondary);
+      font-style: italic;
+    }
+    .chat-wrapper {
+      background: var(--navy-light);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .messages {
+      flex: 1;
+      min-height: 300px;
+      max-height: 500px;
+      overflow-y: auto;
+      padding: 24px;
+    }
+    .welcome {
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .welcome h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      color: var(--cream);
+      margin-bottom: 20px;
+    }
+    .welcome-divider {
+      width: 60px;
+      height: 2px;
+      background: var(--gold);
+      margin: 0 auto 20px;
+    }
+    .welcome p { color: var(--text-secondary); font-size: 15px; margin-bottom: 12px; }
+    .welcome-hint {
+      margin-top: 24px;
+      padding: 16px;
+      background: var(--navy);
+      border-radius: 8px;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+    .message {
+      margin-bottom: 20px;
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .message.user { text-align: right; }
+    .message.ai .content { background: var(--navy); padding: 16px 20px; border-radius: 16px 16px 16px 4px; }
+    .message.user .content { background: var(--gold); color: var(--navy); padding: 16px 20px; border-radius: 16px 16px 4px 16px; display: inline-block; max-width: 80%; text-align: left; }
+    .message p { margin: 0; font-size: 15px; line-height: 1.6; }
+    .message .timestamp {
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: 6px;
+    }
+    .message.user .timestamp { text-align: right; }
+    .typing { display: flex; gap: 4px; padding: 4px 0; }
+    .typing span {
+      width: 8px;
+      height: 8px;
+      background: var(--text-secondary);
+      border-radius: 50%;
+      animation: typing 1.4s infinite;
+    }
+    .typing span:nth-child(2) { animation-delay: 0.2s; }
+    .typing span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typing { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-8px); } }
+    .input-area {
+      display: flex;
+      gap: 12px;
+      padding: 20px 24px;
+      border-top: 1px solid var(--border-color);
+      background: var(--navy);
+    }
+    #messageInput {
+      flex: 1;
+      padding: 14px 18px;
+      background: var(--navy-light);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--cream);
+      font-family: inherit;
+      font-size: 15px;
+    }
+    #messageInput:focus { outline: none; border-color: var(--gold); }
+    .send-btn {
+      padding: 14px 28px;
+      background: var(--gold);
+      border: none;
+      border-radius: 8px;
+      color: var(--navy);
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .send-btn:hover:not(:disabled) { background: var(--gold-dim); }
+    .send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .status-bar {
+      padding: 12px 24px;
+      background: var(--navy-light);
+      border-top: 1px solid var(--border-color);
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+    @media (max-width: 768px) {
+      .mobile-menu-btn { display: block; }
+      .sidebar-overlay.active { display: block; }
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.open { transform: translateX(0); }
+      .main-content { margin-left: 0; }
+      .container { padding: 80px 20px 40px; }
+      h1 { font-size: 36px; }
+      .input-area { flex-direction: column; }
+      .send-btn { width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class='mobile-menu-btn' id='mobileMenuBtn' aria-label='Open journal'>☰</button>
+  <div class='sidebar-overlay' id='sidebarOverlay'></div>
+  
+  <aside class='sidebar' id='sidebar'>
+    <div class='sidebar-header'>
+      <span class='sidebar-title'>Journal</span>
+      <div class='sidebar-header-actions'>
+        <button class='sidebar-action-btn' id='openSettings' title='Settings'>&#9881;</button>
+        <button class='sidebar-close' id='sidebarClose' aria-label='Close sidebar'>&#215;</button>
+      </div>
+    </div>
+    
+    <div class='sidebar-search'>
+      <input type='text' class='search-input' id='noteSearch' placeholder='Search notes...' aria-label='Search notes'>
+    </div>
+    
+    <div class='folder-filters' id='folderFilters'>
+      <span class='folder-filter active' data-folder='all'>📋 All</span>
+      <span class='folder-filter' data-folder='personal'>👤 Personal</span>
+      <span class='folder-filter' data-folder='work'>💼 Work</span>
+      <span class='folder-filter' data-folder='ideas'>💡 Ideas</span>
+    </div>
+    
+    <div class='tag-filters' id='tagFilters'>
+      <span class='tag-filter active' data-tag='all'>All</span>
+      <span class='tag-filter' data-tag='important'>Important</span>
+      <span class='tag-filter' data-tag='idea'>Ideas</span>
+      <span class='tag-filter' data-tag='task'>Tasks</span>
+      <span class='tag-filter' data-tag='memory'>Memories</span>
+      <button class='add-tag-btn' id='addTagBtn' title='Create new tag'>+</button>
+    </div>
+    
+    <div class='add-tag-dialog' id='addTagDialog' style='display:none;'>
+      <input type='text' class='add-tag-input' id='addTagInput' placeholder='Tag name...' maxlength='20'>
+      <div class='add-tag-actions'>
+        <button class='add-tag-cancel' id='addTagCancel'>Cancel</button>
+        <button class='add-tag-confirm' id='addTagConfirm'>Add</button>
+      </div>
+    </div>
+    
+    <div class='notes-list' id='notesList' aria-label='Journal notes'>
+      <div class='note-section-label'>Recent Ideas</div>
+    </div>
+    
+    <div class='note-input-area'>
+      <textarea class='note-input' id='noteInput' placeholder='Capture a thought...' rows='2' aria-label='New note'></textarea>
+      <button class='add-note-btn' id='addNoteBtn' type='button'>
+        <span>+</span> Save to Journal
+      </button>
+    </div>
+    
+    <div class='export-btn'>
+      <button class='export-note-btn' id='exportNotesBtn'>📥 Export Journal</button>
+    </div>
+  </aside>
+
+  <!-- Persona Settings Dialog -->
+  <div class='settings-dialog' id='settingsDialog'>
+    <div class='settings-content'>
+      <div class='settings-header'>
+        <h2>⚙️ AI Persona Settings</h2>
+        <button class='settings-close' id='closeSettings'>&#215;</button>
+      </div>
+      <div class='settings-body'>
+        <div class='settings-section'>
+          <label>AI Name</label>
+          <input type='text' id='personaName' placeholder='AXIS' maxlength='20'>
+        </div>
+        <div class='settings-section'>
+          <label>Communication Style</label>
+          <select id='personaStyle'>
+            <option value='balanced'>Balanced</option>
+            <option value='warm'>Warm & Supportive</option>
+            <option value='direct'>Direct & Focused</option>
+            <option value='casual'>Casual & Friendly</option>
+          </select>
+        </div>
+        <div class='settings-section'>
+          <label>Warmth Level</label>
+          <input type='range' id='personaWarmth' min='1' max='10' value='7'>
+          <span class='range-value' id='warmthValue'>7</span>
+        </div>
+        <div class='settings-section'>
+          <label>Directness Level</label>
+          <input type='range' id='personaDirectness' min='1' max='10' value='5'>
+          <span class='range-value' id='directnessValue'>5</span>
+        </div>
+        <div class='settings-section'>
+          <label>Focus Areas</label>
+          <div class='focus-checkboxes'>
+            <label><input type='checkbox' name='focus' value='accountability' checked> Accountability</label>
+            <label><input type='checkbox' name='focus' value='health' checked> Health Tracking</label>
+            <label><input type='checkbox' name='focus' value='productivity'> Productivity</label>
+            <label><input type='checkbox' name='focus' value='habits'> Habit Building</label>
+          </div>
+        </div>
+      </div>
+      <div class='settings-footer'>
+        <button class='btn-secondary' id='cancelSettings'>Cancel</button>
+        <button class='btn-primary' id='saveSettings'>Save Changes</button>
+      </div>
+    </div>
+  </div>
+  
+  <main class='main-content'>
+    <div class='container'>
+      <header>
+        <h1>AXIS</h1>
+        <p class='tagline'>Your thoughtful companion</p>
+      </header>
+      
+      <div class='chat-wrapper'>
+        <div class='messages' id='messages'>
+          <div class='welcome' id='welcome'>
+            <h2 id='greeting'>Good evening</h2>
+            <div class='welcome-divider'></div>
+            <p>It's wonderful to have you here. I'm your quiet companion&#8212;here to listen without judgment, help you think through things, and offer clarity when you need it most.</p>
+            <p style='margin-top: 16px;'>Whatever's on your mind, know that you're in a safe space. There's no agenda here, just genuine presence with you.</p>
+            <p class='welcome-hint'>Tip: Use the journal on the left to save ideas, tag them, and search through your thoughts</p>
+          </div>
+        </div>
+        
+        <div class='input-area'>
+          <input type='text' id='messageInput' placeholder='Share what's on your mind...' autocomplete='off' aria-label='Message input'>
+          <button type='button' class='send-btn' id='sendBtn'>Send</button>
+        </div>
+        
+        <div class='status-bar'>
+          <span id='statusText'>Present and attentive</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    (function() {
+      'use strict';
+      
+      var getEl = function(id) { return document.getElementById(id); };
+      var escapeHtml = function(text) {
+        var div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      };
+      
+      var NOTES_KEY = 'axis_notes';
+      var FOLDERS_KEY = 'axis_folders';
+      var PRESET_TAGS = ['important', 'idea', 'task', 'memory'];
+      var CUSTOM_TAGS_KEY = 'axis_custom_tags';
+      var currentFilter = 'all';
+      var validFolders = ['all', 'personal', 'work', 'ideas'];
+      var storedFolder = localStorage.getItem(FOLDERS_KEY);
+      var currentFolder = validFolders.includes(storedFolder) ? storedFolder : 'all';
+      var searchQuery = '';
+      
+      function getCustomTags() {
+        try {
+          var stored = localStorage.getItem(CUSTOM_TAGS_KEY);
+          return stored ? JSON.parse(stored) : [];
+        } catch (e) { return []; }
+      }
+      
+      function saveCustomTags(tags) {
+        localStorage.setItem(CUSTOM_TAGS_KEY, JSON.stringify(tags));
+      }
+      
+      function getAvailableTags() {
+        return PRESET_TAGS.concat(getCustomTags());
+      }
+      
+      function addCustomTag(name) {
+        if (!name || !name.trim()) return null;
+        var tag = name.trim().toLowerCase().substring(0, 20);
+        if (getAvailableTags().indexOf(tag) !== -1) return null;
+        var tags = getCustomTags();
+        tags.push(tag);
+        saveCustomTags(tags);
+        return tag;
+      }
+      
+      function deleteCustomTag(tagName) {
+        var tags = getCustomTags();
+        var idx = tags.indexOf(tagName);
+        if (idx !== -1) {
+          tags.splice(idx, 1);
+          saveCustomTags(tags);
+          var notes = getNotes();
+          for (var i = 0; i < notes.length; i++) {
+            if (notes[i].tags) {
+              notes[i].tags = notes[i].tags.filter(function(t) { return t !== tagName; });
+            }
+          }
+          saveNotes(notes);
+        }
+      }
+      
+      function getNotes() {
+        try { 
+          var stored = localStorage.getItem(NOTES_KEY);
+          return stored ? JSON.parse(stored) : []; 
+        } catch (e) { return []; }
+      }
+      
+      function saveNotes(notes) {
+        localStorage.setItem(NOTES_KEY, JSON.stringify(notes));
+      }
+      
+      function addNote(content, tags, folderId) {
+        if (!content || !content.trim()) return;
+        var notes = getNotes();
+        var note = {
+          id: Date.now(),
+          title: content.trim().substring(0, 50),
+          content: content.trim(),
+          preview: content.trim().substring(0, 80),
+          tags: tags || [],
+          folderId: folderId || 'personal',
+          pinned: false,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        };
+        notes.unshift(note);
+        if (notes.length > 100) notes.pop();
+        saveNotes(notes);
+        renderNotes();
+      }
+      
+      function updateNote(id, content, tags, folderId) {
+        var notes = getNotes();
+        for (var i = 0; i < notes.length; i++) {
+          if (notes[i].id === id) {
+            notes[i].content = content;
+            notes[i].title = content.trim().substring(0, 50);
+            notes[i].preview = content.trim().substring(0, 80);
+            notes[i].tags = tags || [];
+            notes[i].folderId = folderId || notes[i].folderId || 'personal';
+            notes[i].updatedAt = new Date().toISOString();
+            break;
+          }
+        }
+        saveNotes(notes);
+        renderNotes();
+      }
+      
+      function togglePin(id) {
+        var notes = getNotes();
+        for (var i = 0; i < notes.length; i++) {
+          if (notes[i].id === id) {
+            notes[i].pinned = !notes[i].pinned;
+            notes[i].updatedAt = new Date().toISOString();
+            break;
+          }
+        }
+        saveNotes(notes);
+        renderNotes();
+      }
+      
+      function deleteNote(id) {
+        saveNotes(getNotes().filter(function(n) { return n.id !== id; }));
+        renderNotes();
+      }
+      
+      function useNote(content) {
+        var input = getEl('messageInput');
+        if (input) {
+          input.value = content;
+          input.focus();
+        }
+        closeSidebar();
+      }
+      
+      function formatNoteTime(isoString) {
+        var date = new Date(isoString);
+        var now = new Date();
+        var diffMins = Math.floor((now - date) / 60000);
+        var diffHours = Math.floor((now - date) / 3600000);
+        var diffDays = Math.floor((now - date) / 86400000);
+        if (diffMins < 1) return 'Just now';
+        if (diffMins < 60) return diffMins + 'm ago';
+        if (diffHours < 24) return diffHours + 'h ago';
+        if (diffDays < 7) return diffDays + 'd ago';
+        return date.toLocaleDateString();
+      }
+      
+      function filterNotes(notes) {
+        var filtered = notes;
+        
+        if (currentFolder !== 'all') {
+          filtered = filtered.filter(function(note) {
+            return note.folderId === currentFolder;
+          });
+        }
+        
+        if (currentFilter !== 'all') {
+          filtered = filtered.filter(function(note) {
+            return note.tags && note.tags.indexOf(currentFilter) !== -1;
+          });
+        }
+        
+        if (searchQuery) {
+          var query = searchQuery.toLowerCase();
+          filtered = filtered.filter(function(note) {
+            return note.content.toLowerCase().indexOf(query) !== -1 ||
+                   (note.title && note.title.toLowerCase().indexOf(query) !== -1);
+          });
+        }
+        
+        return filtered;
+      }
+      
+      function renderNotes() {
+        var notesList = getEl('notesList');
+        if (!notesList) return;
+        
+        var notes = filterNotes(getNotes());
+        
+        notes.sort(function(a, b) {
+          if (a.pinned && !b.pinned) return -1;
+          if (!a.pinned && b.pinned) return 1;
+          return new Date(b.updatedAt || b.createdAt) - new Date(a.updatedAt || a.createdAt);
+        });
+        
+        var folderName = currentFolder === 'all' ? 'All' : currentFolder.charAt(0).toUpperCase() + currentFolder.slice(1);
+        var sectionLabel = '<div class=\"note-section-label\">' + 
+          (currentFilter !== 'all' ? currentFilter.charAt(0).toUpperCase() + currentFilter.slice(1) + ' - ' : '') +
+          folderName + (searchQuery ? ' - Results' : '') + '</div>';
+        
+        if (notes.length === 0) {
+          var emptyMsg = searchQuery ? 'No notes match your search.' : (currentFolder !== 'all' ? 'No notes in this folder.' : 'Your journal is empty.');
+          notesList.innerHTML = sectionLabel + '<div class=\"sidebar-empty\"><div class=\"sidebar-empty-icon\">&#128221;</div><div class=\"sidebar-empty-text\">' + emptyMsg + '<br>Capture thoughts as they arise.</div></div>';
+          return;
+        }
+        
+        var html = sectionLabel;
+        for (var i = 0; i < notes.length; i++) {
+          var note = notes[i];
+          var tagsHtml = '';
+          if (note.tags && note.tags.length > 0) {
+            tagsHtml = '<div class=\"note-item-tags\">';
+            for (var j = 0; j < note.tags.length; j++) {
+              tagsHtml += '<span class=\"note-tag\">' + note.tags[j] + '</span>';
+            }
+            tagsHtml += '</div>';
+          }
+          
+          var pinIcon = note.pinned ? '<span class=\"pin-icon\" title=\"Pinned\">⭐</span>' : '';
+          var pinBtn = note.pinned ? '📌' : '☆';
+          
+          html += '<div class=\"note-item' + (note.pinned ? ' pinned' : '') + '\" data-id=\"' + note.id + '\">' +
+            '<div class=\"note-item-header\">' +
+            pinIcon +
+            '<div class=\"note-item-title\">' + escapeHtml(note.title) + '</div>' +
+            '<div class=\"note-item-actions\">' +
+            '<button class=\"note-action-btn pin\" data-id=\"' + note.id + '\" title=\"' + (note.pinned ? 'Unpin' : 'Pin') + '\">' + pinBtn + '</button>' +
+            '<button class=\"note-action-btn edit\" data-id=\"' + note.id + '\" title=\"Edit\">&#9998;</button>' +
+            '<button class=\"note-action-btn delete\" data-id=\"' + note.id + '\" title=\"Delete\">&#215;</button>' +
+            '</div>' +
+            '</div>' +
+            '<div class=\"note-item-preview\">' + escapeHtml(note.preview) + '</div>' +
+            tagsHtml +
+            '<div class=\"note-item-time\">' + formatNoteTime(note.updatedAt || note.createdAt) + '</div>' +
+            '<div class=\"note-edit-area\" id=\"edit-area-' + note.id + '\">' +
+            '<textarea class=\"note-edit-input\" id=\"edit-input-' + note.id + '\">' + escapeHtml(note.content) + '</textarea>' +
+            '<div class=\"note-folder-selector\">' +
+            '<span class=\"folder-label\">📁</span>' +
+            '<select class=\"note-folder-select\" data-note-id=\"' + note.id + '\">' +
+            '<option value=\"personal\"' + (note.folderId === 'personal' ? ' selected' : '') + '>Personal</option>' +
+            '<option value=\"work\"' + (note.folderId === 'work' ? ' selected' : '') + '>Work</option>' +
+            '<option value=\"ideas\"' + (note.folderId === 'ideas' ? ' selected' : '') + '>Ideas</option>' +
+            '</select>' +
+            '</div>' +
+            '<div class=\"note-tag-selector\">';
+          
+          var availableTags = getAvailableTags();
+          for (var k = 0; k < availableTags.length; k++) {
+            var isSelected = note.tags && note.tags.indexOf(availableTags[k]) !== -1;
+            html += '<span class=\"note-tag-option' + (isSelected ? ' selected' : '') + '\" data-note-id=\"' + note.id + '\" data-tag=\"' + availableTags[k] + '\">' + availableTags[k] + '</span>';
+          }
+          
+          html += '</div>' +
+            '<div class=\"note-edit-actions\">' +
+            '<button class=\"note-edit-btn cancel\" data-id=\"' + note.id + '\">Cancel</button>' +
+            '<button class=\"note-edit-btn save\" data-id=\"' + note.id + '\">Save</button>' +
+            '</div>' +
+            '</div>' +
+            '</div>';
+        }
+        notesList.innerHTML = html;
+        
+        var items = notesList.querySelectorAll('.note-item');
+        for (var m = 0; m < items.length; m++) {
+          (function(item) {
+            var noteId = parseInt(item.getAttribute('data-id'), 10);
+            
+            item.addEventListener('click', function(e) {
+              if (e.target.classList.contains('edit') || e.target.classList.contains('delete') || e.target.classList.contains('pin')) return;
+              if (e.target.classList.contains('note-tag-option')) return;
+              if (e.target.classList.contains('note-edit-btn')) return;
+              if (e.target.classList.contains('note-edit-input')) return;
+              if (item.classList.contains('editing')) return;
+              
+              var notes = getNotes();
+              var note = notes.find(function(n) { return n.id === noteId; });
+              if (note) useNote(note.content);
+            });
+            
+            var deleteBtn = item.querySelector('.note-action-btn.delete');
+            if (deleteBtn) {
+              deleteBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                deleteNote(noteId);
+              });
+            }
+            
+            var editBtn = item.querySelector('.note-action-btn.edit');
+            if (editBtn) {
+              editBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleEditMode(noteId);
+              });
+            }
+            
+            var pinBtn = item.querySelector('.note-action-btn.pin');
+            if (pinBtn) {
+              pinBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                togglePin(noteId);
+              });
+            }
+            
+            var cancelBtn = item.querySelector('.note-edit-btn.cancel');
+            if (cancelBtn) {
+              cancelBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                cancelEdit(noteId);
+              });
+            }
+            
+            var saveBtn = item.querySelector('.note-edit-btn.save');
+            if (saveBtn) {
+              saveBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                saveEdit(noteId);
+              });
+            }
+            
+            var tagOptions = item.querySelectorAll('.note-tag-option');
+            for (var n = 0; n < tagOptions.length; n++) {
+              (function(tagOpt) {
+                tagOpt.addEventListener('click', function(e) {
+                  e.stopPropagation();
+                  tagOpt.classList.toggle('selected');
+                });
+              })(tagOptions[n]);
+            }
+          })(items[m]);
+        }
+      }
+      
+      function toggleEditMode(noteId) {
+        var items = document.querySelectorAll('.note-item');
+        for (var i = 0; i < items.length; i++) {
+          var itemNoteId = parseInt(items[i].getAttribute('data-id'), 10);
+          if (itemNoteId === noteId) {
+            items[i].classList.add('editing');
+            var input = document.getElementById('edit-input-' + noteId);
+            if (input) {
+              input.focus();
+              input.selectionStart = input.selectionEnd = input.value.length;
+            }
+          } else {
+            items[i].classList.remove('editing');
+          }
+        }
+      }
+      
+      function cancelEdit(noteId) {
+        var item = document.querySelector('.note-item[data-id=\"' + noteId + '\"]');
+        if (item) {
+          item.classList.remove('editing');
+        }
+        var notes = getNotes();
+        var note = notes.find(function(n) { return n.id === noteId; });
+        if (note) {
+          var input = document.getElementById('edit-input-' + noteId);
+          if (input) input.value = note.content;
+          var tagOpts = document.querySelectorAll('#edit-area-' + noteId + ' .note-tag-option');
+          for (var i = 0; i < tagOpts.length; i++) {
+            var tag = tagOpts[i].getAttribute('data-tag');
+            var isSelected = note.tags && note.tags.indexOf(tag) !== -1;
+            if (isSelected) {
+              tagOpts[i].classList.add('selected');
+            } else {
+              tagOpts[i].classList.remove('selected');
+            }
+          }
+        }
+      }
+      
+      function saveEdit(noteId) {
+        var input = document.getElementById('edit-input-' + noteId);
+        if (!input) return;
+        
+        var content = input.value.trim();
+        if (!content) return;
+        
+        var selectedTags = [];
+        var tagOpts = document.querySelectorAll('#edit-area-' + noteId + ' .note-tag-option.selected');
+        for (var i = 0; i < tagOpts.length; i++) {
+          selectedTags.push(tagOpts[i].getAttribute('data-tag'));
+        }
+        
+        var folderSelect = document.querySelector('#edit-area-' + noteId + ' .note-folder-select');
+        var folderId = folderSelect ? folderSelect.value : 'personal';
+        
+        updateNote(noteId, content, selectedTags, folderId);
+      }
+      
+      function closeSidebar() {
+        var items = document.querySelectorAll('.note-item');
+        for (var i = 0; i < items.length; i++) {
+          items[i].classList.remove('editing');
+        }
+        var sidebar = getEl('sidebar');
+        var overlay = getEl('sidebarOverlay');
+        if (sidebar) sidebar.classList.remove('open');
+        if (overlay) {
+          overlay.classList.remove('active');
+          overlay.style.display = 'none';
+        }
+      }
+      
+      function openSidebar() {
+        var sidebar = getEl('sidebar');
+        var overlay = getEl('sidebarOverlay');
+        if (sidebar) sidebar.classList.add('open');
+        if (overlay) {
+          overlay.classList.add('active');
+          overlay.style.display = 'block';
+        }
+      }
+      
+      var sidebarClose = getEl('sidebarClose');
+      if (sidebarClose) {
+        sidebarClose.addEventListener('click', closeSidebar);
+      }
+      
+      var sidebarOverlay = getEl('sidebarOverlay');
+      if (sidebarOverlay) {
+        sidebarOverlay.addEventListener('click', closeSidebar);
+      }
+      
+      var mobileMenuBtn = getEl('mobileMenuBtn');
+      if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', openSidebar);
+      }
+      
+      var noteSearch = getEl('noteSearch');
+      if (noteSearch) {
+        noteSearch.addEventListener('input', function(e) {
+          searchQuery = e.target.value;
+          renderNotes();
+        });
+      }
+      
+      var folderFilters = getEl('folderFilters');
+      if (folderFilters) {
+        // Sync folder filter UI with persisted folder on load
+        (function syncFolderUI() {
+          var allFilters = folderFilters.querySelectorAll('.folder-filter');
+          for (var i = 0; i < allFilters.length; i++) {
+            if (allFilters[i].getAttribute('data-folder') === currentFolder) {
+              allFilters[i].classList.add('active');
+            } else {
+              allFilters[i].classList.remove('active');
+            }
+          }
+        })();
+        
+        folderFilters.addEventListener('click', function(e) {
+          if (e.target.classList.contains('folder-filter')) {
+            var allFilters = folderFilters.querySelectorAll('.folder-filter');
+            for (var i = 0; i < allFilters.length; i++) {
+              allFilters[i].classList.remove('active');
+            }
+            e.target.classList.add('active');
+            currentFolder = e.target.getAttribute('data-folder');
+            localStorage.setItem(FOLDERS_KEY, currentFolder);
+            renderNotes();
+          }
+        });
+      }
+      
+      var tagFilters = getEl('tagFilters');
+      if (tagFilters) {
+        tagFilters.addEventListener('click', function(e) {
+          if (e.target.classList.contains('tag-filter') && !e.target.closest('.custom')) {
+            if (e.target.classList.contains('add-tag-btn')) return;
+            var allFilters = tagFilters.querySelectorAll('.tag-filter:not(.custom)');
+            for (var i = 0; i < allFilters.length; i++) {
+              allFilters[i].classList.remove('active');
+            }
+            e.target.classList.add('active');
+            currentFilter = e.target.getAttribute('data-tag');
+            renderNotes();
+          }
+          
+          if (e.target.classList.contains('delete-tag')) {
+            var tagToDelete = e.target.getAttribute('data-tag');
+            if (tagToDelete && confirm('Delete tag \"' + tagToDelete + '\"? It will be removed from all notes.')) {
+              deleteCustomTag(tagToDelete);
+              renderTagFilters();
+              renderNotes();
+            }
+          }
+        });
+      }
+      
+      function showAddTagDialog() {
+        var dialog = getEl('addTagDialog');
+        var input = getEl('addTagInput');
+        if (dialog && input) {
+          input.value = '';
+          dialog.style.display = 'block';
+          input.focus();
+        }
+      }
+      
+      function hideAddTagDialog() {
+        var dialog = getEl('addTagDialog');
+        if (dialog) {
+          dialog.style.display = 'none';
+        }
+      }
+      
+      function handleAddTag() {
+        var input = getEl('addTagInput');
+        if (input && input.value.trim()) {
+          var newTag = addCustomTag(input.value);
+          if (newTag) {
+            hideAddTagDialog();
+            renderTagFilters();
+            renderNotes();
+          } else {
+            alert('Tag already exists or is invalid.');
+          }
+        }
+      }
+      
+      var addTagBtn = getEl('addTagBtn');
+      if (addTagBtn) {
+        addTagBtn.addEventListener('click', showAddTagDialog);
+      }
+      
+      var addTagCancel = getEl('addTagCancel');
+      if (addTagCancel) {
+        addTagCancel.addEventListener('click', hideAddTagDialog);
+      }
+      
+      var addTagConfirm = getEl('addTagConfirm');
+      if (addTagConfirm) {
+        addTagConfirm.addEventListener('click', handleAddTag);
+      }
+      
+      var addTagInput = getEl('addTagInput');
+      if (addTagInput) {
+        addTagInput.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            handleAddTag();
+          } else if (e.key === 'Escape') {
+            hideAddTagDialog();
+          }
+        });
+      }
+      
+      function renderTagFilters() {
+        var tagFiltersContainer = getEl('tagFilters');
+        if (!tagFiltersContainer) return;
+        
+        var customTags = getCustomTags();
+        var addTagBtn = getEl('addTagBtn');
+        
+        var existingCustom = tagFiltersContainer.querySelectorAll('.tag-filter.custom');
+        for (var i = 0; i < existingCustom.length; i++) {
+          existingCustom[i].remove();
+        }
+        
+        for (var j = 0; j < customTags.length; j++) {
+          var tagEl = document.createElement('span');
+          tagEl.className = 'tag-filter custom';
+          tagEl.setAttribute('data-tag', customTags[j]);
+          tagEl.innerHTML = customTags[j] + '<button class=\"delete-tag\" data-tag=\"' + customTags[j] + '\">×</button>';
+          tagFiltersContainer.insertBefore(tagEl, addTagBtn);
+        }
+      }
+      
+      renderTagFilters();
+      
+      var addNoteBtn = getEl('addNoteBtn');
+      if (addNoteBtn) {
+        addNoteBtn.addEventListener('click', function() {
+          var noteInput = getEl('noteInput');
+          if (noteInput && noteInput.value) {
+            addNote(noteInput.value, [], currentFolder === 'all' ? 'personal' : currentFolder);
+            noteInput.value = '';
+          }
+        });
+      }
+      
+      var noteInput = getEl('noteInput');
+      if (noteInput) {
+        noteInput.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            if (noteInput.value) {
+              addNote(noteInput.value, [], currentFolder === 'all' ? 'personal' : currentFolder);
+              noteInput.value = '';
+            }
+          }
+        });
+      }
+      
+      function exportNotes(format) {
+        var notes = getNotes();
+        var exportData;
+        var filename;
+        var mimeType;
+        
+        if (format === 'json') {
+          exportData = JSON.stringify(notes, null, 2);
+          filename = 'axis-journal-' + new Date().toISOString().split('T')[0] + '.json';
+          mimeType = 'application/json';
+        } else {
+          var text = 'AXIS Journal Export\n';
+          text += 'Exported: ' + new Date().toLocaleString() + '\n';
+          text += 'Total Notes: ' + notes.length + '\n';
+          text += '========================================\n\n';
+          
+          notes.forEach(function(note, index) {
+            text += 'Note #' + (index + 1) + (note.pinned ? ' [PINNED]' : '') + '\n';
+            text += 'Folder: ' + (note.folderId || 'personal') + '\n';
+            text += 'Tags: ' + (note.tags && note.tags.length > 0 ? note.tags.join(', ') : 'none') + '\n';
+            text += 'Date: ' + new Date(note.createdAt).toLocaleString() + '\n';
+            text += '----------------------------------------\n';
+            text += note.content + '\n\n';
+          });
+          
+          exportData = text;
+          filename = 'axis-journal-' + new Date().toISOString().split('T')[0] + '.txt';
+          mimeType = 'text/plain';
+        }
+        
+        var blob = new Blob([exportData], { type: mimeType });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+      
+      var exportBtn = getEl('exportNotesBtn');
+      if (exportBtn) {
+        // Settings Dialog
+        var settingsDialog = getEl('settingsDialog');
+        var openSettingsBtn = getEl('openSettings');
+        var closeSettingsBtn = getEl('closeSettings');
+        var cancelSettingsBtn = getEl('cancelSettings');
+        var saveSettingsBtn = getEl('saveSettings');
+        var personaWarmthInput = getEl('personaWarmth');
+        var personaDirectnessInput = getEl('personaDirectness');
+        var warmthValueEl = getEl('warmthValue');
+        var directnessValueEl = getEl('directnessValue');
+
+        function openSettingsDialog() {
+          settingsDialog.classList.add('active');
+          var settings = loadPersonaSettings();
+          getEl('personaName').value = settings.name || 'AXIS';
+          getEl('personaStyle').value = settings.style || 'balanced';
+          personaWarmthInput.value = settings.warmth || 7;
+          warmthValueEl.textContent = settings.warmth || 7;
+          personaDirectnessInput.value = settings.directness || 5;
+          directnessValueEl.textContent = settings.directness || 5;
+          var focusCheckboxes = document.querySelectorAll('input[name="focus"]');
+          var focusAreas = settings.focus || ['accountability', 'health'];
+          focusCheckboxes.forEach(function(cb) { cb.checked = focusAreas.includes(cb.value); });
+        }
+
+        function closeSettingsDialog() { settingsDialog.classList.remove('active'); }
+
+        function loadPersonaSettings() {
+          try {
+            var stored = localStorage.getItem('axis_persona_settings');
+            return stored ? JSON.parse(stored) : { name: 'AXIS', style: 'balanced', warmth: 7, directness: 5, focus: ['accountability', 'health'] };
+          } catch(e) { return { name: 'AXIS', style: 'balanced', warmth: 7, directness: 5, focus: ['accountability', 'health'] }; }
+        }
+
+        function savePersonaSettings(settings) {
+          localStorage.setItem('axis_persona_settings', JSON.stringify(settings));
+          // Get userId from localStorage or use default
+          var userId = localStorage.getItem('axis_user_id') || 'default_user';
+          fetch('/api/persona/' + userId, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: settings.name, style: settings.style, traits: { warmth: settings.warmth, directness: settings.directness }, focus: settings.focus }) }).catch(function(err) { console.log('Failed to sync persona settings:', err); });
+        }
+
+        if (openSettingsBtn) openSettingsBtn.addEventListener('click', openSettingsDialog);
+        if (closeSettingsBtn) closeSettingsBtn.addEventListener('click', closeSettingsDialog);
+        if (cancelSettingsBtn) cancelSettingsBtn.addEventListener('click', closeSettingsDialog);
+        if (saveSettingsBtn) saveSettingsBtn.addEventListener('click', function() {
+          var focusAreas = [];
+          document.querySelectorAll('input[name="focus"]:checked').forEach(function(cb) { focusAreas.push(cb.value); });
+          var settings = { name: getEl('personaName').value || 'AXIS', style: getEl('personaStyle').value, warmth: parseInt(personaWarmthInput.value), directness: parseInt(personaDirectnessInput.value), focus: focusAreas };
+          savePersonaSettings(settings);
+          closeSettingsDialog();
+        });
+        if (personaWarmthInput) personaWarmthInput.addEventListener('input', function() { warmthValueEl.textContent = this.value; });
+        if (personaDirectnessInput) personaDirectnessInput.addEventListener('input', function() { directnessValueEl.textContent = this.value; });
+        if (settingsDialog) settingsDialog.addEventListener('click', function(e) { if (e.target === settingsDialog) closeSettingsDialog(); });
+
+        exportBtn.addEventListener('click', function() {
+          var choice = prompt('Export as:\n1. JSON (for backup/import)\n2. Plain text (for reading)\n\nEnter 1 or 2:', '1');
+          if (choice === '1') {
+            exportNotes('json');
+          } else if (choice === '2') {
+            exportNotes('text');
+          }
+        });
+      }
+      
+      function getTimeGreeting() {
+        var hour = new Date().getHours();
+        if (hour < 5) return 'Good night';
+        if (hour < 12) return 'Good morning';
+        if (hour < 17) return 'Good afternoon';
+        if (hour < 21) return 'Good evening';
+        return 'Good night';
+      }
+      
+      var greetingEl = getEl('greeting');
+      if (greetingEl) greetingEl.textContent = getTimeGreeting();
+      
+      var userId = localStorage.getItem('axis_user_id') || (localStorage.setItem('axis_user_id', 'user_' + Math.random().toString(36).substr(2, 9)), localStorage.getItem('axis_user_id'));
+      var isSending = false;
+      
+      function showTyping() {
+        var messagesDiv = getEl('messages');
+        if (!messagesDiv) return;
+        
+        var div = document.createElement('div');
+        div.id = 'typing-indicator';
+        div.className = 'message ai';
+        div.innerHTML = '<div class=\"content\"><div class=\"typing\"><span></span><span></span><span></span></div></div>';
+        messagesDiv.appendChild(div);
+        scrollToBottom();
+      }
+      
+      function removeTyping() {
+        var typing = document.getElementById('typing-indicator');
+        if (typing) typing.remove();
+      }
+      
+      function scrollToBottom() {
+        var messages = getEl('messages');
+        if (messages) messages.scrollTop = messages.scrollHeight;
+      }
+      
+      function addMessage(content, role) {
+        var messagesDiv = getEl('messages');
+        if (!messagesDiv) return;
+        
+        var div = document.createElement('div');
+        div.className = 'message ' + role;
+        
+        var formatted = content
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/\n/g, '<br>');
+        
+        div.innerHTML = '<div class=\"content\"><p>' + formatted + '</p></div><div class=\"timestamp\">' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + '</div>';
+        
+        messagesDiv.appendChild(div);
+        scrollToBottom();
+        
+        var welcome = messagesDiv.querySelector('.welcome');
+        if (welcome) welcome.remove();
+      }
+      
+      function sendMessage() {
+        var input = getEl('messageInput');
+        var sendBtn = getEl('sendBtn');
+        if (!input || !sendBtn) return;
+        
+        var text = input.value.trim();
+        if (!text || isSending) return;
+        
+        isSending = true;
+        input.disabled = true;
+        sendBtn.disabled = true;
+        
+        addMessage(text, 'user');
+        showTyping();
+        
+        fetch('/api/message', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId: userId, message: text })
+        })
+        .then(function(response) { return response.json(); })
+        .then(function(data) {
+          removeTyping();
+          if (data.response) {
+            addMessage(data.response, 'ai');
+          } else if (data.error) {
+            addMessage('Sorry, I encountered an error. Please try again.', 'ai');
+          }
+          enableInput();
+        })
+        .catch(function(error) {
+          console.error('Message error:', error);
+          removeTyping();
+          addMessage('Connection issue. Please try again.', 'ai');
+          enableInput();
+        });
+        
+        input.value = '';
+      }
+      
+      function enableInput() {
+        isSending = false;
+        var input = getEl('messageInput');
+        var btn = getEl('sendBtn');
+        if (input) input.disabled = false;
+        if (btn) {
+          btn.disabled = false;
+          btn.focus();
+        }
+        var statusText = getEl('statusText');
+        if (statusText) statusText.textContent = 'Present and attentive';
+      }
+      
+      var sendBtn = getEl('sendBtn');
+      if (sendBtn) {
+        sendBtn.addEventListener('click', sendMessage);
+      }
+      
+      var messageInput = getEl('messageInput');
+      if (messageInput) {
+        messageInput.addEventListener('keypress', function(e) { 
+          if (e.key === 'Enter') sendMessage(); 
+        });
+      }
+      
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js').catch(function() {});
+      }
+      
+      renderNotes();
+      
+      var statusText = getEl('statusText');
+      if (statusText) statusText.textContent = 'Present and attentive';
+    })();
+  </script>
+</body>
+</html>
