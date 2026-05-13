@@ -128,3 +128,20 @@ model Interaction {
   metadata    String?
   createdAt   DateTime @default(now())
 }
+
+model ContextEntry {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  category    String   // location, work, project, relationship, health, routine, preference
+  key         String   // e.g., "current_city", "job_title", "project_name"
+  value       String   // the fact value
+  confidence  Float    @default(0.5) // 0-1, how confident AXIS is
+  source      String?  // message snippet that revealed this
+  updatedAt   DateTime @default(now())
+  createdAt   DateTime @default(now())
+  
+  @@unique([userId, category, key])
+  @@index([userId, category])
+  @@index([userId, updatedAt])
+}

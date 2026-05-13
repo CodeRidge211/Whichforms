@@ -25,6 +25,7 @@ const { MultilingualRouter } = require('./lib/multilingualRouter');
 const { TwilioService } = require('./lib/twilioService');
 const { sovereign, sovereignPromptLayer, serializeSovereignMemory, deserializeSovereignMemory } = require('./lib/sovereign');
 const { HealthCheckup } = require('./lib/healthCheckup');
+const { ContextMemory } = require('./lib/contextMemory');
 
 const app = express();
 const server = http.createServer(app);
@@ -33,6 +34,7 @@ const prisma = new PrismaClient();
 const anthropic = new Anthropic();
 const personaRouter = new PersonaRouter(anthropic);
 const pingScheduler = new PingScheduler(prisma);
+const contextMemory = new ContextMemory(prisma);
 const habitLearner = new HabitLearner(prisma);
 const multilingualRouter = new MultilingualRouter();
 const twilioService = new TwilioService();
@@ -54,8 +56,63 @@ app.get('/', (req, res) => {
 app.get('/api/config', (req, res) => {
   res.json({
     gaMeasurementId: process.env.GA_MEASUREMENT_ID || null,
-    // Don't expose whether Sentry is configured for security
   });
+});
+
+// Get user's learned context (for debugging/display)
+app.get('/api/context/:userId', async (req, res) => {
+  try {
+    const summary = await contextMemory.getContextSummary(req.params.userId);
+    res.json(summary);
+  } catch (error) {
+    console.error('Context fetch error:', error);
+    res.status(500).json({ error: 'Failed to fetch context' });
+  }
+});
+
+// Delete specific context entry (for user corrections)
+app.delete('/api/context/:userId/:category/:key', async (req, res) => {
+  try {
+    const { userId, category, key } = req.params;
+    await prisma.contextEntry.delete({
+      where: { userId_category_key: { userId, category, key } },
+    });
+    res.json({ success: true, message: `Deleted ${category}.${key}` });
+  } catch (error) {
+    if (error.code === 'P2025') {
+      return res.status(404).json({ error: 'Context entry not found' });
+    }
+    console.error('Context delete error:', error);
+    res.status(500).json({ error: 'Failed to delete context' });
+  }
+});
+
+// Update specific context entry (for user corrections)
+app.patch('/api/context/:userId/:category/:key', async (req, res) => {
+  try {
+    const { userId, category, key } = req.params;
+    const { value } = req.body;
+    if (!value || typeof value !== 'string' || value.trim() === '') {
+      return res.status(400).json({ error: 'Valid string value required' });
+    }
+    
+    const updated = await contextMemory.updateContext(userId, category, key, value.trim());
+    res.json({ success: true, entry: updated });
+  } catch (error) {
+    console.error('Context update error:', error);
+    res.status(500).json({ error: 'Failed to update context' });
+  }
+});
+
+// Get context by category
+app.get('/api/context/:userId/:category', async (req, res) => {
+  try {
+    const entries = await contextMemory.getContextByCategory(req.params.userId, req.params.category);
+    res.json({ category: req.params.category, entries });
+  } catch (error) {
+    console.error('Context fetch error:', error);
+    res.status(500).json({ error: 'Failed to fetch context' });
+  }
 });
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
@@ -175,6 +232,12 @@ app.post('/api/message', async (req, res) => {
     }
     systemPrompt += sovereignPromptLayer(sovereignResult);
     
+    // Inject learned user context so AXIS knows your situation without asking
+    const userContext = await contextMemory.getContextForPrompt(userId);
+    if (userContext) {
+      systemPrompt += userContext;
+    }
+    
     const maxTokens = sovereignResult.responseStyle.maxWords 
       ? Math.min(sovereignResult.responseStyle.maxWords * 4, 1024) 
       : 1024;
@@ -198,6 +261,9 @@ app.post('/api/message', async (req, res) => {
       state: sovereignResult.state,
       recentSymptoms: sovereignResult.accountability.recentSymptoms
     });
+    
+    // Learn context from user messages (self-learning)
+    await contextMemory.learnFromMessage(userId, message);
     
     habitLearner.recordInteraction(userId, 'message', { persona: routedPersona });
     await saveUserSovereignState(userId, sovereignResult);
