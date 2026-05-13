@@ -114,6 +114,17 @@ app.get('/api/context/:userId/:category', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch context' });
   }
 });
+
+// Delete all context for a user (for fresh start/privacy)
+app.delete('/api/context/:userId/all', async (req, res) => {
+  try {
+    const result = await contextMemory.clearAllContext(req.params.userId);
+    res.json({ success: true, message: `Cleared ${result.deleted} context entries` });
+  } catch (error) {
+    console.error('Context clear error:', error);
+    res.status(500).json({ error: 'Failed to clear context' });
+  }
+});
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
@@ -263,6 +274,9 @@ app.post('/api/message', async (req, res) => {
     });
     
     // Learn context from user messages (self-learning)
+    // This extracts facts and stores them with confidence tracking
+    // Rate limiting ensures we only extract once per 5 minutes
+    // Decay is applied automatically to old facts
     await contextMemory.learnFromMessage(userId, message);
     
     habitLearner.recordInteraction(userId, 'message', { persona: routedPersona });

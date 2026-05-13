@@ -484,6 +484,49 @@
       padding: 16px 20px;
       border-top: 1px solid var(--border);
     }
+    
+    /* Context Memory Section Styles */
+    .context-section {
+      border-top: 1px solid var(--border);
+      padding: 20px;
+      background: var(--bg);
+    }
+    .context-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .context-header h3 { margin: 0; font-size: 16px; color: var(--text); }
+    .context-clear-btn {
+      background: none;
+      border: 1px solid #ef4444;
+      color: #ef4444;
+      padding: 4px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.2s;
+    }
+    .context-clear-btn:hover { background: #fef2f2; }
+    .context-list { display: flex; flex-direction: column; gap: 8px; max-height: 200px; overflow-y: auto; }
+    .context-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .context-item-info { display: flex; flex-direction: column; gap: 2px; }
+    .context-item-category { font-size: 10px; text-transform: uppercase; color: #6b7280; letter-spacing: 0.5px; }
+    .context-item-fact { font-size: 14px; color: var(--text); font-weight: 500; }
+    .context-item-confidence { font-size: 11px; color: #9ca3af; }
+    .context-item-actions { display: flex; gap: 6px; }
+    .context-item-delete { background: none; border: none; color: #9ca3af; cursor: pointer; padding: 4px; font-size: 14px; }
+    .context-item-delete:hover { color: #ef4444; }
+    .context-empty { text-align: center; padding: 20px; color: #6b7280; font-size: 14px; font-style: italic; }
     .btn-primary {
       background: var(--accent);
       color: white;
@@ -770,6 +813,16 @@
       <div class='settings-footer'>
         <button class='btn-secondary' id='cancelSettings'>Cancel</button>
         <button class='btn-primary' id='saveSettings'>Save Changes</button>
+      </div>
+      
+      <!-- What I Know About You Section -->
+      <div class='context-section' id='contextSection' style='display:none;'>
+        <div class='context-header'>
+          <h3>🧠 What I Know About You</h3>
+          <button class='context-clear-btn' id='clearContextBtn' title='Clear all learned context'>Clear All</button>
+        </div>
+        <div class='context-list' id='contextList'></div>
+        <div class='context-empty' id='contextEmpty'>No context learned yet. Keep chatting and I\'ll pick up on details about you!</div>
       </div>
     </div>
   </div>
@@ -1459,6 +1512,73 @@
           var focusCheckboxes = document.querySelectorAll('input[name="focus"]');
           var focusAreas = settings.focus || ['accountability', 'health'];
           focusCheckboxes.forEach(function(cb) { cb.checked = focusAreas.includes(cb.value); });
+          
+          // Load learned context
+          loadLearnedContext();
+        }
+        
+        function loadLearnedContext() {
+          var userId = localStorage.getItem('axis_user_id') || 'default_user';
+          var contextSection = getEl('contextSection');
+          var contextList = getEl('contextList');
+          var contextEmpty = getEl('contextEmpty');
+          
+          fetch('/api/context/' + userId)
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+              if (data.entries && data.entries.length > 0) {
+                contextSection.style.display = 'block';
+                contextEmpty.style.display = 'none';
+                contextList.innerHTML = '';
+                
+                data.entries.forEach(function(entry) {
+                  var confidenceLabel = entry.confidence >= 0.8 ? 'High' : (entry.confidence >= 0.6 ? 'Medium' : 'Low');
+                  var item = document.createElement('div');
+                  item.className = 'context-item';
+                  item.innerHTML = 
+                    '<div class="context-item-info">' +
+                      '<span class="context-item-category">' + escapeHtml(entry.category) + '</span>' +
+                      '<span class="context-item-fact">' + escapeHtml(entry.key + ': ' + entry.value) + '</span>' +
+                      '<span class="context-item-confidence">' + confidenceLabel + ' confidence</span>' +
+                    '</div>' +
+                    '<div class="context-item-actions">' +
+                      '<button class="context-item-delete" data-category="' + escapeHtml(entry.category) + '" data-key="' + escapeHtml(entry.key) + '" title="Delete">✕</button>' +
+                    '</div>';
+                  contextList.appendChild(item);
+                });
+                
+                // Add delete handlers
+                contextList.querySelectorAll('.context-item-delete').forEach(function(btn) {
+                  btn.addEventListener('click', function() {
+                    var cat = this.getAttribute('data-category');
+                    var key = this.getAttribute('data-key');
+                    deleteContextEntry(cat, key);
+                  });
+                });
+              } else {
+                contextSection.style.display = 'block';
+                contextEmpty.style.display = 'block';
+                contextList.innerHTML = '';
+              }
+            })
+            .catch(function(err) { console.log('Failed to load context:', err); });
+        }
+        
+        function deleteContextEntry(category, key) {
+          var userId = localStorage.getItem('axis_user_id') || 'default_user';
+          fetch('/api/context/' + userId + '/' + category + '/' + key, { method: 'DELETE' })
+            .then(function(res) { return res.json(); })
+            .then(function() { loadLearnedContext(); })
+            .catch(function(err) { console.log('Failed to delete context:', err); });
+        }
+        
+        function clearAllContext() {
+          if (!confirm('Clear all learned context? This cannot be undone.')) return;
+          var userId = localStorage.getItem('axis_user_id') || 'default_user';
+          fetch('/api/context/' + userId + '/all', { method: 'DELETE' })
+            .then(function(res) { return res.json(); })
+            .then(function() { loadLearnedContext(); })
+            .catch(function(err) { console.log('Failed to clear context:', err); });
         }
 
         function closeSettingsDialog() { settingsDialog.classList.remove('active'); }
@@ -1480,6 +1600,8 @@
         if (openSettingsBtn) openSettingsBtn.addEventListener('click', openSettingsDialog);
         if (closeSettingsBtn) closeSettingsBtn.addEventListener('click', closeSettingsDialog);
         if (cancelSettingsBtn) cancelSettingsBtn.addEventListener('click', closeSettingsDialog);
+        var clearContextBtn = getEl('clearContextBtn');
+        if (clearContextBtn) clearContextBtn.addEventListener('click', clearAllContext);
         if (saveSettingsBtn) saveSettingsBtn.addEventListener('click', function() {
           var focusAreas = [];
           document.querySelectorAll('input[name="focus"]:checked').forEach(function(cb) { focusAreas.push(cb.value); });

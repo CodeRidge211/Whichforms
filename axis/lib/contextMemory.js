@@ -8,6 +8,15 @@ class ContextMemory {
   constructor(prisma) {
     this.prisma = prisma;
     
+    // Rate limiting: don't extract context more than once per 5 minutes per user
+    this.lastExtractionTime = new Map(); // userId -> timestamp
+    this.EXTRACTION_COOLDOWN_MS = 5 * 60 * 1000; // 5 minutes
+    
+    // Context decay: facts not used in 30+ days lose confidence
+    this.DECAY_DAYS = 30;
+    this.DECAY_THRESHOLD = 0.5; // Confidence floor after decay
+    this.lastUsedAt = new Map(); // userId_category_key -> timestamp
+    
     // Pattern matchers for context extraction (case-insensitive)
     this.extractors = {
       location: [
@@ -175,10 +184,69 @@ class ContextMemory {
     });
   }
 
+  // Check if we should skip extraction due to rate limiting
+  shouldSkipExtraction(userId) {
+    const lastTime = this.lastExtractionTime.get(userId);
+    if (lastTime && (Date.now() - lastTime) < this.EXTRACTION_COOLDOWN_MS) {
+      return true;
+    }
+    return false;
+  }
+
+  // Apply context decay to old facts
+  async applyContextDecay(userId) {
+    const decayDate = new Date(Date.now() - this.DECAY_DAYS * 24 * 60 * 60 * 1000);
+    
+    const entries = await this.prisma.contextEntry.findMany({
+      where: { 
+        userId,
+        updatedAt: { lt: decayDate },
+        confidence: { gt: this.DECAY_THRESHOLD }
+      }
+    });
+    
+    for (const entry of entries) {
+      const daysSinceUpdate = Math.floor((Date.now() - new Date(entry.updatedAt).getTime()) / (24 * 60 * 60 * 1000));
+      const decayFactor = Math.max(this.DECAY_THRESHOLD, 1 - (daysSinceUpdate / (this.DECAY_DAYS * 2)));
+      const newConfidence = Math.round(entry.confidence * decayFactor * 100) / 100;
+      
+      if (newConfidence < entry.confidence) {
+        await this.prisma.contextEntry.update({
+          where: { id: entry.id },
+          data: { confidence: newConfidence }
+        });
+      }
+    }
+  }
+
+  // Update lastUsedAt when context is used in a response
+  async markContextUsed(userId, category, key) {
+    const entry = await this.prisma.contextEntry.findUnique({
+      where: { userId_category_key: { userId, category, key } }
+    });
+    if (entry) {
+      await this.prisma.contextEntry.update({
+        where: { id: entry.id },
+        data: { updatedAt: new Date() } // Touch updatedAt to show it's recent
+      });
+    }
+  }
+
   // Process a message and store any extracted context
   async learnFromMessage(userId, message) {
+    // Rate limiting: skip if extracted recently
+    if (this.shouldSkipExtraction(userId)) {
+      return [];
+    }
+    
     const facts = this.extractContext(message);
     if (facts.length > 0) {
+      // Update last extraction time
+      this.lastExtractionTime.set(userId, Date.now());
+      
+      // Apply decay to old facts before storing new ones
+      await this.applyContextDecay(userId);
+      
       return this.storeContext(userId, facts);
     }
     return [];
@@ -186,6 +254,9 @@ class ContextMemory {
 
   // Get context summary for debugging/display
   async getContextSummary(userId) {
+    // Apply decay before fetching
+    await this.applyContextDecay(userId);
+    
     const entries = await this.prisma.contextEntry.findMany({
       where: { userId },
       orderBy: { updatedAt: 'desc' },
@@ -198,8 +269,20 @@ class ContextMemory {
         return acc;
       }, {}),
       latestUpdate: entries.length > 0 ? entries[0].updatedAt : null,
-      entries: entries.slice(0, 10), // Latest 10 for display
+      entries: entries.slice(0, 20), // Latest 20 for display
     };
+  }
+
+  // Delete all context for a user (for privacy/fresh start)
+  async clearAllContext(userId) {
+    const result = await this.prisma.contextEntry.deleteMany({
+      where: { userId }
+    });
+    
+    // Clear rate limiting timestamp too
+    this.lastExtractionTime.delete(userId);
+    
+    return { deleted: result.count };
   }
 }
 
